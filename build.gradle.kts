@@ -40,6 +40,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-security-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
