@@ -20,11 +20,9 @@ class AuthorController {
 
 	@PostMapping
 	ResponseEntity<AuthorResponse> addAuthor(
-			@RequestParam @Valid String name,
-			@RequestParam(required = false) String biography
+			@Valid @RequestBody AuthorRequest request
 	) {
-		AuthorRequest request = new AuthorRequest(name, biography);
-		AuthorResponse response = authorService.saveAuthor(request);
+		var response = authorService.saveAuthor(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
