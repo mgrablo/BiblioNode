@@ -9,5 +9,5 @@ public interface AuthorService {
 	AuthorResponse saveAuthor(AuthorRequest authorRequest);
 	AuthorResponse findById(Long id);
 	AuthorResponse findByName(String name);
-	List<AuthorResponse> findAll();
+	List<AuthorResponse> getAll();
 }
