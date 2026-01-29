@@ -1,6 +1,7 @@
 package io.github.mgrablo.BiblioNode.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class BookServiceImpl implements BookService {
 
 
 	@Override
+	@Transactional
 	public BookResponse addBook(BookRequest bookRequest) {
 		var author = authorRepository.findById(bookRequest.authorId())
 				.orElseThrow(() -> new ResourceNotFoundException("Author not found"));
@@ -33,24 +35,28 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
+	@Transactional
 	public List<BookResponse> getAllBooks() {
 		return bookRepository.findAll().stream()
 				.map(mapper::toResponse).toList();
 	}
 
 	@Override
+	@Transactional
 	public BookResponse findBookById(Long bookId) {
 		var book = bookRepository.findById(bookId);
 		return book.map(mapper::toResponse).orElseThrow(() -> new ResourceNotFoundException("Book not found for id: " + bookId));
 	}
 
 	@Override
+	@Transactional
 	public BookResponse findBookByTitle(String bookTitle) {
 		var book = bookRepository.findBookByTitle(bookTitle);
 		return book.map(mapper::toResponse).orElseThrow(() -> new ResourceNotFoundException("Book not found with title: " + bookTitle));
 	}
 
 	@Override
+	@Transactional
 	public List<BookResponse> searchBooks(String bookTitle, String authorName) {
 		var books = bookRepository.searchByTitleAndAuthor(bookTitle, authorName);
 		return books.stream().map(mapper::toResponse).toList();
