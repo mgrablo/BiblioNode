@@ -15,7 +15,7 @@ import io.github.mgrablo.BiblioNode.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class GlobalExceptionHanlder {
+public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 		ErrorResponse errorResponse = new ErrorResponse(

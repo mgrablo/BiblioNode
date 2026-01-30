@@ -13,12 +13,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/books/")
+@RequestMapping("/api/books")
 @RequiredArgsConstructor
 class BookController {
 	private final BookService bookService;
 
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<BookResponse> addBook(
 			@Valid
 			@RequestBody
