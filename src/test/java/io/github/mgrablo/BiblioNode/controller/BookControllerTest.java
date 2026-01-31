@@ -1,8 +1,7 @@
 package io.github.mgrablo.BiblioNode.controller;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -174,5 +173,71 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$[0].authorName").value("BBB"))
 				.andExpect(jsonPath("$[0].authorId").value(2L));
 
+	}
+
+	@Test
+	void updateBook_ShouldReturnUpdatedBook_WhenBookExists() throws Exception {
+		Long id = 1L;
+		BookRequest request = new BookRequest("NewTitle", "111", 2L);
+		BookResponse response = new BookResponse(id, "NewTitle", "111", "AuthorName", 2L);
+		when(bookService.updateBook(id, request)).thenReturn(response);
+
+		mockMvc.perform(put("/api/books/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		).andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(id))
+				.andExpect(jsonPath("$.title").value("NewTitle"))
+				.andExpect(jsonPath("$.isbn").value("111"))
+				.andExpect(jsonPath("$.authorName").value("AuthorName"))
+				.andExpect(jsonPath("$.authorId").value(2));
+	}
+
+	@Test
+	void updateBook_ShouldReturnNotFound_WhenNotFound() throws Exception {
+		Long id = 9L;
+		BookRequest request = new BookRequest("NewTitle", "111", 2L);
+		when(bookService.updateBook(id, request)).thenThrow(new ResourceNotFoundException("Not found"));
+
+		mockMvc.perform(put("/api/books/9")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		).andExpect(status().isNotFound());
+	}
+
+	@Test
+	void updateBook_ShouldReturnBadRequest_WhenTitleIsEmpty() throws Exception {
+		Long id = 9L;
+		BookRequest request = new BookRequest("", "111", 2L);
+
+		mockMvc.perform(put("/api/books/9")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		).andExpect(status().isBadRequest());
+
+		verify(bookService, never()).updateBook(any(), any());
+	}
+
+	@Test
+	void deleteBook_ShouldReturnNoContent_WhenBookExists() throws Exception {
+		Long id = 1L;
+		doNothing().when(bookService).deleteBook(id);
+
+		mockMvc.perform(delete("/api/books/1"))
+				.andExpect(status().isNoContent());
+
+		verify(bookService, times(1)).deleteBook(any());
+	}
+
+
+	@Test
+	void deleteBook_ShouldReturnNotFound_WhenBookDoesNotExist() throws Exception {
+		Long id = 9L;
+		doThrow(new ResourceNotFoundException("Not Found")).when(bookService).deleteBook(id);
+
+		mockMvc.perform(delete("/api/books/9"))
+				.andExpect(status().isNotFound());
+
+		verify(bookService, times(1)).deleteBook(any());
 	}
 }

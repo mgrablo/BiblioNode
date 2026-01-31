@@ -1,8 +1,7 @@
 package io.github.mgrablo.BiblioNode.controller;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -140,5 +139,67 @@ public class AuthorControllerTest {
 		mockMvc.perform(get("/api/authors/search")
 						.param("name", "AAA"))
 				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void updateAuthor_ShouldReturnAuthor_WhenUpdatedSuccessfuly() throws Exception {
+		Long id = 1L;
+		AuthorRequest request = new AuthorRequest("NewName", "Bio");
+		AuthorResponse response = new AuthorResponse(id, "NewName", "Bio", null);
+
+		when(authorService.updateAuthor(id, request)).thenReturn(response);
+
+		mockMvc.perform(put("/api/authors/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(request))
+				).andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(id))
+				.andExpect(jsonPath("$.name").value("NewName"))
+				.andExpect(jsonPath("$.biography").value("Bio"));
+	}
+
+	@Test
+	void updateAuthor_ShouldReturnBadRequest_WhenNameIsEmpty() throws Exception {
+		AuthorRequest request = new AuthorRequest("", "Bio");
+		mockMvc.perform(put("/api/authors/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(request))
+				).andExpect(status().isBadRequest());
+
+		verify(authorService, never()).updateAuthor(any(), any());
+	}
+
+	@Test
+	void updateAuthor_ShouldReturnNotFound_WhenAuthorDoesNotExist() throws Exception {
+		Long id = 9L;
+		AuthorRequest request = new AuthorRequest("NewName", "Bio");
+		when(authorService.updateAuthor(id, request)).thenThrow(new ResourceNotFoundException("Not Found"));
+
+		mockMvc.perform(put("/api/authors/9")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		).andExpect(status().isNotFound());
+	}
+
+	@Test
+	void deleteAuthor_ShouldReturnNoContent_WhenAuthorExist() throws Exception {
+		Long id = 1L;
+		doNothing().when(authorService).deleteAuthor(id);
+
+		mockMvc.perform(delete("/api/authors/1"))
+				.andExpect(status().isNoContent());
+
+		verify(authorService, times(1)).deleteAuthor(id);
+	}
+
+	@Test
+	void deleteAuthor_ShouldReturnNotFound_WhenAuthorDoesNotExist() throws Exception {
+		Long id = 9L;
+		doThrow(new ResourceNotFoundException("Not Found")).when(authorService).deleteAuthor(id);
+
+		mockMvc.perform(delete("/api/authors/9"))
+				.andExpect(status().isNotFound());
+
+		verify(authorService, times(1)).deleteAuthor(id);
 	}
 }
