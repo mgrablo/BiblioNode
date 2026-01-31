@@ -137,4 +137,52 @@ public class AuthorServiceImplTest {
 
 		assertTrue(result.isEmpty());
 	}
+
+	@Test
+	void updateAuthor_ShouldReturnUpdatedAuthor_WhenAuthorExists() {
+		Long id = 1L;
+		AuthorRequest request = new AuthorRequest( "BBB", "Bio");
+
+		Author oldAuthor = new Author(1L, "AAA", "Bio", null);
+
+		AuthorResponse expectedResponse = new AuthorResponse(1L, "BBB", "Bio", null);
+
+		when(authorRepository.findById(id)).thenReturn(Optional.of(oldAuthor));
+		when(mapper.toResponse(oldAuthor)).thenReturn(expectedResponse);
+
+		AuthorResponse result = authorService.updateAuthor(id, request);
+
+		assertEquals(expectedResponse, result);
+		verify(mapper, times(1)).toResponse(any());
+
+	}
+
+	@Test
+	void updateAuthor_ShouldThrowException_WhenAuthorNotFound() {
+		Long id = 9L;
+		AuthorRequest request = new AuthorRequest("BBB", "Bio");
+		when(authorRepository.findById(id)).thenReturn(Optional.empty());
+		assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.updateAuthor(id, request);
+		});
+	}
+
+	@Test
+	void deleteAuthor_ShouldDeleteAuthor_WhenAuthorExists() {
+		Long id = 1L;
+		when(authorRepository.existsById(id)).thenReturn(true);
+		authorService.deleteAuthor(id);
+		verify(authorRepository, times(1)).deleteById(id);
+	}
+
+	@Test
+	void deleteAuthor_ShouldThrowException_WhenAuthorNotFound() {
+		Long id = 1L;
+		when(authorRepository.existsById(id)).thenReturn(false);
+		assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.deleteAuthor(id);
+		});
+
+		verify(authorRepository, never()).deleteById(any());
+	}
 }

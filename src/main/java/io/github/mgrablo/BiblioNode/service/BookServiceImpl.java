@@ -9,6 +9,7 @@ import io.github.mgrablo.BiblioNode.dto.BookRequest;
 import io.github.mgrablo.BiblioNode.dto.BookResponse;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.BookMapper;
+import io.github.mgrablo.BiblioNode.model.Author;
 import io.github.mgrablo.BiblioNode.model.Book;
 import io.github.mgrablo.BiblioNode.repository.AuthorRepository;
 import io.github.mgrablo.BiblioNode.repository.BookRepository;
@@ -43,16 +44,16 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public BookResponse findBookById(Long bookId) {
-		var book = bookRepository.findById(bookId);
-		return book.map(mapper::toResponse).orElseThrow(() -> new ResourceNotFoundException("Book not found for id: " + bookId));
+	public BookResponse findBookById(Long id) {
+		var book = bookRepository.findById(id);
+		return book.map(mapper::toResponse).orElseThrow(() -> new ResourceNotFoundException("Book not found for id: " + id));
 	}
 
 	@Override
 	@Transactional
-	public BookResponse findBookByTitle(String bookTitle) {
-		var book = bookRepository.findBookByTitle(bookTitle);
-		return book.map(mapper::toResponse).orElseThrow(() -> new ResourceNotFoundException("Book not found with title: " + bookTitle));
+	public BookResponse findBookByTitle(String title) {
+		var book = bookRepository.findBookByTitle(title);
+		return book.map(mapper::toResponse).orElseThrow(() -> new ResourceNotFoundException("Book not found with title: " + title));
 	}
 
 	@Override
@@ -60,5 +61,32 @@ public class BookServiceImpl implements BookService {
 	public List<BookResponse> searchBooks(String bookTitle, String authorName) {
 		var books = bookRepository.searchByTitleAndAuthor(bookTitle, authorName);
 		return books.stream().map(mapper::toResponse).toList();
+	}
+
+	@Override
+	@Transactional
+	public BookResponse updateBook(Long id, BookRequest bookRequest) {
+		Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found for id: " + id));
+
+		book.setTitle(bookRequest.title());
+		book.setIsbn(bookRequest.isbn());
+
+		if (!book.getAuthor().getId().equals(bookRequest.authorId())) {
+			Author newAuthor = authorRepository.findById(bookRequest.authorId())
+					.orElseThrow(() -> new ResourceNotFoundException("New author not found for id: " + bookRequest.authorId()));
+			book.setAuthor(newAuthor);
+		}
+
+		return mapper.toResponse(book);
+	}
+
+	@Override
+	@Transactional
+	public void deleteBook(Long id) {
+		if (!bookRepository.existsById(id)) {
+			throw new ResourceNotFoundException("Book not found for id: " + id);
+		}
+
+		bookRepository.deleteById(id);
 	}
 }

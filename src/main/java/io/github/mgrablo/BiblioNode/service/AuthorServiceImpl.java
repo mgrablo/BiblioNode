@@ -35,6 +35,17 @@ public class AuthorServiceImpl implements AuthorService {
 	}
 
 	@Override
+	@Transactional
+	public AuthorResponse updateAuthor(Long id, AuthorRequest authorRequest) {
+		Author author = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found for id: " + id));
+
+		author.setName(authorRequest.name());
+		author.setBiography(authorRequest.biography());
+
+		return mapper.toResponse(author);
+	}
+
+	@Override
 	@Transactional(readOnly = true)
 	public AuthorResponse findById(Long id) {
 		return repository.findById(id)
@@ -56,5 +67,15 @@ public class AuthorServiceImpl implements AuthorService {
 		return repository.findAll().stream()
 			.map(mapper::toResponse)
 			.toList();
+	}
+
+	@Override
+	@Transactional
+	public void deleteAuthor(Long id) {
+		if (!repository.existsById(id)) {
+			throw new ResourceNotFoundException("Author not found for id: " + id);
+		}
+
+		repository.deleteById(id);
 	}
 }

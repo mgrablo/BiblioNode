@@ -58,4 +58,13 @@ class BookController {
 		var response = bookService.searchBooks(bookTitle, authorName);
 		return ResponseEntity.ok(response);
 	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<BookResponse> updateBook(
+			@PathVariable Long id,
+			@RequestBody BookRequest bookRequest
+	) {
+		var response = bookService.updateBook(id, bookRequest);
+		return ResponseEntity.ok(response);
+	}
 }

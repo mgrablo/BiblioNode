@@ -193,4 +193,98 @@ public class BookServiceImplTest {
 		assertTrue(result.isEmpty());
 		verify(bookRepository).searchByTitleAndAuthor(title, authorName);
 	}
+
+	@Test
+	void updateBook_ShouldReturnUpdatedBook_WhenBookExists_SameAuthor() {
+		Long id = 1L;
+		BookRequest request = new BookRequest("NewTitle", "222", 1L);
+		Book book = new Book(id, "OldTitle", "111", new Author(1L, "Name", "", null));
+		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "222", "Name", 1L);
+
+		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+		when(mapper.toResponse(book)).thenReturn(expectedReponse);
+
+		BookResponse result = bookService.updateBook(id, request);
+
+		assertEquals(expectedReponse, result);
+		assertEquals("NewTitle", book.getTitle());
+		assertEquals("222", book.getIsbn());
+		assertEquals(1L, book.getAuthor().getId());
+	}
+
+	@Test
+	void updateBook_ShouldReturnUpdatedBook_WhenBookExists_ChangedAuthor() {
+		Long id = 1L;
+		BookRequest request = new BookRequest("NewTitle", "111", 2L);
+		Author oldAuthor = new Author(1L, "Name", "", null);
+		Author newAuthor = new Author(2L, "NewAuthorName", "", null);
+
+		Book book = new Book(id, "OldTitle", "111", oldAuthor);
+		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "111", "NewAuthorName", 2L);
+
+		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+		when(authorRepository.findById(2L)).thenReturn(Optional.of(newAuthor));
+		when(mapper.toResponse(book)).thenReturn(expectedReponse);
+
+		BookResponse result = bookService.updateBook(id, request);
+
+		assertEquals(expectedReponse, result);
+		assertEquals("NewTitle", book.getTitle());
+		assertEquals("111", book.getIsbn());
+		assertEquals(2L, book.getAuthor().getId());
+	}
+
+	@Test
+	void updateBook_ShouldThrowException_WhenBookNotFound() {
+		Long id = 1L;
+		BookRequest request = new BookRequest("OldTitle", "111", 2L);
+		when(bookRepository.findById(id)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> {
+			bookService.updateBook(id, request);
+		});
+	}
+
+	@Test
+	void updateBook_ShouldThrowException_WhenNewAuthorDoesNotExist() {
+		Long id = 1L;
+		BookRequest request = new BookRequest("OldTitle", "111", 2L);
+		Author oldAuthor = new Author(1L, "Name", "", null);
+
+		Book book = new Book(id, "OldTitle", "111", oldAuthor);
+
+		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
+		when(authorRepository.findById(2L)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> {
+			bookService.updateBook(id, request);
+		});
+
+		// Book not updated
+		assertEquals("OldTitle", book.getTitle());
+		assertEquals("111", book.getIsbn());
+		assertEquals(1L, book.getAuthor().getId());
+	}
+
+	@Test
+	void deleteBook_ShouldDeleteBook_WhenBookExists() {
+		Long id = 1L;
+		when(bookRepository.existsById(id)).thenReturn(true);
+
+		bookService.deleteBook(id);
+
+		verify(bookRepository, times(1)).deleteById(id);
+	}
+
+	@Test
+	void deleteBook_ShouldThrowException_WhenBookDoesNotExist() {
+		Long id = 1L;
+		when(bookRepository.existsById(id)).thenReturn(false);
+
+		assertThrows(ResourceNotFoundException.class, () -> {
+			bookService.deleteBook(id);
+		});
+
+		verify(bookRepository, never()).deleteById(id);
+	}
 }

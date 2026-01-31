@@ -28,7 +28,7 @@ class AuthorController {
 
 	@GetMapping
 	ResponseEntity<List<AuthorResponse>> getAll() {
-		List<AuthorResponse> response = authorService.getAll();
+		var response = authorService.getAll();
 		return ResponseEntity.ok(response);
 	}
 
@@ -36,7 +36,7 @@ class AuthorController {
 	ResponseEntity<AuthorResponse> getById(
 			@PathVariable Long id
 	) {
-		AuthorResponse response = authorService.findById(id);
+		var response = authorService.findById(id);
 		return ResponseEntity.ok(response);
 	}
 
@@ -44,7 +44,22 @@ class AuthorController {
 	ResponseEntity<AuthorResponse> searchByName(
 			@RequestParam String name
 	) {
-		AuthorResponse response = authorService.findByName(name);
+		var response = authorService.findByName(name);
 		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping("/{id}")
+	ResponseEntity<AuthorResponse> updateAuthor(
+			@PathVariable Long id,
+			@RequestBody AuthorRequest authorRequest
+	) {
+		var response = authorService.updateAuthor(id, authorRequest);
+		return ResponseEntity.ok(response);
+	}
+
+	@DeleteMapping("/{id}")
+	ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
+		authorService.deleteAuthor(id);
+		return ResponseEntity.noContent().build();
 	}
 }
