@@ -17,4 +17,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 			"(:authorName IS NULL OR LOWER(b.author.name) LIKE LOWER(CONCAT('%', :authorName, '%')))"
 	)
 	List<Book> searchByTitleAndAuthor(@Param("title") String title, @Param("authorName") String authorName);
+
+	boolean existsByAuthorId(Long authorId);
 }

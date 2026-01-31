@@ -18,6 +18,7 @@ import java.util.List;
 
 import io.github.mgrablo.BiblioNode.dto.AuthorRequest;
 import io.github.mgrablo.BiblioNode.dto.AuthorResponse;
+import io.github.mgrablo.BiblioNode.exception.DataIntegrityException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.service.AuthorService;
 import tools.jackson.databind.ObjectMapper;
@@ -199,6 +200,18 @@ public class AuthorControllerTest {
 
 		mockMvc.perform(delete("/api/authors/9"))
 				.andExpect(status().isNotFound());
+
+		verify(authorService, times(1)).deleteAuthor(id);
+	}
+
+	@Test
+	void deleteAuthor_ShouldReturnConflict_WhenAuthorHasBooks() throws Exception {
+		Long id = 1L;
+		doThrow(new DataIntegrityException("Cannot delete author with assigned books"))
+				.when(authorService).deleteAuthor(id);
+
+		mockMvc.perform(delete("/api/authors/1"))
+				.andExpect(status().isConflict());
 
 		verify(authorService, times(1)).deleteAuthor(id);
 	}

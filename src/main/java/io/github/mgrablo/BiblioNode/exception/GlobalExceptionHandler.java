@@ -43,6 +43,19 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(DataIntegrityException.class)
+	public ResponseEntity<ErrorResponse> handleDataIntegrityException(DataIntegrityException e, HttpServletRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.CONFLICT.value(),
+				"Conflict",
+				e.getMessage(),
+				request.getRequestURI()
+		);
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGlobalException(Exception e, HttpServletRequest request) {
 		ErrorResponse error = new ErrorResponse(

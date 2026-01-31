@@ -15,15 +15,20 @@ import java.util.Optional;
 
 import io.github.mgrablo.BiblioNode.dto.AuthorRequest;
 import io.github.mgrablo.BiblioNode.dto.AuthorResponse;
+import io.github.mgrablo.BiblioNode.exception.DataIntegrityException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.AuthorMapper;
 import io.github.mgrablo.BiblioNode.model.Author;
 import io.github.mgrablo.BiblioNode.repository.AuthorRepository;
+import io.github.mgrablo.BiblioNode.repository.BookRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthorServiceImplTest {
 	@Mock
 	private AuthorRepository authorRepository;
+
+	@Mock
+	private BookRepository bookRepository;
 
 	@Mock
 	private AuthorMapper mapper;
@@ -171,6 +176,7 @@ public class AuthorServiceImplTest {
 	void deleteAuthor_ShouldDeleteAuthor_WhenAuthorExists() {
 		Long id = 1L;
 		when(authorRepository.existsById(id)).thenReturn(true);
+		when(bookRepository.existsByAuthorId(id)).thenReturn(false);
 		authorService.deleteAuthor(id);
 		verify(authorRepository, times(1)).deleteById(id);
 	}
@@ -180,6 +186,18 @@ public class AuthorServiceImplTest {
 		Long id = 1L;
 		when(authorRepository.existsById(id)).thenReturn(false);
 		assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.deleteAuthor(id);
+		});
+
+		verify(authorRepository, never()).deleteById(any());
+	}
+
+	@Test
+	void deleteAuthor_ShouldThrowException_WhenAuthorHasBooks() {
+		Long id = 1L;
+		when(authorRepository.existsById(id)).thenReturn(true);
+		when(bookRepository.existsByAuthorId(id)).thenReturn(true);
+		assertThrows(DataIntegrityException.class, () -> {
 			authorService.deleteAuthor(id);
 		});
 

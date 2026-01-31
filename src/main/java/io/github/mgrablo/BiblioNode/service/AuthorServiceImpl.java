@@ -2,10 +2,12 @@ package io.github.mgrablo.BiblioNode.service;
 
 import io.github.mgrablo.BiblioNode.dto.AuthorRequest;
 import io.github.mgrablo.BiblioNode.dto.AuthorResponse;
+import io.github.mgrablo.BiblioNode.exception.DataIntegrityException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.AuthorMapper;
 import io.github.mgrablo.BiblioNode.model.Author;
 import io.github.mgrablo.BiblioNode.repository.AuthorRepository;
+import io.github.mgrablo.BiblioNode.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class AuthorServiceImpl implements AuthorService {
 
 	private final AuthorRepository repository;
+	private final BookRepository bookRepository;
 	private final AuthorMapper mapper;
 
 	@Override
@@ -74,6 +77,10 @@ public class AuthorServiceImpl implements AuthorService {
 	public void deleteAuthor(Long id) {
 		if (!repository.existsById(id)) {
 			throw new ResourceNotFoundException("Author not found for id: " + id);
+		}
+
+		if (bookRepository.existsByAuthorId(id)) {
+			throw new DataIntegrityException("Cannot delete author with assigned books");
 		}
 
 		repository.deleteById(id);
