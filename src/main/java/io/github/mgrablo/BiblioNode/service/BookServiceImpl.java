@@ -1,5 +1,7 @@
 package io.github.mgrablo.BiblioNode.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +39,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public List<BookResponse> getAllBooks() {
-		return bookRepository.findAll().stream()
-				.map(mapper::toResponse).toList();
+	public Page<BookResponse> getAllBooks(Pageable pageable) {
+		return bookRepository.findAll(pageable)
+				.map(mapper::toResponse);
 	}
 
 	@Override

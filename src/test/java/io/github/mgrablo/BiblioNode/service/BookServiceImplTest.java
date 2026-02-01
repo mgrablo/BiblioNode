@@ -9,6 +9,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
 import java.util.List;
@@ -141,28 +144,33 @@ public class BookServiceImplTest {
 	}
 
 	@Test
-	void getAllBooks_ShouldReturnListOFResponses() {
+	void getAllBooks_ShouldReturnPageOfResponses() {
+		Pageable pageable = Pageable.ofSize(10);
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
 		Book book = new Book(1L, "TestTitle", "111", author);
+		Page<Book> bookPage = new PageImpl<>(List.of(book));
 		BookResponse response = new BookResponse(1L, "TestTitle", "111", "TestAuthor", 1L, null, null);
 
-		when(bookRepository.findAll()).thenReturn(List.of(book));
+		when(bookRepository.findAll(pageable)).thenReturn(bookPage);
 		when(mapper.toResponse(book)).thenReturn(response);
 
-		List<BookResponse> result = bookService.getAllBooks();
+		Page<BookResponse> result = bookService.getAllBooks(pageable);
 
 		assertFalse(result.isEmpty());
-		assertEquals(1, result.size());
-		assertEquals(response, result.getFirst());
+		assertEquals(1, result.getTotalElements());
+		assertEquals(response, result.getContent().getFirst());
+		verify(bookRepository).findAll(pageable);
 	}
 
 	@Test
 	void getAllBooks_ShouldReturnEmptyList_WhenNoBookExist() {
-		when(bookRepository.findAll()).thenReturn(Collections.emptyList());
+		Pageable pageable = Pageable.ofSize(10);
+		when(bookRepository.findAll(pageable)).thenReturn(Page.empty());
 
-		List<BookResponse> result = bookService.getAllBooks();
+		Page<BookResponse> result = bookService.getAllBooks(pageable);
 
 		assertTrue(result.isEmpty());
+		verify(bookRepository).findAll(pageable);
 	}
 
 	@Test
