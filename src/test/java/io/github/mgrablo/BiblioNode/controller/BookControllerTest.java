@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class BookControllerTest {
 
 	@Test
 	void getAll_ShouldReturnList_WhenBooksExist() throws Exception {
-		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L);
+		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, null, null);
 		when(bookService.getAllBooks()).thenReturn(List.of(response));
 
 		mockMvc.perform(get("/api/books"))
@@ -122,7 +123,7 @@ public class BookControllerTest {
 
 	@Test
 	void getById_ShouldReturnBook_WhenExists() throws Exception {
-		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L);
+		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, null, null);
 		when(bookService.findBookById(1L)).thenReturn(response);
 
 		mockMvc.perform(get("/api/books/1"))
@@ -143,6 +144,18 @@ public class BookControllerTest {
 	}
 
 	@Test
+	void getById_ShouldReturnDatesInJson() throws Exception {
+		LocalDateTime date = LocalDateTime.of(2026, 2,10,12, 21);
+		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, date, date);
+		when(bookService.findBookById(1L)).thenReturn(response);
+
+		mockMvc.perform(get("/api/books/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.createdAt").value("2026-02-10 12:21:00"))
+				.andExpect(jsonPath("$.modifiedAt").value("2026-02-10 12:21:00"));
+	}
+
+	@Test
 	void search_ShouldReturnEmptyList_WhenNoMatchesFound() throws Exception {
 		when(bookService.searchBooks("Title", "Name")).thenReturn(Collections.emptyList());
 
@@ -157,7 +170,7 @@ public class BookControllerTest {
 
 	@Test
 	void search_ShouldReturnList_WhenMatchesFound() throws Exception {
-		BookResponse response = new BookResponse(1L, "AAA", "111", "BBB", 2L);
+		BookResponse response = new BookResponse(1L, "AAA", "111", "BBB", 2L, null, null);
 		when(bookService.searchBooks("A", "B")).thenReturn(List.of(response));
 
 		mockMvc.perform(get("/api/books/search")
@@ -179,7 +192,7 @@ public class BookControllerTest {
 	void updateBook_ShouldReturnUpdatedBook_WhenBookExists() throws Exception {
 		Long id = 1L;
 		BookRequest request = new BookRequest("NewTitle", "111", 2L);
-		BookResponse response = new BookResponse(id, "NewTitle", "111", "AuthorName", 2L);
+		BookResponse response = new BookResponse(id, "NewTitle", "111", "AuthorName", 2L, null, null);
 		when(bookService.updateBook(id, request)).thenReturn(response);
 
 		mockMvc.perform(put("/api/books/1")

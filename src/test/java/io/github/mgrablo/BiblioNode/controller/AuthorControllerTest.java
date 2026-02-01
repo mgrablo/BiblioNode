@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class AuthorControllerTest {
 
 	@Test
 	void getAuthor_ShouldReturnAuthor_WhenExists() throws Exception {
-		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null);
+		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 		when(authorService.findById(1L)).thenReturn(response);
 
 		mockMvc.perform(get("/api/authors/1"))
@@ -85,6 +86,19 @@ public class AuthorControllerTest {
 				.andExpect(jsonPath("$.id").value(1))
 				.andExpect(jsonPath("$.name").value("AAA"))
 				.andExpect(jsonPath("$.biography").value("Bio"));
+	}
+
+	@Test
+	void getAuthor_ShouldReturnDatesInJson() throws Exception {
+		LocalDateTime date = LocalDateTime.of(2026, 2,10,12, 21);
+		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, date, date);
+
+		when(authorService.findById(1L)).thenReturn(response);
+
+		mockMvc.perform(get("/api/authors/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.createdAt").value("2026-02-10 12:21:00"))
+				.andExpect(jsonPath("$.modifiedAt").value("2026-02-10 12:21:00"));
 	}
 
 	@Test
@@ -97,7 +111,7 @@ public class AuthorControllerTest {
 
 	@Test
 	void getAll_ShouldReturnList_WhenAuthorsExist() throws Exception {
-		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null);
+		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 		when(authorService.getAll()).thenReturn(List.of(response));
 
 		mockMvc.perform(get("/api/authors"))
@@ -121,7 +135,7 @@ public class AuthorControllerTest {
 	@Test
 	void searchByName_ShouldReturnAuthor_WhenExists() throws Exception {
 		String name = "AAA";
-		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null);
+		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
 		when(authorService.findByName(name)).thenReturn(response);
 
@@ -146,7 +160,7 @@ public class AuthorControllerTest {
 	void updateAuthor_ShouldReturnAuthor_WhenUpdatedSuccessfuly() throws Exception {
 		Long id = 1L;
 		AuthorRequest request = new AuthorRequest("NewName", "Bio");
-		AuthorResponse response = new AuthorResponse(id, "NewName", "Bio", null);
+		AuthorResponse response = new AuthorResponse(id, "NewName", "Bio", null, null, null);
 
 		when(authorService.updateAuthor(id, request)).thenReturn(response);
 

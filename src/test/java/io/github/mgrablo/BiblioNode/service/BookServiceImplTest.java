@@ -43,7 +43,7 @@ public class BookServiceImplTest {
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
 		Book book = new Book(null, "TestTitle", "111", author);
 		Book savedBook = new Book(100L, "TestTitle", "111", author);
-		BookResponse expectedResponse = new BookResponse(100L, "TestTitle", "111", "TestAuthor", 1L);
+		BookResponse expectedResponse = new BookResponse(100L, "TestTitle", "111", "TestAuthor", 1L, null, null);
 
 		when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
 		when(mapper.toEntity(request)).thenReturn(book);
@@ -75,7 +75,7 @@ public class BookServiceImplTest {
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
 		Book book = new Book(null, "TestTitle", "111", author);
 		Book savedBook = new Book(100L, "TestTitle", "111", author);
-		BookResponse expectedResponse = new BookResponse(100L, "TestTitle", "111", "TestAuthor", 1L);
+		BookResponse expectedResponse = new BookResponse(100L, "TestTitle", "111", "TestAuthor", 1L, null, null);
 
 		when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
 		when(mapper.toEntity(request)).thenReturn(book);
@@ -97,7 +97,7 @@ public class BookServiceImplTest {
 		Long bookId = 1L;
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
 		Book book = new Book(bookId, "TestTitle", "111", author);
-		BookResponse expectedResponse = new BookResponse(bookId, "TestTitle", "111", "TestAuthor", 1L);
+		BookResponse expectedResponse = new BookResponse(bookId, "TestTitle", "111", "TestAuthor", 1L, null, null);
 
 		when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
 		when(mapper.toResponse(book)).thenReturn(expectedResponse);
@@ -121,7 +121,7 @@ public class BookServiceImplTest {
 		String title = "ABC";
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
 		Book book = new Book(1L, title, "111", author);
-		BookResponse expectedResponse = new BookResponse(1L, title, "111", "TestAuthor", 1L);
+		BookResponse expectedResponse = new BookResponse(1L, title, "111", "TestAuthor", 1L, null, null);
 
 		when(bookRepository.findBookByTitle(title)).thenReturn(Optional.of(book));
 		when(mapper.toResponse(book)).thenReturn(expectedResponse);
@@ -144,7 +144,7 @@ public class BookServiceImplTest {
 	void getAllBooks_ShouldReturnListOFResponses() {
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
 		Book book = new Book(1L, "TestTitle", "111", author);
-		BookResponse response = new BookResponse(1L, "TestTitle", "111", "TestAuthor", 1L);
+		BookResponse response = new BookResponse(1L, "TestTitle", "111", "TestAuthor", 1L, null, null);
 
 		when(bookRepository.findAll()).thenReturn(List.of(book));
 		when(mapper.toResponse(book)).thenReturn(response);
@@ -171,7 +171,7 @@ public class BookServiceImplTest {
 		String authorName = "TestAuthor";
 		Author author = new Author(1L, authorName, "Bio", null);
 		Book book = new Book(1L, title, "111", author);
-		BookResponse response = new BookResponse(1L, title, "111", authorName, 1L);
+		BookResponse response = new BookResponse(1L, title, "111", authorName, 1L, null, null);
 
 		when(bookRepository.searchByTitleAndAuthor(title, authorName)).thenReturn(List.of(book));
 		when(mapper.toResponse(book)).thenReturn(response);
@@ -199,7 +199,7 @@ public class BookServiceImplTest {
 		Long id = 1L;
 		BookRequest request = new BookRequest("NewTitle", "222", 1L);
 		Book book = new Book(id, "OldTitle", "111", new Author(1L, "Name", "", null));
-		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "222", "Name", 1L);
+		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "222", "Name", 1L, null, null);
 
 		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 		when(mapper.toResponse(book)).thenReturn(expectedReponse);
@@ -220,7 +220,7 @@ public class BookServiceImplTest {
 		Author newAuthor = new Author(2L, "NewAuthorName", "", null);
 
 		Book book = new Book(id, "OldTitle", "111", oldAuthor);
-		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "111", "NewAuthorName", 2L);
+		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "111", "NewAuthorName", 2L, null, null);
 
 		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 		when(authorRepository.findById(2L)).thenReturn(Optional.of(newAuthor));

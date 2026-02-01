@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "authors")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class Author {
+public class Author extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

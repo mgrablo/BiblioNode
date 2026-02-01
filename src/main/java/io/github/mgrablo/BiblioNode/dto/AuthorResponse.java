@@ -1,13 +1,19 @@
 package io.github.mgrablo.BiblioNode.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record AuthorResponse(
-	@NotNull Long id,
-	@NotBlank String name,
+	Long id,
+	String name,
 	String biography,
-	List<BookResponse> books
+	List<BookResponse> books,
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	LocalDateTime createdAt,
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	LocalDateTime modifiedAt
 ) {}
