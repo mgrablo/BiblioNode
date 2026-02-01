@@ -41,7 +41,7 @@ public class AuthorServiceImplTest {
 		AuthorRequest authorRequest = new AuthorRequest("AAA", "Bio");
 		Author author = new Author(null, "AAA", "Bio", null);
 		Author savedAuthor = new Author(1L, "AAA", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null);
+		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
 		when(authorRepository.findAuthorByName(authorRequest.name())).thenReturn(Optional.empty());
 		when(mapper.toEntity(authorRequest)).thenReturn(author);
@@ -60,7 +60,7 @@ public class AuthorServiceImplTest {
 	void saveAuthor_ShouldReturnAuthor_WhenExists(){
 		AuthorRequest authorRequest = new AuthorRequest("AAA", "Bio");
 		Author savedAuthor = new Author(1L, "AAA", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null);
+		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
 		when(authorRepository.findAuthorByName(authorRequest.name())).thenReturn(Optional.of(savedAuthor));
 		when(mapper.toResponse(savedAuthor)).thenReturn(expectedResponse);
@@ -77,7 +77,7 @@ public class AuthorServiceImplTest {
 	void findById_ShouldReturnAuthor_WhenExists() {
 		Long authorId = 1L;
 		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "TestAuthor", "Bio", null);
+		AuthorResponse expectedResponse = new AuthorResponse(1L, "TestAuthor", "Bio", null, null, null);
 
 		when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
@@ -100,7 +100,7 @@ public class AuthorServiceImplTest {
 	void findByName_ShouldReturnAuthor_WhenExists() {
 		String name = "AAA";
 		Author author = new Author(1L, name, "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, name, "Bio", null);
+		AuthorResponse expectedResponse = new AuthorResponse(1L, name, "Bio", null, null, null);
 
 		when(authorRepository.findAuthorByName(name)).thenReturn(Optional.of(author));
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
@@ -122,7 +122,7 @@ public class AuthorServiceImplTest {
 	@Test
 	void getAll_ShouldReturnListOfResponses() {
 		Author author = new Author(1L, "AAA", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null);
+		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
 		when(authorRepository.findAll()).thenReturn(List.of(author));
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
@@ -150,7 +150,7 @@ public class AuthorServiceImplTest {
 
 		Author oldAuthor = new Author(1L, "AAA", "Bio", null);
 
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "BBB", "Bio", null);
+		AuthorResponse expectedResponse = new AuthorResponse(1L, "BBB", "Bio", null, null, null);
 
 		when(authorRepository.findById(id)).thenReturn(Optional.of(oldAuthor));
 		when(mapper.toResponse(oldAuthor)).thenReturn(expectedResponse);
