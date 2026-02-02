@@ -1,10 +1,11 @@
 package io.github.mgrablo.BiblioNode.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import io.github.mgrablo.BiblioNode.dto.AuthorRequest;
 import io.github.mgrablo.BiblioNode.dto.AuthorResponse;
@@ -27,8 +28,10 @@ class AuthorController {
 	}
 
 	@GetMapping
-	ResponseEntity<List<AuthorResponse>> getAll() {
-		var response = authorService.getAll();
+	ResponseEntity<Page<AuthorResponse>> getAll(
+			@ParameterObject Pageable pageable
+	) {
+		var response = authorService.getAll(pageable);
 		return ResponseEntity.ok(response);
 	}
 

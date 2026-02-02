@@ -8,8 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +39,7 @@ public class AuthorServiceImplTest {
 	private AuthorServiceImpl authorService;
 
 	@Test
-	void saveAuthor_ShouldReturnSuccess(){
+	void saveAuthor_ShouldReturnSuccess() {
 		AuthorRequest authorRequest = new AuthorRequest("AAA", "Bio");
 		Author author = new Author(null, "AAA", "Bio", null);
 		Author savedAuthor = new Author(1L, "AAA", "Bio", null);
@@ -57,7 +59,7 @@ public class AuthorServiceImplTest {
 	}
 
 	@Test
-	void saveAuthor_ShouldReturnAuthor_WhenExists(){
+	void saveAuthor_ShouldReturnAuthor_WhenExists() {
 		AuthorRequest authorRequest = new AuthorRequest("AAA", "Bio");
 		Author savedAuthor = new Author(1L, "AAA", "Bio", null);
 		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
@@ -121,32 +123,37 @@ public class AuthorServiceImplTest {
 
 	@Test
 	void getAll_ShouldReturnListOfResponses() {
+		Pageable pageable = Pageable.ofSize(10);
 		Author author = new Author(1L, "AAA", "Bio", null);
+		Page<Author> authorPage = new PageImpl<>(List.of(author));
 		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
-		when(authorRepository.findAll()).thenReturn(List.of(author));
+		when(authorRepository.findAll(pageable)).thenReturn(authorPage);
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
 
-		List<AuthorResponse> result = authorService.getAll();
+		Page<AuthorResponse> result = authorService.getAll(pageable);
 
 		assertFalse(result.isEmpty());
-		assertEquals(1, result.size());
-		assertEquals(expectedResponse, result.getFirst());
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+		verify(authorRepository).findAll(pageable);
 	}
 
 	@Test
 	void getAll_ShouldReturnEmptyList_WhenNoAuthorExist() {
-		when(authorRepository.findAll()).thenReturn(Collections.emptyList());
+		Pageable pageable = Pageable.ofSize(10);
+		when(authorRepository.findAll(pageable)).thenReturn(Page.empty());
 
-		List<AuthorResponse> result = authorService.getAll();
+		Page<AuthorResponse> result = authorService.getAll(pageable);
 
 		assertTrue(result.isEmpty());
+		verify(authorRepository).findAll(pageable);
 	}
 
 	@Test
 	void updateAuthor_ShouldReturnUpdatedAuthor_WhenAuthorExists() {
 		Long id = 1L;
-		AuthorRequest request = new AuthorRequest( "BBB", "Bio");
+		AuthorRequest request = new AuthorRequest("BBB", "Bio");
 
 		Author oldAuthor = new Author(1L, "AAA", "Bio", null);
 

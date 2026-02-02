@@ -1,20 +1,25 @@
 package io.github.mgrablo.BiblioNode.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import io.github.mgrablo.BiblioNode.dto.AuthorRequest;
@@ -90,7 +95,7 @@ public class AuthorControllerTest {
 
 	@Test
 	void getAuthor_ShouldReturnDatesInJson() throws Exception {
-		LocalDateTime date = LocalDateTime.of(2026, 2,10,12, 21);
+		LocalDateTime date = LocalDateTime.of(2026, 2, 10, 12, 21);
 		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, date, date);
 
 		when(authorService.findById(1L)).thenReturn(response);
@@ -112,24 +117,55 @@ public class AuthorControllerTest {
 	@Test
 	void getAll_ShouldReturnList_WhenAuthorsExist() throws Exception {
 		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
-		when(authorService.getAll()).thenReturn(List.of(response));
+		Page<AuthorResponse> authorResponsePage = new PageImpl<>(List.of(response));
+
+		when(authorService.getAll(any(Pageable.class))).thenReturn(authorResponsePage);
 
 		mockMvc.perform(get("/api/authors"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$.length()").value(1))
-				.andExpect(jsonPath("$[0].id").value(1L))
-				.andExpect(jsonPath("$[0].name").value("AAA"));
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.content").isArray())
+				.andExpect(jsonPath("$.totalElements").value(1))
+				.andExpect(jsonPath("$.content[0].id").value(1L))
+				.andExpect(jsonPath("$.content[0].name").value("AAA"));
 	}
 
 	@Test
 	void getAll_ShouldReturnEmptyList_WhenAuthorsDoNotExist() throws Exception {
-		when(authorService.getAll()).thenReturn(Collections.emptyList());
+		when(authorService.getAll(any(Pageable.class))).thenReturn(Page.empty());
 
 		mockMvc.perform(get("/api/authors"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$.length()").value(0));
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.content").isArray())
+				.andExpect(jsonPath("$.totalElements").value(0));
+	}
+
+	@Test
+	void getAll_ShouldPassCorrectPaginationAndSortingToService() throws Exception {
+		int page = 7;
+		int size = 23;
+		String sortParam = "name,desc";
+
+		ArgumentCaptor<Pageable> pageableCaptor = ArgumentCaptor.forClass(Pageable.class);
+
+		when(authorService.getAll(any(Pageable.class))).thenReturn(Page.empty());
+
+		mockMvc.perform(get("/api/authors")
+				.param("page", String.valueOf(page))
+				.param("size", String.valueOf(size))
+				.param("sort", sortParam)
+		).andExpect(status().isOk());
+
+		verify(authorService).getAll(pageableCaptor.capture());
+		Pageable capturedPageable = pageableCaptor.getValue();
+
+		assertEquals(page, capturedPageable.getPageNumber());
+		assertEquals(size, capturedPageable.getPageSize());
+
+		Sort.Order order = capturedPageable.getSort().getOrderFor("name");
+		assertNotNull(order);
+		assertTrue(order.isDescending());
 	}
 
 	@Test
@@ -177,9 +213,9 @@ public class AuthorControllerTest {
 	void updateAuthor_ShouldReturnBadRequest_WhenNameIsEmpty() throws Exception {
 		AuthorRequest request = new AuthorRequest("", "Bio");
 		mockMvc.perform(put("/api/authors/1")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(request))
-				).andExpect(status().isBadRequest());
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		).andExpect(status().isBadRequest());
 
 		verify(authorService, never()).updateAuthor(any(), any());
 	}
