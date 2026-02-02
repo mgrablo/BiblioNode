@@ -3,8 +3,6 @@ package io.github.mgrablo.BiblioNode.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 import io.github.mgrablo.BiblioNode.dto.BookRequest;
 import io.github.mgrablo.BiblioNode.dto.BookResponse;
 
@@ -20,5 +18,5 @@ public interface BookService {
 	BookResponse findBookByTitle(String title);
 
 	Page<BookResponse> getAllBooks(Pageable pageable);
-	List<BookResponse> searchBooks(String bookTitle, String authorName);
+	Page<BookResponse> searchBooks(String bookTitle, String authorName, Pageable pageable);
 }

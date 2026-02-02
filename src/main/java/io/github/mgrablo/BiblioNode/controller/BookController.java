@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import io.github.mgrablo.BiblioNode.dto.BookRequest;
 import io.github.mgrablo.BiblioNode.dto.BookResponse;
 import io.github.mgrablo.BiblioNode.service.BookService;
@@ -56,11 +54,12 @@ class BookController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<List<BookResponse>> searchBooks(
+	public ResponseEntity<Page<BookResponse>> searchBooks(
 			@RequestParam(required = false) String bookTitle,
-			@RequestParam(required = false) String authorName
+			@RequestParam(required = false) String authorName,
+			@ParameterObject Pageable pageable
 	) {
-		var response = bookService.searchBooks(bookTitle, authorName);
+		var response = bookService.searchBooks(bookTitle, authorName, pageable);
 		return ResponseEntity.ok(response);
 	}
 

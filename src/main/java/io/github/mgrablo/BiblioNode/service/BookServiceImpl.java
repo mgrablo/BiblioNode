@@ -5,8 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import io.github.mgrablo.BiblioNode.dto.BookRequest;
 import io.github.mgrablo.BiblioNode.dto.BookResponse;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
@@ -60,9 +58,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public List<BookResponse> searchBooks(String bookTitle, String authorName) {
-		var books = bookRepository.searchByTitleAndAuthor(bookTitle, authorName);
-		return books.stream().map(mapper::toResponse).toList();
+	public Page<BookResponse> searchBooks(String bookTitle, String authorName, Pageable pageable) {
+		var books = bookRepository.searchByTitleAndAuthor(bookTitle, authorName, pageable);
+		return books.map(mapper::toResponse);
 	}
 
 	@Override

@@ -20,7 +20,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import io.github.mgrablo.BiblioNode.dto.BookRequest;
@@ -192,35 +191,38 @@ public class BookControllerTest {
 
 	@Test
 	void search_ShouldReturnEmptyList_WhenNoMatchesFound() throws Exception {
-		when(bookService.searchBooks("Title", "Name")).thenReturn(Collections.emptyList());
+		Pageable pageable = Pageable.ofSize(20);
+		when(bookService.searchBooks("Title", "Name", pageable)).thenReturn(Page.empty());
 
 		mockMvc.perform(get("/api/books/search")
 						.param("bookTitle", "Title")
 						.param("authorName", "Name")
 				)
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$.length()").value(0));
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.content").isArray())
+				.andExpect(jsonPath("$.totalElements").value(0));
 	}
 
 	@Test
 	void search_ShouldReturnList_WhenMatchesFound() throws Exception {
 		BookResponse response = new BookResponse(1L, "AAA", "111", "BBB", 2L, null, null);
-		when(bookService.searchBooks("A", "B")).thenReturn(List.of(response));
+		Page<BookResponse> bookResponsePage = new PageImpl<>(List.of(response));
+		Pageable pageable = Pageable.ofSize(20);
+		when(bookService.searchBooks("A", "B", pageable)).thenReturn(bookResponsePage);
 
 		mockMvc.perform(get("/api/books/search")
 						.param("bookTitle", "A")
 						.param("authorName", "B")
 				)
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$.length()").value(1))
-				.andExpect(jsonPath("$[0].id").value(1L))
-				.andExpect(jsonPath("$[0].title").value("AAA"))
-				.andExpect(jsonPath("$[0].isbn").value("111"))
-				.andExpect(jsonPath("$[0].authorName").value("BBB"))
-				.andExpect(jsonPath("$[0].authorId").value(2L));
-
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.totalElements").value(1))
+				.andExpect(jsonPath("$.content[0].id").value(1L))
+				.andExpect(jsonPath("$.content[0].title").value("AAA"))
+				.andExpect(jsonPath("$.content[0].isbn").value("111"))
+				.andExpect(jsonPath("$.content[0].authorName").value("BBB"))
+				.andExpect(jsonPath("$.content[0].authorId").value(2L));
 	}
 
 	@Test
