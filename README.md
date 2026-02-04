@@ -43,12 +43,41 @@ The project maintains a high standard of quality through different testing layer
 - **Web Layer Tests**: Utilizing MockMvc to verify REST endpoints, HTTP status codes, JSON serialization, and validation logic without starting the full server.
 
 ## Setup Instructions
+
+### Option 1: Quick Run (Docker only)
+Best for quick preview. No Java/Gradle installation required.
 1. **Clone the repository**:
-   `git clone https://github.com/mgrablo/BiblioNode.git`
+   ```bash
+   git clone https://github.com/mgrablo/BiblioNode.git
+   cd BiblioNode
+   ```
 2. **Setup database**:
-   `docker-compose up -d`
-3. **Run the application**:
-   `./gradlew bootRun`
-4. **Access API documentation**:
+   ```bash
+   docker-compose up -d
+   ```
+3. **Access API documentation**:
+
     Once the server is running, navigate to:
     `http://localhost:8080/swagger-ui/index.html`
+
+### Option 2: Development Mode (Hybrid)
+Best for making changes to the code with fast feedback
+
+1. **Start only database**:
+    ```bash
+    docker-compose up -d db
+    ```
+2. **Start the app locally**:
+   ```bash
+   ./gradlew bootRun
+   ```
+3. **Access API documentation**:
+
+    Once the server is running, navigate to:
+   `http://localhost:8080/swagger-ui/index.html`
+
+### Cleaning up
+If you want to easily reset the database use:
+```bash
+docker-compose down -v
+```
