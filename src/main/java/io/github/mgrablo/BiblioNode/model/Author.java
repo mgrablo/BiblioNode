@@ -19,6 +19,8 @@ public class Author extends BaseEntity {
 	@Column(nullable = false)
 	private String name;
 
+	@Column(columnDefinition = "TEXT")
+	@Lob
 	private String biography;
 
 	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
