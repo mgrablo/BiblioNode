@@ -9,6 +9,10 @@ import io.github.mgrablo.BiblioNode.model.Book;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "author", ignore = true)
+	@Mapping(target = "createdAt", ignore = true)
+	@Mapping(target = "modifiedAt", ignore = true)
 	Book toEntity(BookRequest bookRequest);
 
 	@Mapping(source = "author.id", target = "authorId")
