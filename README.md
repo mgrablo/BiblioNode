@@ -81,3 +81,10 @@ If you want to easily reset the database use:
 ```bash
 docker-compose down -v
 ```
+
+## Roadmap
+1. [x] Basic CRUD for Books and Authors.
+2. [x] Database Auditing & Pagination.
+3. [x] Database Migrations with Liquibase.
+4. [ ] (Upcoming) Loan System Implementation.
+5. [ ] (Planned) JWT Authentication & User Roles.
