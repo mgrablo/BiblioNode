@@ -18,10 +18,13 @@ public class Book extends BaseEntity {
 	@Column(nullable = false)
 	private String title;
 
-	@Column(unique = true, nullable = false, length = 20)
+	@Column(nullable = false, length = 20)
 	private String isbn;
 
 	@ManyToOne
 	@JoinColumn(name = "author_id", nullable = false)
 	private Author author;
+
+	@Column(nullable = false)
+	private Boolean available = true;
 }
