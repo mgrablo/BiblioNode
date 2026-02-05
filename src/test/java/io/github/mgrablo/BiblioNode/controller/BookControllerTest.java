@@ -113,7 +113,7 @@ public class BookControllerTest {
 
 	@Test
 	void getAll_ShouldReturnList_WhenBooksExist() throws Exception {
-		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, null, null);
+		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, true, null, null);
 		Page<BookResponse> bookResponsePage = new PageImpl<>(List.of(response));
 		when(bookService.getAllBooks(any(Pageable.class))).thenReturn(bookResponsePage);
 
@@ -126,7 +126,8 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.content[0].title").value("Title"))
 				.andExpect(jsonPath("$.content[0].isbn").value("111"))
 				.andExpect(jsonPath("$.content[0].authorName").value("Name"))
-				.andExpect(jsonPath("$.content[0].authorId").value(2L));
+				.andExpect(jsonPath("$.content[0].authorId").value(2L))
+				.andExpect(jsonPath("$.content[0].available").value(true));
 	}
 
 	@Test
@@ -157,7 +158,7 @@ public class BookControllerTest {
 
 	@Test
 	void getById_ShouldReturnBook_WhenExists() throws Exception {
-		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, null, null);
+		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, true, null, null);
 		when(bookService.findBookById(1L)).thenReturn(response);
 
 		mockMvc.perform(get("/api/books/1"))
@@ -166,7 +167,8 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.title").value("Title"))
 				.andExpect(jsonPath("$.isbn").value("111"))
 				.andExpect(jsonPath("$.authorName").value("Name"))
-				.andExpect(jsonPath("$.authorId").value(2L));
+				.andExpect(jsonPath("$.authorId").value(2L))
+				.andExpect(jsonPath("$.available").value(true));
 	}
 
 	@Test
@@ -180,7 +182,7 @@ public class BookControllerTest {
 	@Test
 	void getById_ShouldReturnDatesInJson() throws Exception {
 		LocalDateTime date = LocalDateTime.of(2026, 2, 10, 12, 21);
-		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, date, date);
+		BookResponse response = new BookResponse(1L, "Title", "111", "Name", 2L, true, date, date);
 		when(bookService.findBookById(1L)).thenReturn(response);
 
 		mockMvc.perform(get("/api/books/1"))
@@ -206,7 +208,7 @@ public class BookControllerTest {
 
 	@Test
 	void search_ShouldReturnList_WhenMatchesFound() throws Exception {
-		BookResponse response = new BookResponse(1L, "AAA", "111", "BBB", 2L, null, null);
+		BookResponse response = new BookResponse(1L, "AAA", "111", "BBB", 2L, true, null, null);
 		Page<BookResponse> bookResponsePage = new PageImpl<>(List.of(response));
 		Pageable pageable = Pageable.ofSize(20);
 		when(bookService.searchBooks("A", "B", pageable)).thenReturn(bookResponsePage);
@@ -222,14 +224,15 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.content[0].title").value("AAA"))
 				.andExpect(jsonPath("$.content[0].isbn").value("111"))
 				.andExpect(jsonPath("$.content[0].authorName").value("BBB"))
-				.andExpect(jsonPath("$.content[0].authorId").value(2L));
+				.andExpect(jsonPath("$.content[0].authorId").value(2L))
+				.andExpect(jsonPath("$.content[0].available").value(true));
 	}
 
 	@Test
 	void updateBook_ShouldReturnUpdatedBook_WhenBookExists() throws Exception {
 		Long id = 1L;
 		BookRequest request = new BookRequest("NewTitle", "111", 2L);
-		BookResponse response = new BookResponse(id, "NewTitle", "111", "AuthorName", 2L, null, null);
+		BookResponse response = new BookResponse(id, "NewTitle", "111", "AuthorName", 2L, true, null, null);
 		when(bookService.updateBook(id, request)).thenReturn(response);
 
 		mockMvc.perform(put("/api/books/1")

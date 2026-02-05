@@ -10,6 +10,7 @@ public record BookResponse(
 		String isbn,
 		String authorName,
 		Long authorId,
+		boolean available,
 
 		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 		LocalDateTime createdAt,

@@ -1,6 +1,7 @@
 package io.github.mgrablo.BiblioNode.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class BookRepositoryTest {
 	@Test
 	void searchByTitleAndAuthor_ShouldReturnPagedResults_WhenFiltersMatch() {
 		Author author = authorRepository.save(new Author(null, "Author1", "Bio", null));
-		bookRepository.save(new Book(null, "Book 1", "1", author));
-		bookRepository.save(new Book(null, "Book 2", "2", author));
+		bookRepository.save(new Book(null, "Book 1", "1", author, true));
+		bookRepository.save(new Book(null, "Book 2", "2", author, true));
 
 		Pageable pageable = Pageable.ofSize(10);
 
@@ -39,8 +40,8 @@ public class BookRepositoryTest {
 	@Test
 	void searchByTitleAndAuthor_ShouldReturnAll_WhenFiltersAreNull() {
 		Author author = authorRepository.save(new Author(null, "Author1", "Bio", null));
-		bookRepository.save(new Book(null, "Book 1", "1", author));
-		bookRepository.save(new Book(null, "Book 2", "2", author));
+		bookRepository.save(new Book(null, "Book 1", "1", author, true));
+		bookRepository.save(new Book(null, "Book 2", "2", author, true));
 
 		Pageable pageable = Pageable.ofSize(10);
 
@@ -48,5 +49,16 @@ public class BookRepositoryTest {
 
 		assertEquals(2, result.getTotalElements());
 		assertEquals("Book 1", result.getContent().getFirst().getTitle());
+	}
+
+	@Test
+	void shouldSaveBookWithAvailabilityStatus() {
+			Author author = authorRepository.save(new Author(null, "Author1", "Bio", null));
+			Book book = new Book(null, "Book 1", "1", author);
+			book.setAvailable(false);
+
+			Book savedBook = bookRepository.save(book);
+
+			assertFalse(savedBook.isAvailable());
 	}
 }
