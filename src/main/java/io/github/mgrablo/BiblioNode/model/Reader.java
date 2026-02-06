@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "readers")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Reader extends BaseEntity {
@@ -25,6 +27,7 @@ public class Reader extends BaseEntity {
 	private String fullName;
 
 	@Email
+	@NotBlank
 	@Column(nullable = false, unique = true)
 	private String email;
 

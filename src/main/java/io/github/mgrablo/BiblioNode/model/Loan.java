@@ -3,6 +3,7 @@ package io.github.mgrablo.BiblioNode.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "loans")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Loan extends BaseEntity {
@@ -27,6 +29,9 @@ public class Loan extends BaseEntity {
 
 	@Column(nullable = false)
 	private LocalDateTime loanDate;
+
+	@Column(nullable = false)
+	private LocalDateTime dueDate;
 
 	@Column
 	private LocalDateTime returnDate;
