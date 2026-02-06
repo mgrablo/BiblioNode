@@ -12,6 +12,7 @@ public interface ReaderMapper {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "modifiedAt", ignore = true)
+	@Mapping(target = "loans", ignore = true)
 	Reader toEntity(ReaderRequest request);
 
 	ReaderResponse toResponse(Reader reader);

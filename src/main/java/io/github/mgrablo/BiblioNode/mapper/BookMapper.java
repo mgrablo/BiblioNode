@@ -13,6 +13,7 @@ public interface BookMapper {
 	@Mapping(target = "author", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "modifiedAt", ignore = true)
+	@Mapping(target = "available", ignore = true)
 	Book toEntity(BookRequest bookRequest);
 
 	@Mapping(source = "author.id", target = "authorId")
