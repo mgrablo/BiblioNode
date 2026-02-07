@@ -3,6 +3,7 @@ package io.github.mgrablo.BiblioNode.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import io.github.mgrablo.BiblioNode.dto.LoanRequest;
@@ -29,6 +30,8 @@ public class LoanServiceImpl implements LoanService {
 
 	private final LoanMapper mapper;
 
+	private final Clock clock;
+
 	@Override
 	public LoanResponse borrowBook(LoanRequest request) {
 		Book book = bookRepository.findById(request.bookId())
@@ -43,9 +46,10 @@ public class LoanServiceImpl implements LoanService {
 
 		book.setAvailable(false);
 
+		LocalDateTime now = LocalDateTime.now(clock);
 		Loan loan = new Loan();
-		loan.setLoanDate(LocalDateTime.now());
-		loan.setDueDate(LocalDateTime.now().plusDays(14));
+		loan.setLoanDate(now);
+		loan.setDueDate(now.plusDays(14));
 		loan.setBook(book);
 		loan.setReader(reader);
 
@@ -61,7 +65,7 @@ public class LoanServiceImpl implements LoanService {
 			throw new LoanAlreadyReturnedException("Book has already been returned");
 		}
 		loan.getBook().setAvailable(true);
-		loan.setReturnDate(LocalDateTime.now());
+		loan.setReturnDate(LocalDateTime.now(clock));
 		return mapper.toResponse(loanRepository.save(loan));
 	}
 }

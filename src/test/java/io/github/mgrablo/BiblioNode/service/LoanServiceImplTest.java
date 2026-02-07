@@ -4,13 +4,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import io.github.mgrablo.BiblioNode.dto.LoanRequest;
@@ -44,14 +48,29 @@ public class LoanServiceImplTest {
 	@InjectMocks
 	private LoanServiceImpl loanService;
 
-	private static final LocalDateTime testLoanDate = LocalDateTime.of(2024, 1, 1, 12, 0);
+	private Clock fixedClock;
+	private final Instant fixedInstant = Instant.parse("2026-01-01T12:00:00Z");
+	private final ZoneId zoneId = ZoneId.of("UTC");
+
 	private static final Author testAuthor = new Author(1L, "Test Author", "Bio", null);
+
+	@BeforeEach
+	void setup() {
+		fixedClock = Clock.fixed(fixedInstant, zoneId);
+		loanService = new LoanServiceImpl(loanRepository,
+				bookRepository,
+				readerRepository,
+				mapper,
+				fixedClock
+		);
+	}
 
 	@Test
 	public void borrowBook_ShouldReturnLoanResponse_WhenBookAvailable() {
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
 		Book book = spy(new Book(1L, "Test Book", "111", testAuthor));
 		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
-		Loan loan = new Loan(1L, book, reader, testLoanDate, null, null);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
 		LoanRequest request = new LoanRequest(1L, 1L);
 		LoanResponse expectedResponse = new LoanResponse(
 				1L,
@@ -60,8 +79,8 @@ public class LoanServiceImplTest {
 				testAuthor.getName(),
 				"111",
 				1L,
-				testLoanDate,
-				testLoanDate.plusDays(14),
+				expectedNow,
+				expectedNow.plusDays(14),
 				null
 		);
 
@@ -113,7 +132,8 @@ public class LoanServiceImplTest {
 		Book book = spy(new Book(1L, "Test Book", "111", testAuthor));
 		book.setAvailable(false);
 		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
-		Loan loan = new Loan(1L, book, reader, testLoanDate, null, null);
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
 		LoanResponse expectedResponse = new LoanResponse(
 				1L,
 				1L,
@@ -121,9 +141,9 @@ public class LoanServiceImplTest {
 				testAuthor.getName(),
 				"111",
 				1L,
-				testLoanDate,
-				testLoanDate.plusDays(14),
-				LocalDateTime.now()
+				expectedNow,
+				expectedNow.plusDays(14),
+				expectedNow
 		);
 
 		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
@@ -149,7 +169,8 @@ public class LoanServiceImplTest {
 		Book book = new Book(1L, "Test Book", "111", testAuthor);
 		book.setAvailable(true);
 		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
-		Loan loan = new Loan(1L, book, reader, testLoanDate, LocalDateTime.now(), LocalDateTime.now());
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, expectedNow.plusDays(14), expectedNow.plusDays(8));
 
 		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 

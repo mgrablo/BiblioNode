@@ -1,0 +1,14 @@
+package io.github.mgrablo.BiblioNode.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.Clock;
+
+@Configuration
+class DateTimeConfig {
+	@Bean
+	public Clock clock() {
+		return Clock.systemDefaultZone();
+	}
+}
