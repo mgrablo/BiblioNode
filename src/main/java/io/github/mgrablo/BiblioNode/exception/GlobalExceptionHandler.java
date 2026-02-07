@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(
 				LocalDateTime.now(),
 				HttpStatus.NOT_FOUND.value(),
-				"Not Found",
+				HttpStatus.NOT_FOUND.getReasonPhrase(),
 				e.getMessage(),
 				request.getRequestURI()
 		);
@@ -48,7 +48,33 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(
 				LocalDateTime.now(),
 				HttpStatus.CONFLICT.value(),
-				"Conflict",
+				HttpStatus.CREATED.getReasonPhrase(),
+				e.getMessage(),
+				request.getRequestURI()
+		);
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(BookNotAvailableException.class)
+	public ResponseEntity<ErrorResponse> handleBookNotAvailableException(BookNotAvailableException e, HttpServletRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.getReasonPhrase(),
+				e.getMessage(),
+				request.getRequestURI()
+		);
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(LoanAlreadyReturnedException.class)
+	public ResponseEntity<ErrorResponse> handleLoanAlreadyReturnedException(LoanAlreadyReturnedException e, HttpServletRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.getReasonPhrase(),
 				e.getMessage(),
 				request.getRequestURI()
 		);
@@ -61,7 +87,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse error = new ErrorResponse(
 				LocalDateTime.now(),
 				HttpStatus.INTERNAL_SERVER_ERROR.value(),
-				"Internal Server Error",
+				HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
 				"There was an unexpected system error.",
 				request.getRequestURI()
 		);
