@@ -1,0 +1,158 @@
+package io.github.mgrablo.BiblioNode.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import io.github.mgrablo.BiblioNode.dto.LoanRequest;
+import io.github.mgrablo.BiblioNode.dto.LoanResponse;
+import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
+import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
+import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
+import io.github.mgrablo.BiblioNode.mapper.LoanMapper;
+import io.github.mgrablo.BiblioNode.model.Author;
+import io.github.mgrablo.BiblioNode.model.Book;
+import io.github.mgrablo.BiblioNode.model.Loan;
+import io.github.mgrablo.BiblioNode.model.Reader;
+import io.github.mgrablo.BiblioNode.repository.BookRepository;
+import io.github.mgrablo.BiblioNode.repository.LoanRepository;
+import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
+
+@ExtendWith(MockitoExtension.class)
+public class LoanServiceImplTest {
+	@Mock
+	private LoanMapper mapper;
+
+	@Mock
+	private LoanRepository loanRepository;
+
+	@Mock
+	private BookRepository bookRepository;
+
+	@Mock
+	private ReaderRepository readerRepository;
+
+	@InjectMocks
+	private LoanServiceImpl loanService;
+
+	private static final LocalDateTime testLoanDate = LocalDateTime.of(2024, 1, 1, 12, 0);
+	private static final Author testAuthor = new Author(1L, "Test Author", "Bio", null);
+
+	@Test
+	public void borrowBook_ShouldReturnLoanResponse_WhenBookAvailable() {
+		Book book = spy(new Book(1L, "Test Book", "111", testAuthor));
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Loan loan = new Loan(1L, book, reader, testLoanDate, null, null);
+		LoanRequest request = new LoanRequest(1L, 1L);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				testLoanDate,
+				testLoanDate.plusDays(14),
+				null
+		);
+
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+		when(readerRepository.findById(1L)).thenReturn(Optional.of(reader));
+		when(loanRepository.save(any(Loan.class))).thenReturn(loan);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		LoanResponse result = loanService.borrowBook(request);
+
+		assertEquals(expectedResponse, result);
+		assertFalse(book.isAvailable());
+		verify(loanRepository, times(1)).save(any(Loan.class));
+	}
+
+	@Test
+	public void borrowBook_ShouldThrowException_WhenBookNotAvailable() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		book.setAvailable(false);
+		LoanRequest request = new LoanRequest(1L, 1L);
+
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+
+		assertThrows(BookNotAvailableException.class, () -> loanService.borrowBook(request));
+	}
+
+	@Test
+	public void borrowBook_ShouldThrowException_WhenBookNotFound() {
+		LoanRequest request = new LoanRequest(1L, 1L);
+
+		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request));
+	}
+
+	@Test
+	public void borrowBook_ShouldThrowException_WhenReaderNotFound() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		LoanRequest request = new LoanRequest(1L, 1L);
+
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+		when(readerRepository.findById(1L)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request));
+	}
+
+	@Test
+	public void returnBook_ShouldReturnLoanResponse_WhenLoanValid() {
+		Book book = spy(new Book(1L, "Test Book", "111", testAuthor));
+		book.setAvailable(false);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Loan loan = new Loan(1L, book, reader, testLoanDate, null, null);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				testLoanDate,
+				testLoanDate.plusDays(14),
+				LocalDateTime.now()
+		);
+
+		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
+		when(loanRepository.save(any(Loan.class))).thenReturn(loan);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		LoanResponse result = loanService.returnBook(1L);
+
+		assertEquals(expectedResponse, result);
+		verify(loanRepository, times(1)).save(any(Loan.class));
+		verify(book).setAvailable(true);
+	}
+
+	@Test
+	public void returnBook_ShouldThrowException_WhenLoanNotFound() {
+		when(loanRepository.findById(1L)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> loanService.returnBook(1L));
+	}
+
+	@Test
+	public void returnBook_ShouldThrowException_WhenLoanAlreadyReturned() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		book.setAvailable(true);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Loan loan = new Loan(1L, book, reader, testLoanDate, LocalDateTime.now(), LocalDateTime.now());
+
+		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
+
+		assertThrows(LoanAlreadyReturnedException.class, () -> loanService.returnBook(1L));
+	}
+}
