@@ -6,10 +6,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import io.github.mgrablo.BiblioNode.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -80,6 +82,26 @@ public class GlobalExceptionHandler {
 		);
 
 		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
+		String targetType = Optional.ofNullable(e.getRequiredType())
+				.map(Class::getSimpleName)
+				.orElse("unknown");
+
+		String message = String.format("Parameter '%s' with value '%s' could not be converted to type '%s'",
+				e.getName(), e.getValue(), targetType);
+
+		ErrorResponse errorResponse = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.BAD_REQUEST.value(),
+				"Bad Request",
+				message,
+				request.getRequestURI()
+		);
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(Exception.class)

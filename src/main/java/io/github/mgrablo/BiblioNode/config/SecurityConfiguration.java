@@ -19,6 +19,7 @@ class SecurityConfiguration {
 								.requestMatchers("/api/authors/**").permitAll()
 								.requestMatchers("/api/books/**").permitAll()
 								.requestMatchers("/api/readers/**").permitAll()
+								.requestMatchers("/api/loans/**").permitAll()
 								.anyRequest().authenticated()
 				);
 
