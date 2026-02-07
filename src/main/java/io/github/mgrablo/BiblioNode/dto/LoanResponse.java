@@ -3,6 +3,7 @@ package io.github.mgrablo.BiblioNode.dto;
 import java.time.LocalDateTime;
 
 public record LoanResponse(
+		Long id,
 		Long bookId,
 		String bookTitle,
 		String bookAuthorName,
