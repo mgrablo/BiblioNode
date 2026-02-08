@@ -2,6 +2,19 @@
 
 A library management system built with a layered architecture, focusing on data integrity, input validation, and comprehensive testing.
 
+<!-- TOC -->
+* [BiblioNode - Library API](#biblionode---library-api)
+  * [Tech Stack](#tech-stack)
+  * [Database Schema](#database-schema)
+  * [Key Features](#key-features)
+  * [Testing](#testing)
+  * [Setup Instructions](#setup-instructions)
+    * [Option 1: Quick Run (Docker only)](#option-1-quick-run-docker-only)
+    * [Option 2: Development Mode (Hybrid)](#option-2-development-mode-hybrid)
+    * [Cleaning up](#cleaning-up)
+  * [Roadmap](#roadmap)
+<!-- TOC -->
+
 ## Tech Stack
 - **Language**: Java 21
 - **Framework**: Spring Boot 4.0.2
@@ -13,25 +26,39 @@ A library management system built with a layered architecture, focusing on data 
 ## Database Schema
 ```mermaid
 erDiagram
-    AUTHOR ||--o{ BOOK : "manages"
-    AUTHOR {
-        Long id PK
-        String name
-        String biography
-        LocalDateTime createdAt
-        LocalDateTime modifiedAt
-    }
-    BOOK {
-        Long id PK
-        String title
-        String isbn
-        Long author_id FK
-        LocalDateTime createdAt
-        LocalDateTime modifiedAt
-    }
+   AUTHOR ||--o{ BOOK : "writes"
+   READER ||--o{ LOAN : "borrows"
+   BOOK ||--o{ LOAN : "is subject of"
+
+   AUTHOR {
+      Long id PK
+      String name
+      String biography
+   }
+   BOOK {
+      Long id PK
+      String title
+      String isbn
+      boolean available
+      Long authorId FK
+   }
+   READER {
+      Long id PK
+      String fullName
+      String email
+   }
+   LOAN {
+      Long id PK
+      Long bookId FK
+      Long readerId FK
+      LocalDateTime loanDate
+      LocalDateTime dueDate
+      LocalDateTime returnDate
+   }
 ```
 
 ## Key Features
+- **Advanced Loan System**: Full lifecycle of book borrowing and returns with automated availability management and overdue tracking.
 - **JPA Auditing**: Automated tracking of creation and modification timestamps for every resource using `@CreatedDate` and `@LastModifiedDate`.
 - **Global Exception Handling**: Centralized error management using `@RestControllerAdvice` to ensure consistent JSON error responses across the API.
 - **Validation**: Input data is strictly validated using Hibernate Validator annotations (e.g., `@NotBlank`, `@Size`) to maintain data quality.
@@ -41,6 +68,7 @@ erDiagram
 The project maintains a high standard of quality through different testing layers:
 - **Unit Tests**: Focused on business logic within the Service layer, utilizing Mockito for dependency isolation.
 - **Web Layer Tests**: Utilizing MockMvc to verify REST endpoints, HTTP status codes, JSON serialization, and validation logic without starting the full server.
+- **Persistence Tests**: `@DataJpaTest` used to verify complex JPQL queries and relationship mapping.
 
 ## Setup Instructions
 
@@ -86,5 +114,5 @@ docker-compose down -v
 1. [x] Basic CRUD for Books and Authors.
 2. [x] Database Auditing & Pagination.
 3. [x] Database Migrations with Liquibase.
-4. [ ] (Upcoming) Loan System Implementation.
+4. [x] Loan System Implementation.
 5. [ ] (Planned) JWT Authentication & User Roles.
