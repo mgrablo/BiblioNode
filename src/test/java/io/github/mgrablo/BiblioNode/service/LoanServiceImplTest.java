@@ -10,11 +10,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 import io.github.mgrablo.BiblioNode.dto.LoanRequest;
@@ -175,5 +179,156 @@ public class LoanServiceImplTest {
 		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 
 		assertThrows(LoanAlreadyReturnedException.class, () -> loanService.returnBook(1L));
+	}
+
+	@Test
+	public void getAllLoans_ShouldReturnMappedPage() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				expectedNow,
+				expectedNow.plusDays(14),
+				null
+		);
+		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
+
+		when(loanRepository.findAll(any(Pageable.class))).thenReturn(loanPage);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		Page<LoanResponse> result = loanService.getAllLoans(Pageable.ofSize(10));
+
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+	}
+
+	@Test
+	public void getLoansByReaderId_ShouldReturnMappedPage() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				expectedNow,
+				expectedNow.plusDays(14),
+				null
+		);
+		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
+
+		when(loanRepository.findByReaderId(anyLong(), any(Pageable.class))).thenReturn(loanPage);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		Page<LoanResponse> result = loanService.getLoansByReaderId(1L, Pageable.ofSize(10));
+
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+	}
+
+	@Test
+	public void getLoansByBookId_ShouldReturnMappedPage() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				expectedNow,
+				expectedNow.plusDays(14),
+				null
+		);
+		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
+
+		when(loanRepository.findByBookId(anyLong(), any(Pageable.class))).thenReturn(loanPage);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		Page<LoanResponse> result = loanService.getLoansByBookId(1L, Pageable.ofSize(10));
+
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+	}
+
+	@Test
+	public void getActiveLoans_ShouldReturnMappedPage() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				expectedNow,
+				expectedNow.plusDays(14),
+				null);
+		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
+
+		when(loanRepository.findAllByReturnDateIsNull(any(Pageable.class))).thenReturn(loanPage);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		Page<LoanResponse> result = loanService.getActiveLoans(Pageable.ofSize(10));
+
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+	}
+
+	@Test
+	public void getActiveLoansByReaderId_ShouldReturnMappedPage() {
+		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
+		LoanResponse expectedResponse = new LoanResponse(
+				1L,
+				1L,
+				"Test Book",
+				testAuthor.getName(),
+				"111",
+				1L,
+				expectedNow,
+				expectedNow.plusDays(14),
+				null);
+		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
+
+		when(loanRepository.findAllByReturnDateIsNullAndReaderId(anyLong(), any(Pageable.class))).thenReturn(loanPage);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		Page<LoanResponse> result = loanService.getActiveLoansByReaderId(1L, Pageable.ofSize(10));
+
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+	}
+
+	@Test
+	public void getOverdueLoans_ShouldUseCurrentTimeToFindOverdue() {
+		Page<Loan> loanPage = new PageImpl<>(List.of());
+
+		when(loanRepository.findAllByReturnDateIsNullAndDueDateBefore(any(LocalDateTime.class), any(Pageable.class)))
+				.thenReturn(loanPage);
+
+		loanService.getOverdueLoans(Pageable.ofSize(10));
+
+		verify(loanRepository, times(1))
+				.findAllByReturnDateIsNullAndDueDateBefore(eq(LocalDateTime.now(fixedClock)), any(Pageable.class));
 	}
 }
