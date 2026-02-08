@@ -1,5 +1,8 @@
 package io.github.mgrablo.BiblioNode.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +33,32 @@ class LoanController {
 	) {
 		var response = loanService.returnBook(id);
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<Page<LoanResponse>> getLoans(
+			@RequestParam(required = false) Long readerId,
+			@RequestParam(required = false) Long bookId,
+			@RequestParam(defaultValue = "false") boolean activeOnly,
+			@ParameterObject Pageable pageable
+	) {
+		if (readerId != null && activeOnly) {
+			return ResponseEntity.ok(loanService.getActiveLoansByReaderId(readerId, pageable));
+		} else if (readerId != null) {
+			return ResponseEntity.ok(loanService.getLoansByReaderId(readerId, pageable));
+		} else if (bookId != null) {
+			return ResponseEntity.ok(loanService.getLoansByBookId(bookId, pageable));
+		} else if (activeOnly) {
+			return ResponseEntity.ok(loanService.getActiveLoans(pageable));
+		} else {
+			return ResponseEntity.ok(loanService.getAllLoans(pageable));
+		}
+	}
+
+	@GetMapping("/overdue")
+	public ResponseEntity<Page<LoanResponse>> getOverdueLoans(
+			@ParameterObject Pageable pageable
+	) {
+		return ResponseEntity.ok(loanService.getOverdueLoans(pageable));
 	}
 }
