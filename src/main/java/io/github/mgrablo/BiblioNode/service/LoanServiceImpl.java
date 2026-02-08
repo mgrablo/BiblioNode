@@ -1,5 +1,7 @@
 package io.github.mgrablo.BiblioNode.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +69,47 @@ public class LoanServiceImpl implements LoanService {
 		loan.getBook().setAvailable(true);
 		loan.setReturnDate(LocalDateTime.now(clock));
 		return mapper.toResponse(loanRepository.save(loan));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<LoanResponse> getAllLoans(Pageable pageable) {
+		return loanRepository.findAll(pageable).map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<LoanResponse> getLoansByReaderId(Long readerId, Pageable pageable) {
+		return loanRepository.findByReaderId(readerId, pageable).map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<LoanResponse> getLoansByBookId(Long bookId, Pageable pageable) {
+		return loanRepository.findByBookId(bookId, pageable).map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<LoanResponse> getActiveLoans(Pageable pageable) {
+		return loanRepository
+				.findAllByReturnDateIsNull(pageable)
+				.map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<LoanResponse> getActiveLoansByReaderId(Long readerId, Pageable pageable) {
+		return loanRepository
+				.findAllByReturnDateIsNullAndReaderId(readerId, pageable)
+				.map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<LoanResponse> getOverdueLoans(Pageable pageable) {
+		return loanRepository
+				.findAllByReturnDateIsNullAndDueDateBefore(LocalDateTime.now(clock), pageable)
+				.map(mapper::toResponse);
 	}
 }
