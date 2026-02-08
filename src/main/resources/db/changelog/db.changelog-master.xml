@@ -3,36 +3,6 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="01-create-authors-table" author="mgrablo">
-        <createTable tableName="authors">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="biography" type="TEXT"/>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="modified_at" type="TIMESTAMP"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="02-create-books-table" author="mgrablo">
-        <createTable tableName="books">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="title" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="isbn" type="VARCHAR(20)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="author_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_book_author" referencedTableName="authors" referencedColumnNames="id"/>
-            </column>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="modified_at" type="TIMESTAMP"/>
-        </createTable>
-    </changeSet>
+    <include file="db/changelog/db.changelog-initial.xml"/>
+    <include file="db/changelog/db.changelog-02.xml"/>
 </databaseChangeLog>

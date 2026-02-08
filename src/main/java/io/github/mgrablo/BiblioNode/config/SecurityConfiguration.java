@@ -18,6 +18,8 @@ class SecurityConfiguration {
 						auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 								.requestMatchers("/api/authors/**").permitAll()
 								.requestMatchers("/api/books/**").permitAll()
+								.requestMatchers("/api/readers/**").permitAll()
+								.requestMatchers("/api/loans/**").permitAll()
 								.anyRequest().authenticated()
 				);
 

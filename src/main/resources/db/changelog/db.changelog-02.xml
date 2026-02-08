@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog 
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="03-add-available-to-books" author="mgrablo">
+        <addColumn tableName="books">
+            <column name="available" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="04-remove-unique-isbn" author="mgrablo">
+        <dropUniqueConstraint tableName="books" constraintName="uk_books_isbn"/>
+    </changeSet>
+    <changeSet id="05-add-isbn-index" author="mgrablo">
+        <createIndex tableName="books" indexName="idx_books_isbn">
+            <column name="isbn"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="06-create-readers-table" author="mgrablo">
+        <createTable tableName="readers">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="modified_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="07-create-loans-table" author="mgrablo">
+        <createTable tableName="loans">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="book_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_loan_book" referencedTableName="books" referencedColumnNames="id"/>
+            </column>
+            <column name="reader_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_loan_reader" referencedTableName="readers" referencedColumnNames="id"/>
+            </column>
+            <column name="loan_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="return_date" type="timestamp"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="modified_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
