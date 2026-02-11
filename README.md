@@ -1,5 +1,10 @@
 # BiblioNode - Library API
 
+[![Tests](https://github.com/mgrablo/BiblioNode/actions/workflows/test.yml/badge.svg)](https://github.com/mgrablo/BiblioNode/actions/workflows/test.yml)
+![Java](https://img.shields.io/badge/Java-21-blue)
+![Spring](https://img.shields.io/badge/Spring_Boot-4.0.2-green)
+![License](https://img.shields.io/badge/License-Apache_2.0-orange)
+
 A library management system built with a layered architecture, focusing on data integrity, input validation, and comprehensive testing.
 
 <!-- TOC -->
@@ -72,11 +77,11 @@ The project maintains a high standard of quality through different testing layer
 
 ## Setup Instructions
 
-### Option 1: Quick Run (Docker only)
-Best for quick preview. No Java/Gradle installation required.
-
 > [!NOTE]
 > If you want to start the app with initial data, uncomment `SPRING_PROFILES_ACTIVE: dev` in the `docker-compose.yml` file.
+
+### Option 1: Quick Run (Docker only)
+Best for quick preview. No Java/Gradle installation required.
 
 1. **Clone the repository**:
    ```bash
