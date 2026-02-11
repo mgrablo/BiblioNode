@@ -74,6 +74,10 @@ The project maintains a high standard of quality through different testing layer
 
 ### Option 1: Quick Run (Docker only)
 Best for quick preview. No Java/Gradle installation required.
+
+> [!NOTE]
+> If you want to start the app with initial data, uncomment `SPRING_PROFILES_ACTIVE: dev` in the `docker-compose.yml` file.
+
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/mgrablo/BiblioNode.git

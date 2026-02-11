@@ -25,6 +25,8 @@ services:
       db:
         condition: service_healthy
     environment:
+      # Uncomment the following line if you want to start the application with initial data
+#     SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/biblionode-db
       SPRING_DATASOURCE_USERNAME: dev_user
       SPRING_DATASOURCE_PASSWORD: dev_password
