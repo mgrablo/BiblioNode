@@ -144,7 +144,7 @@ public class ReaderControllerTest {
 
 		when(readerService.getAll(any(Pageable.class))).thenReturn(readerResponsePage);
 
-		mockMvc.perform(get("/api/readers/"))
+		mockMvc.perform(get("/api/readers"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$").isMap())
 				.andExpect(jsonPath("$.content").isArray())
@@ -160,7 +160,7 @@ public class ReaderControllerTest {
 	public void getAll_ShouldReturnEmptyPage_WhenReadersDoNotExist() throws Exception {
 		when(readerService.getAll(any(Pageable.class))).thenReturn(Page.empty());
 
-		mockMvc.perform(get("/api/readers/"))
+		mockMvc.perform(get("/api/readers"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$").isMap())
 				.andExpect(jsonPath("$.content").isArray())
