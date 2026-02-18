@@ -43,40 +43,17 @@ public class LoanRepositoryTest {
 	@Test
 	public void shouldFindOverdueLoans() {
 		// GIVEN
-		Author author = new Author(null, "Author1", "Bio", null);
-		entityManager.persist(author);
+		Author author = persistAuthor("Author1");
+		Book book = persistBook("Book 1", "1", author);
 
-		Book book = new Book(null, "Book 1", "1", author, true);
-		entityManager.persist(book);
-
-		Reader reader = new Reader(null, "Reader1", "reader@email.com", null);
+		Reader reader = persistReader("Reader1", "reader@email.com");
 		entityManager.persist(reader);
 
 		LocalDateTime now = LocalDateTime.now(fixedClock);
 
-		Loan overdueLoan = new Loan();
-		overdueLoan.setBook(book);
-		overdueLoan.setReader(reader);
-		overdueLoan.setLoanDate(now.minusDays(20));
-		overdueLoan.setDueDate(now.minusDays(6));
-		overdueLoan.setReturnDate(null);
-		entityManager.persist(overdueLoan);
-
-		Loan activeLoan = new Loan();
-		activeLoan.setBook(book);
-		activeLoan.setReader(reader);
-		activeLoan.setLoanDate(now.minusDays(10));
-		activeLoan.setDueDate(now.plusDays(4));
-		activeLoan.setReturnDate(null);
-		entityManager.persist(activeLoan);
-
-		Loan returnedLoan = new Loan();
-		returnedLoan.setBook(book);
-		returnedLoan.setReader(reader);
-		returnedLoan.setLoanDate(now.minusDays(15));
-		returnedLoan.setDueDate(now.minusDays(1));
-		returnedLoan.setReturnDate(now.minusDays(2));
-		entityManager.persist(returnedLoan);
+		Loan overdueLoan = persistLoan(book, reader, now.minusDays(20), now.minusDays(6), null); // Overdue
+		Loan activeLoan = persistLoan(book, reader, now.minusDays(10), now.plusDays(4), null); // Active
+		Loan returnedLoan = persistLoan(book, reader, now.minusDays(15), now.minusDays(1), now.minusDays(2)); // Returned
 
 		entityManager.flush();
 
@@ -91,51 +68,18 @@ public class LoanRepositoryTest {
 	@Test
 	public void shouldFindActiveLoansByReaderId() {
 		// GIVEN
-		Author author = new Author(null, "Author1", "Bio", null);
-		entityManager.persist(author);
-
-		Book book = new Book(null, "Book 1", "1", author, true);
-		entityManager.persist(book);
-
-		Reader reader1 = new Reader(null, "Reader1", "reader1@email.com", null);
-		entityManager.persist(reader1);
-
-		Reader reader2 = new Reader(null, "Reader2", "reader2@email.com", null);
-		entityManager.persist(reader2);
+		Author author = persistAuthor("Author1");
+		Book book = persistBook("Book 1", "1", author);
+		Reader reader1 = persistReader("Reader1", "reader1@email.com");
+		Reader reader2 = persistReader("Reader2", "reader2@email.com");
 
 		LocalDateTime now = LocalDateTime.now(fixedClock);
 
-		Loan activeLoan1 = new Loan();
-		activeLoan1.setBook(book);
-		activeLoan1.setReader(reader1);
-		activeLoan1.setLoanDate(now.minusDays(10));
-		activeLoan1.setDueDate(now.plusDays(4));
-		activeLoan1.setReturnDate(null);
-		entityManager.persist(activeLoan1);
+		Loan activeLoan1 = persistLoan(book, reader1, now.minusDays(10), now.plusDays(4), null); // Active for reader1
+		Loan activeLoan2 = persistLoan(book, reader2, now.minusDays(5), now.plusDays(9), null); // Active for reader2
 
-		Loan activeLoan2 = new Loan();
-		activeLoan2.setBook(book);
-		activeLoan2.setReader(reader2);
-		activeLoan2.setLoanDate(now.minusDays(5));
-		activeLoan2.setDueDate(now.plusDays(9));
-		activeLoan2.setReturnDate(null);
-		entityManager.persist(activeLoan2);
-
-		Loan returnedLoan1 = new Loan();
-		returnedLoan1.setBook(book);
-		returnedLoan1.setReader(reader1);
-		returnedLoan1.setLoanDate(now.minusDays(15));
-		returnedLoan1.setDueDate(now.minusDays(1));
-		returnedLoan1.setReturnDate(now.minusDays(2));
-		entityManager.persist(returnedLoan1);
-
-		Loan returnedLoan2 = new Loan();
-		returnedLoan2.setBook(book);
-		returnedLoan2.setReader(reader2);
-		returnedLoan2.setLoanDate(now.minusDays(20));
-		returnedLoan2.setDueDate(now.minusDays(6));
-		returnedLoan2.setReturnDate(now.minusDays(5));
-		entityManager.persist(returnedLoan2);
+		Loan returnedLoan1 = persistLoan(book, reader1, now.minusDays(15), now.minusDays(1), now.minusDays(2)); // Returned for reader1
+		Loan returnedLoan2 = persistLoan(book, reader2, now.minusDays(20), now.minusDays(6), now.minusDays(5)); // Returned for reader2
 
 		entityManager.flush();
 
@@ -149,5 +93,32 @@ public class LoanRepositoryTest {
 
 		assertEquals(1, activeLoansReader2.getTotalElements());
 		assertEquals(activeLoan2.getId(), activeLoansReader2.getContent().getFirst().getId());
+	}
+
+	private Author persistAuthor(String name) {
+		Author author = new Author(null, name, "Bio", null);
+		return entityManager.persist(author);
+	}
+
+	private Book persistBook(String title, String isbn, Author author) {
+		Book book = new Book(null, title, isbn, author, true);
+		return entityManager.persist(book);
+	}
+
+	private Reader persistReader(String name, String email) {
+		Reader reader = new Reader();
+		reader.setFullName(name);
+		reader.setEmail(email);
+		return entityManager.persist(reader);
+	}
+
+	private Loan persistLoan(Book b, Reader r, LocalDateTime loanDate, LocalDateTime dueDate, LocalDateTime returnDate) {
+		Loan loan = new Loan();
+		loan.setBook(b);
+		loan.setReader(r);
+		loan.setLoanDate(loanDate);
+		loan.setDueDate(dueDate);
+		loan.setReturnDate(returnDate);
+		return entityManager.persist(loan);
 	}
 }
