@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import static java.util.Collections.emptyList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,8 +58,6 @@ public class LoanServiceImplTest {
 	private final Instant fixedInstant = Instant.parse("2026-01-01T12:00:00Z");
 	private final ZoneId zoneId = ZoneId.of("UTC");
 
-	private static final Author testAuthor = new Author(1L, "Test Author", "Bio", null);
-
 	@BeforeEach
 	void setup() {
 		fixedClock = Clock.fixed(fixedInstant, zoneId);
@@ -72,21 +72,11 @@ public class LoanServiceImplTest {
 	@Test
 	public void borrowBook_ShouldReturnLoanResponse_WhenBookAvailable() {
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Book book = spy(new Book(1L, "Test Book", "111", testAuthor));
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
+		Book book = spy(createTestBook(1L, "Test Book", "111"));
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
 		LoanRequest request = new LoanRequest(1L, 1L);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				null
-		);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 		when(readerRepository.findById(1L)).thenReturn(Optional.of(reader));
@@ -102,7 +92,7 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void borrowBook_ShouldThrowException_WhenBookNotAvailable() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Book book = createTestBook(1L, "Test Book", "111");
 		book.setAvailable(false);
 		LoanRequest request = new LoanRequest(1L, 1L);
 
@@ -122,7 +112,7 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void borrowBook_ShouldThrowException_WhenReaderNotFound() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Book book = createTestBook(1L, "Test Book", "111");
 		LoanRequest request = new LoanRequest(1L, 1L);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
@@ -133,22 +123,12 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void returnBook_ShouldReturnLoanResponse_WhenLoanValid() {
-		Book book = spy(new Book(1L, "Test Book", "111", testAuthor));
+		Book book = spy(createTestBook(1L, "Test Book", "111"));
 		book.setAvailable(false);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				expectedNow
-		);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, expectedNow);
 
 		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 		when(loanRepository.save(any(Loan.class))).thenReturn(loan);
@@ -170,11 +150,12 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void returnBook_ShouldThrowException_WhenLoanAlreadyReturned() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
+		Book book = createTestBook(1L, "Test Book", "111");
 		book.setAvailable(true);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, expectedNow.plusDays(14), expectedNow.plusDays(8));
+		Loan loan = createTestLoan(1L, book, reader, expectedNow.minusDays(14));
+		loan.setReturnDate(expectedNow.minusDays(7));
 
 		when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 
@@ -183,21 +164,11 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void getAllLoans_ShouldReturnMappedPage() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Book book = createTestBook(1L, "Test Book", "111");
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				null
-		);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
 
 		when(loanRepository.findAll(any(Pageable.class))).thenReturn(loanPage);
@@ -211,21 +182,11 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void getLoansByReaderId_ShouldReturnMappedPage() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Book book = createTestBook(1L, "Test Book", "111");
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				null
-		);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
 
 		when(loanRepository.findByReaderId(anyLong(), any(Pageable.class))).thenReturn(loanPage);
@@ -239,21 +200,11 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void getLoansByBookId_ShouldReturnMappedPage() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Book book = createTestBook(1L, "Test Book", "111");
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				null
-		);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
 
 		when(loanRepository.findByBookId(anyLong(), any(Pageable.class))).thenReturn(loanPage);
@@ -267,20 +218,11 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void getActiveLoans_ShouldReturnMappedPage() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Book book = createTestBook(1L, "Test Book", "111");
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				null);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
 
 		when(loanRepository.findAllByReturnDateIsNull(any(Pageable.class))).thenReturn(loanPage);
@@ -294,20 +236,11 @@ public class LoanServiceImplTest {
 
 	@Test
 	public void getActiveLoansByReaderId_ShouldReturnMappedPage() {
-		Book book = new Book(1L, "Test Book", "111", testAuthor);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		Book book = createTestBook(1L, "Test Book", "111");
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
-		Loan loan = new Loan(1L, book, reader, expectedNow, null, null);
-		LoanResponse expectedResponse = new LoanResponse(
-				1L,
-				1L,
-				"Test Book",
-				testAuthor.getName(),
-				"111",
-				1L,
-				expectedNow,
-				expectedNow.plusDays(14),
-				null);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
 
 		when(loanRepository.findAllByReturnDateIsNullAndReaderId(anyLong(), any(Pageable.class))).thenReturn(loanPage);
@@ -330,5 +263,55 @@ public class LoanServiceImplTest {
 
 		verify(loanRepository, times(1))
 				.findAllByReturnDateIsNullAndDueDateBefore(eq(LocalDateTime.now(fixedClock)), any(Pageable.class));
+	}
+
+	private Book createTestBook(Long id, String title, String isbn) {
+		Author author = new Author();
+		author.setId(1L);
+		author.setName("Test Author");
+		author.setBiography("Bio");
+		author.setBooks(emptyList());
+		Book book = new Book();
+		book.setId(id);
+		book.setTitle(title);
+		book.setIsbn(isbn);
+		book.setAvailable(true);
+		book.setAuthor(author);
+		return book;
+	}
+
+	private Reader createTestReader(Long id, String name, String email) {
+		Reader reader = new Reader();
+		reader.setId(id);
+		reader.setFullName(name);
+		reader.setEmail(email);
+		reader.setLoans(emptyList());
+
+		return reader;
+	}
+
+	private Loan createTestLoan(Long id, Book book, Reader reader, LocalDateTime loanDate) {
+		Loan loan = new Loan();
+		loan.setId(id);
+		loan.setBook(book);
+		loan.setReader(reader);
+		loan.setLoanDate(loanDate);
+		loan.setDueDate(loanDate.plusDays(14));
+
+		return loan;
+	}
+
+	private LoanResponse createTestLoanResponse(Long id, Book book, Reader reader, LocalDateTime loanDate, LocalDateTime returnDate) {
+		return new LoanResponse(
+				id,
+				book.getId(),
+				book.getTitle(),
+				book.getAuthor().getName(),
+				book.getIsbn(),
+				reader.getId(),
+				loanDate,
+				loanDate.plusDays(14),
+				returnDate
+		);
 	}
 }
