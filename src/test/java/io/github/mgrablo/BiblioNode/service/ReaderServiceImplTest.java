@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +42,8 @@ public class ReaderServiceImplTest {
 		String email = "test@email.com";
 		String name = "TestName";
 		ReaderRequest request = new ReaderRequest(name, email);
-		Reader reader = new Reader(1L, name, email, null);
-		ReaderResponse expectedResponse = new ReaderResponse(1L, name, email, null);
+		Reader reader = createTestReader(1L, name, email);
+		ReaderResponse expectedResponse = createTestResponse(1L, name, email);
 
 		when(readerRepository.existsByEmail(email)).thenReturn(false);
 		when(mapper.toEntity(request)).thenReturn(reader);
@@ -70,8 +71,8 @@ public class ReaderServiceImplTest {
 	@Test
 	public void getReaderById_ShouldReturnReader_WhenExists() {
 		Long id = 1L;
-		Reader reader = new Reader(id, "TestName", "test@email.com", null);
-		ReaderResponse expectedResponse = new ReaderResponse(id, "TestName", "test@email.com", null);
+		Reader reader = createTestReader(id, "TestName", "test@email.com");
+		ReaderResponse expectedResponse = createTestResponse(id, "TestName", "test@email.com");
 
 		when(readerRepository.findById(id)).thenReturn(Optional.of(reader));
 		when(mapper.toResponse(reader)).thenReturn(expectedResponse);
@@ -94,8 +95,8 @@ public class ReaderServiceImplTest {
 	@Test
 	public void getReaderByEmail_ShouldReturnReader_WhenExists() {
 		String email = "test@email.com";
-		Reader reader = new Reader(1L, "TestName", email, null);
-		ReaderResponse expectedResponse = new ReaderResponse(1L, "TestName", email, null);
+		Reader reader = createTestReader(1L, "TestName", email);
+		ReaderResponse expectedResponse = createTestResponse(1L, "TestName", email);
 
 		when(readerRepository.findByEmail(email)).thenReturn(Optional.of(reader));
 		when(mapper.toResponse(reader)).thenReturn(expectedResponse);
@@ -117,10 +118,10 @@ public class ReaderServiceImplTest {
 	@Test
 	public void getAll_ShouldReturnList_WhenReadersExist() {
 		Pageable pageable = Pageable.ofSize(10);
-		Reader reader1 = new Reader(1L, "Test Name1", "test1@email.com", null);
-		ReaderResponse response1 = new ReaderResponse(1L, "Test Name1", "test1@email.com", null);
-		Reader reader2 = new Reader(2L, "Test Name2", "test2@email.com", null);
-		ReaderResponse response2 = new ReaderResponse(2L, "Test Name2", "test2@email.com", null);
+		Reader reader1 = createTestReader(1L, "Test Name1", "test1@email.com");
+		ReaderResponse response1 = createTestResponse(1L, "Test Name1", "test1@email.com");
+		Reader reader2 = createTestReader(2L, "Test Name2", "test2@email.com");
+		ReaderResponse response2 = createTestResponse(2L, "Test Name2", "test2@email.com");
 		Page<Reader> readerPage = new PageImpl<>(List.of(reader1, reader2));
 
 		when(readerRepository.findAll(pageable)).thenReturn(readerPage);
@@ -152,8 +153,8 @@ public class ReaderServiceImplTest {
 	public void updateReader_ShouldReturnUpdatedReader_WhenReaderExists_SameEmail() {
 		Long id = 1L;
 		ReaderRequest request = new ReaderRequest("New Name", "old@email.com");
-		Reader reader = new Reader(id, "Old Name", "old@email.com", null);
-		ReaderResponse expectedResponse = new ReaderResponse(id, "New Name", "old@email.com", null);
+		Reader reader = createTestReader(id, "Old Name", "old@email.com");
+		ReaderResponse expectedResponse = createTestResponse(id, "New Name", "old@email.com");
 
 		when(readerRepository.findById(id)).thenReturn(Optional.of(reader));
 		when(mapper.toResponse(reader)).thenReturn(expectedResponse);
@@ -168,8 +169,8 @@ public class ReaderServiceImplTest {
 		Long id = 1L;
 		String newEmail = "new@email.com";
 		ReaderRequest request = new ReaderRequest("New Name", newEmail);
-		Reader reader = new Reader(id, "Old Name", "old@email.com", null);
-		ReaderResponse expectedResponse = new ReaderResponse(id, "New Name", newEmail, null);
+		Reader reader = createTestReader(id, "Old Name", "old@email.com");
+		ReaderResponse expectedResponse = createTestResponse(id, "New Name", newEmail);
 
 		when(readerRepository.findById(id)).thenReturn(Optional.of(reader));
 		when(readerRepository.existsByEmail(newEmail)).thenReturn(false);
@@ -185,7 +186,7 @@ public class ReaderServiceImplTest {
 		Long id = 1L;
 		String newEmail = "new@email.com";
 		ReaderRequest request = new ReaderRequest("New Name", newEmail);
-		Reader reader = new Reader(id, "Old Name", "old@email.com", null);
+		Reader reader = createTestReader(id, "Old Name", "old@email.com");
 
 		when(readerRepository.findById(id)).thenReturn(Optional.of(reader));
 		when(readerRepository.existsByEmail(newEmail)).thenReturn(true);
@@ -234,5 +235,19 @@ public class ReaderServiceImplTest {
 				readerService.deleteReader(id)
 		);
 		verify(readerRepository, never()).deleteById(id);
+	}
+
+	private Reader createTestReader(Long id, String name, String email) {
+		Reader reader = new Reader();
+		reader.setId(id);
+		reader.setFullName(name);
+		reader.setEmail(email);
+		reader.setLoans(Collections.emptyList());
+
+		return reader;
+	}
+
+	private ReaderResponse createTestResponse(Long id, String name, String email) {
+		return new ReaderResponse(id, name, email, Collections.emptyList());
 	}
 }
