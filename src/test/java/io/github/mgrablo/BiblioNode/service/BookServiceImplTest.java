@@ -3,6 +3,8 @@ package io.github.mgrablo.BiblioNode.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import static java.util.Collections.emptyList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -42,10 +44,10 @@ public class BookServiceImplTest {
 	@Test
 	void addBook_ShouldReturnSuccess_WhenAuthorExists() {
 		BookRequest request = new BookRequest("TestTitle", "111", 1L);
-		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		Book book = new Book(null, "TestTitle", "111", author);
-		Book savedBook = new Book(100L, "TestTitle", "111", author);
-		BookResponse expectedResponse = new BookResponse(100L, "TestTitle", "111", "TestAuthor", 1L, true, null, null);
+		Author author = createTestAuthor(1L, "TestAuthor");
+		Book book = createTestBook(null, "TestTitle", "111", author);
+		Book savedBook = createTestBook(100L, "TestTitle", "111", author);
+		BookResponse expectedResponse = createTestBookResponse(100L, "TestTitle", "111", author);
 
 		when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
 		when(mapper.toEntity(request)).thenReturn(book);
@@ -74,10 +76,10 @@ public class BookServiceImplTest {
 	@Test
 	void addBook_ShouldSetAuthor() {
 		BookRequest request = new BookRequest("TestTitle", "111", 1L);
-		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		Book book = new Book(null, "TestTitle", "111", author);
-		Book savedBook = new Book(100L, "TestTitle", "111", author);
-		BookResponse expectedResponse = new BookResponse(100L, "TestTitle", "111", "TestAuthor", 1L, true, null, null);
+		Author author = createTestAuthor(1L, "TestAuthor");
+		Book book = createTestBook(null, "TestTitle", "111", author);
+		Book savedBook = createTestBook(100L, "TestTitle", "111", author);
+		BookResponse expectedResponse = createTestBookResponse(100L, "TestTitle", "111", author);
 
 		when(authorRepository.findById(1L)).thenReturn(Optional.of(author));
 		when(mapper.toEntity(request)).thenReturn(book);
@@ -97,9 +99,9 @@ public class BookServiceImplTest {
 	@Test
 	void findBookById_ShouldReturnBook_WhenExists() {
 		Long bookId = 1L;
-		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		Book book = new Book(bookId, "TestTitle", "111", author);
-		BookResponse expectedResponse = new BookResponse(bookId, "TestTitle", "111", "TestAuthor", 1L, true, null, null);
+		Author author = createTestAuthor(1L, "TestAuthor");
+		Book book = createTestBook(bookId, "TestTitle", "111", author);
+		BookResponse expectedResponse = createTestBookResponse(bookId, "TestTitle", "111", author);
 
 		when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
 		when(mapper.toResponse(book)).thenReturn(expectedResponse);
@@ -121,9 +123,9 @@ public class BookServiceImplTest {
 	@Test
 	void findBookByTitle_ShouldReturnBook_WhenExists() {
 		String title = "ABC";
-		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		Book book = new Book(1L, title, "111", author);
-		BookResponse expectedResponse = new BookResponse(1L, title, "111", "TestAuthor", 1L, true, null, null);
+		Author author = createTestAuthor(1L, "TestAuthor");
+		Book book = createTestBook(1L, title, "111", author);
+		BookResponse expectedResponse = createTestBookResponse(1L, title, "111", author);
 
 		when(bookRepository.findBookByTitle(title)).thenReturn(Optional.of(book));
 		when(mapper.toResponse(book)).thenReturn(expectedResponse);
@@ -145,10 +147,10 @@ public class BookServiceImplTest {
 	@Test
 	void getAllBooks_ShouldReturnPageOfResponses() {
 		Pageable pageable = Pageable.ofSize(10);
-		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		Book book = new Book(1L, "TestTitle", "111", author);
+		Author author = createTestAuthor(1L, "TestAuthor");
+		Book book = createTestBook(1L, "TestTitle", "111", author);
 		Page<Book> bookPage = new PageImpl<>(List.of(book));
-		BookResponse response = new BookResponse(1L, "TestTitle", "111", "TestAuthor", 1L, true, null, null);
+		BookResponse response = createTestBookResponse(1L, "TestTitle", "111", author);
 
 		when(bookRepository.findAll(pageable)).thenReturn(bookPage);
 		when(mapper.toResponse(book)).thenReturn(response);
@@ -177,9 +179,9 @@ public class BookServiceImplTest {
 		String title = "TestTitle";
 		String authorName = "TestAuthor";
 		Pageable pageable = Pageable.ofSize(10);
-		Author author = new Author(1L, authorName, "Bio", null);
-		Book book = new Book(1L, title, "111", author);
-		BookResponse response = new BookResponse(1L, title, "111", authorName, 1L, true, null, null);
+		Author author = createTestAuthor(1L, authorName);
+		Book book = createTestBook(1L, title, "111", author);
+		BookResponse response = createTestBookResponse(1L, title, "111", author);
 		Page<Book> bookPage = new PageImpl<>(List.of(book));
 
 		when(bookRepository.searchByTitleAndAuthor(title, authorName, pageable)).thenReturn(bookPage);
@@ -208,8 +210,9 @@ public class BookServiceImplTest {
 	void updateBook_ShouldReturnUpdatedBook_WhenBookExists_SameAuthor() {
 		Long id = 1L;
 		BookRequest request = new BookRequest("NewTitle", "222", 1L);
-		Book book = new Book(id, "OldTitle", "111", new Author(1L, "Name", "", null));
-		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "222", "Name", 1L, true, null, null);
+		Author author = createTestAuthor(1L, "Name");
+		Book book = createTestBook(id, "OldTitle", "111", author);
+		BookResponse expectedReponse = createTestBookResponse(id, "NewTitle", "222", author);
 
 		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 		when(mapper.toResponse(book)).thenReturn(expectedReponse);
@@ -226,11 +229,11 @@ public class BookServiceImplTest {
 	void updateBook_ShouldReturnUpdatedBook_WhenBookExists_ChangedAuthor() {
 		Long id = 1L;
 		BookRequest request = new BookRequest("NewTitle", "111", 2L);
-		Author oldAuthor = new Author(1L, "Name", "", null);
-		Author newAuthor = new Author(2L, "NewAuthorName", "", null);
+		Author oldAuthor = createTestAuthor(1L, "Name");
+		Author newAuthor = createTestAuthor(2L, "NewAuthorName");
 
-		Book book = new Book(id, "OldTitle", "111", oldAuthor);
-		BookResponse expectedReponse = new BookResponse(id, "NewTitle", "111", "NewAuthorName", 2L, true, null, null);
+		Book book = createTestBook(id, "OldTitle", "111", oldAuthor);
+		BookResponse expectedReponse = createTestBookResponse(id, "NewTitle", "111", newAuthor);
 
 		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 		when(authorRepository.findById(2L)).thenReturn(Optional.of(newAuthor));
@@ -259,9 +262,9 @@ public class BookServiceImplTest {
 	void updateBook_ShouldThrowException_WhenNewAuthorDoesNotExist() {
 		Long id = 1L;
 		BookRequest request = new BookRequest("OldTitle", "111", 2L);
-		Author oldAuthor = new Author(1L, "Name", "", null);
+		Author oldAuthor = createTestAuthor(1L, "Name");
 
-		Book book = new Book(id, "OldTitle", "111", oldAuthor);
+		Book book = createTestBook(id, "OldTitle", "111", oldAuthor);
 
 		when(bookRepository.findById(id)).thenReturn(Optional.of(book));
 		when(authorRepository.findById(2L)).thenReturn(Optional.empty());
@@ -296,5 +299,30 @@ public class BookServiceImplTest {
 		});
 
 		verify(bookRepository, never()).deleteById(id);
+	}
+
+	private Author createTestAuthor(Long id, String name) {
+		Author author = new Author();
+		author.setId(id);
+		author.setName(name);
+		author.setBiography("Bio");
+		author.setBooks(emptyList());
+
+		return author;
+	}
+
+	private Book createTestBook(Long id, String title, String isbn, Author author) {
+		Book book = new Book();
+		book.setId(id);
+		book.setTitle(title);
+		book.setIsbn(isbn);
+		book.setAvailable(true);
+		book.setAuthor(author);
+
+		return book;
+	}
+
+	private BookResponse createTestBookResponse(Long id, String title, String isbn, Author author) {
+		return new BookResponse(id, title, isbn, author.getName(), author.getId(), true, null, null);
 	}
 }
