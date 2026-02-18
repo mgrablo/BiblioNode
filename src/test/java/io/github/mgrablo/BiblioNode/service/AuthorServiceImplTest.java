@@ -3,6 +3,8 @@ package io.github.mgrablo.BiblioNode.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import static java.util.Collections.emptyList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,9 +43,9 @@ public class AuthorServiceImplTest {
 	@Test
 	void saveAuthor_ShouldReturnSuccess() {
 		AuthorRequest authorRequest = new AuthorRequest("AAA", "Bio");
-		Author author = new Author(null, "AAA", "Bio", null);
-		Author savedAuthor = new Author(1L, "AAA", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
+		Author author = createTestAuthor(null, "AAA", "Bio");
+		Author savedAuthor = createTestAuthor(1L, "AAA", "Bio");
+		AuthorResponse expectedResponse = createTestAuthorResponse(1L, "AAA", "Bio");
 
 		when(authorRepository.findAuthorByName(authorRequest.name())).thenReturn(Optional.empty());
 		when(mapper.toEntity(authorRequest)).thenReturn(author);
@@ -61,8 +63,8 @@ public class AuthorServiceImplTest {
 	@Test
 	void saveAuthor_ShouldReturnAuthor_WhenExists() {
 		AuthorRequest authorRequest = new AuthorRequest("AAA", "Bio");
-		Author savedAuthor = new Author(1L, "AAA", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
+		Author savedAuthor = createTestAuthor(1L, "AAA", "Bio");
+		AuthorResponse expectedResponse = createTestAuthorResponse(1L, "AAA", "Bio");
 
 		when(authorRepository.findAuthorByName(authorRequest.name())).thenReturn(Optional.of(savedAuthor));
 		when(mapper.toResponse(savedAuthor)).thenReturn(expectedResponse);
@@ -78,8 +80,8 @@ public class AuthorServiceImplTest {
 	@Test
 	void findById_ShouldReturnAuthor_WhenExists() {
 		Long authorId = 1L;
-		Author author = new Author(1L, "TestAuthor", "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "TestAuthor", "Bio", null, null, null);
+		Author author = createTestAuthor(1L, "TestAuthor", "Bio");
+		AuthorResponse expectedResponse = createTestAuthorResponse(1L, "TestAuthor", "Bio");
 
 		when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
@@ -101,8 +103,8 @@ public class AuthorServiceImplTest {
 	@Test
 	void findByName_ShouldReturnAuthor_WhenExists() {
 		String name = "AAA";
-		Author author = new Author(1L, name, "Bio", null);
-		AuthorResponse expectedResponse = new AuthorResponse(1L, name, "Bio", null, null, null);
+		Author author = createTestAuthor(1L, name, "Bio");
+		AuthorResponse expectedResponse = createTestAuthorResponse(1L, name, "Bio");
 
 		when(authorRepository.findAuthorByName(name)).thenReturn(Optional.of(author));
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
@@ -124,9 +126,9 @@ public class AuthorServiceImplTest {
 	@Test
 	void getAll_ShouldReturnListOfResponses() {
 		Pageable pageable = Pageable.ofSize(10);
-		Author author = new Author(1L, "AAA", "Bio", null);
+		Author author = createTestAuthor(1L, "AAA", "Bio");
 		Page<Author> authorPage = new PageImpl<>(List.of(author));
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
+		AuthorResponse expectedResponse = createTestAuthorResponse(1L, "AAA", "Bio");
 
 		when(authorRepository.findAll(pageable)).thenReturn(authorPage);
 		when(mapper.toResponse(author)).thenReturn(expectedResponse);
@@ -154,10 +156,8 @@ public class AuthorServiceImplTest {
 	void updateAuthor_ShouldReturnUpdatedAuthor_WhenAuthorExists() {
 		Long id = 1L;
 		AuthorRequest request = new AuthorRequest("BBB", "Bio");
-
-		Author oldAuthor = new Author(1L, "AAA", "Bio", null);
-
-		AuthorResponse expectedResponse = new AuthorResponse(1L, "BBB", "Bio", null, null, null);
+		Author oldAuthor = createTestAuthor(1L, "AAA", "New Bio");
+		AuthorResponse expectedResponse = createTestAuthorResponse(1L, "BBB", "New Bio");
 
 		when(authorRepository.findById(id)).thenReturn(Optional.of(oldAuthor));
 		when(mapper.toResponse(oldAuthor)).thenReturn(expectedResponse);
@@ -209,5 +209,19 @@ public class AuthorServiceImplTest {
 		});
 
 		verify(authorRepository, never()).deleteById(any());
+	}
+
+	private Author createTestAuthor(Long id, String name, String bio) {
+		Author author = new Author();
+		author.setId(id);
+		author.setName(name);
+		author.setBiography(bio);
+		author.setBooks(emptyList());
+
+		return author;
+	}
+
+	private AuthorResponse createTestAuthorResponse(Long id, String name, String bio) {
+		return new AuthorResponse(id, name, bio, null, null, null);
 	}
 }
