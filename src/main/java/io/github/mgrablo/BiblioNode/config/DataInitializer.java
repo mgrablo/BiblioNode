@@ -1,5 +1,6 @@
 package io.github.mgrablo.BiblioNode.config;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -10,13 +11,11 @@ import java.time.LocalDateTime;
 
 import io.github.mgrablo.BiblioNode.dto.*;
 import io.github.mgrablo.BiblioNode.model.Loan;
+import io.github.mgrablo.BiblioNode.model.User;
 import io.github.mgrablo.BiblioNode.repository.BookRepository;
 import io.github.mgrablo.BiblioNode.repository.LoanRepository;
 import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
-import io.github.mgrablo.BiblioNode.service.AuthorService;
-import io.github.mgrablo.BiblioNode.service.BookService;
-import io.github.mgrablo.BiblioNode.service.LoanService;
-import io.github.mgrablo.BiblioNode.service.ReaderService;
+import io.github.mgrablo.BiblioNode.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Profile("dev")
 @Slf4j
 public class DataInitializer implements CommandLineRunner {
+	private final UserService userService;
 	private final AuthorService authorService;
 	private final BookService bookService;
 	private final ReaderService readerService;
@@ -62,11 +62,15 @@ public class DataInitializer implements CommandLineRunner {
 			);
 
 			//Readers
-			ReaderResponse reader1 = readerService.createReader(
-					new ReaderRequest("Jan Kowalski", "jan.kowalski@email.com")
+			User user1 = userService.createAccount("jan.kowalski@email.com", "password123");
+			ReaderResponse reader1 = readerService.createProfile(
+					new ReaderRequest("Jan Kowalski"),
+					user1
 			);
-			ReaderResponse reader2 = readerService.createReader(
-					new ReaderRequest("Anna Nowak", "anna.nowak@email.com")
+			User user2 = userService.createAccount("anna.nowak@email.com", "password123");
+			ReaderResponse reader2 = readerService.createProfile(
+					new ReaderRequest("Anna Nowak"),
+					user2
 			);
 
 
@@ -92,7 +96,6 @@ public class DataInitializer implements CommandLineRunner {
 
         loanRepository.save(loan);
 
-        // Musimy ręcznie oznaczyć książkę jako niedostępną, bo omijamy LoanService
         var loanBook = loan.getBook();
         loanBook.setAvailable(false);
         bookRepository.save(loanBook);

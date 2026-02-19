@@ -29,10 +29,7 @@ import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.LoanMapper;
-import io.github.mgrablo.BiblioNode.model.Author;
-import io.github.mgrablo.BiblioNode.model.Book;
-import io.github.mgrablo.BiblioNode.model.Loan;
-import io.github.mgrablo.BiblioNode.model.Reader;
+import io.github.mgrablo.BiblioNode.model.*;
 import io.github.mgrablo.BiblioNode.repository.BookRepository;
 import io.github.mgrablo.BiblioNode.repository.LoanRepository;
 import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
@@ -281,10 +278,13 @@ public class LoanServiceImplTest {
 	}
 
 	private Reader createTestReader(Long id, String name, String email) {
+		User user = new User();
+		user.setId(id);
+		user.setEmail(email);
+
 		Reader reader = new Reader();
 		reader.setId(id);
 		reader.setFullName(name);
-		reader.setEmail(email);
 		reader.setLoans(emptyList());
 
 		return reader;

@@ -3,7 +3,6 @@ package io.github.mgrablo.BiblioNode.controller;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,22 +25,6 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Readers", description = "Endpoints for managing library readers")
 class ReaderController {
 	private final ReaderService readerService;
-
-	@PostMapping
-	@Operation(summary = "Register a new reader", description = "Creates a new reader account in the library system.")
-	@ApiResponses({
-			@ApiResponse(responseCode = "201", description = "Reader created successfully"),
-			@ApiResponse(responseCode = "400", description = "Validation error",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "409", description = "Email already in use",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-	})
-	public ResponseEntity<ReaderResponse> createReader(
-			@Valid @RequestBody ReaderRequest request
-	) {
-		var response = readerService.createReader(request);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
 
 	@GetMapping("/{id}")
 	@Operation(summary = "Get reader by ID", description = "Returns a single reader by their unique identifier.")
@@ -89,8 +72,6 @@ class ReaderController {
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Reader not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "409", description = "Email already in use",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<ReaderResponse> updateReader(
 			@PathVariable Long id,

@@ -17,10 +17,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import io.github.mgrablo.BiblioNode.config.JpaConfig;
-import io.github.mgrablo.BiblioNode.model.Author;
-import io.github.mgrablo.BiblioNode.model.Book;
-import io.github.mgrablo.BiblioNode.model.Loan;
-import io.github.mgrablo.BiblioNode.model.Reader;
+import io.github.mgrablo.BiblioNode.model.*;
 
 @DataJpaTest
 @Import(JpaConfig.class)
@@ -106,9 +103,14 @@ public class LoanRepositoryTest {
 	}
 
 	private Reader persistReader(String name, String email) {
+		User user = new User();
+		user.setEmail(email);
+		user.setPassword("password");
+		entityManager.persist(user);
+
 		Reader reader = new Reader();
 		reader.setFullName(name);
-		reader.setEmail(email);
+		reader.setUser(user);
 		return entityManager.persist(reader);
 	}
 

@@ -7,10 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
 
-import io.github.mgrablo.BiblioNode.model.Author;
-import io.github.mgrablo.BiblioNode.model.Book;
-import io.github.mgrablo.BiblioNode.model.Loan;
-import io.github.mgrablo.BiblioNode.model.Reader;
+import io.github.mgrablo.BiblioNode.model.*;
 
 public class LoanMapperTest {
 	private final LoanMapper mapper = Mappers.getMapper(LoanMapper.class);
@@ -20,7 +17,10 @@ public class LoanMapperTest {
 		LocalDateTime testDate = LocalDateTime.of(2024, 1, 1, 12, 0);
 		Author author = new Author(1L, "Test Author", "Bio", null);
 		Book book = new Book(1L, "Test Book", "111", author, true);
-		Reader reader = new Reader(1L, "Test Reader", "test@email.com", null);
+		User user = new User();
+		user.setId(1L);
+		user.setEmail("test@email.com");
+		Reader reader = new Reader(1L, "Test Reader", user, null);
 		Loan loan = new Loan(1L, book, reader, testDate, null, null);
 
 		var response = mapper.toResponse(loan);
