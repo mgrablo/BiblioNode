@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import io.github.mgrablo.BiblioNode.dto.LoginRequest;
+import io.github.mgrablo.BiblioNode.dto.LoginResponse;
 import io.github.mgrablo.BiblioNode.dto.ReaderResponse;
 import io.github.mgrablo.BiblioNode.dto.RegisterRequest;
 import io.github.mgrablo.BiblioNode.service.AuthService;
@@ -37,5 +39,15 @@ public class AuthController {
 	) {
 		ReaderResponse response = authService.register(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+	@PostMapping("/login")
+	@Operation(summary = "Authenticate user", description = "Returns a JWT token if credentials are valid.")
+	public ResponseEntity<LoginResponse> login(
+			@Valid @RequestBody
+			LoginRequest request
+	) {
+		LoginResponse response = authService.login(request);
+		return ResponseEntity.ok(response);
 	}
 }

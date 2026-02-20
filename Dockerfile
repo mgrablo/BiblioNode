@@ -5,5 +5,8 @@ RUN gradle build -x test --no-daemon
 
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 COPY --from=build /home/gradle/src/build/libs/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY init-keys.sh init-keys.sh
+RUN chmod +x init-keys.sh
+ENTRYPOINT ["./init-keys.sh"]
