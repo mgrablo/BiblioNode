@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import io.github.mgrablo.BiblioNode.dto.LoanRequest;
+import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
@@ -56,10 +56,10 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnCreated_WhenValidRequest() throws Exception {
-		LoanRequest request = new LoanRequest(5L, 12L);
+		BorrowRequest request = new BorrowRequest(5L);
 		LocalDateTime fixedNow = LocalDateTime.now(fixedClock);
 
-		when(loanService.borrowBook(any(LoanRequest.class)))
+		when(loanService.borrowBook(any(BorrowRequest.class), anyString()))
 				.thenReturn(new LoanResponse(1L,
 						5L,
 						"Test Title",
@@ -88,9 +88,9 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnConflict_WhenBookNotAvailable() throws Exception {
-		LoanRequest request = new LoanRequest(5L, 12L);
+		BorrowRequest request = new BorrowRequest(5L);
 
-		when(loanService.borrowBook(any(LoanRequest.class)))
+		when(loanService.borrowBook(any(BorrowRequest.class), anyString()))
 				.thenThrow(new BookNotAvailableException("Book not available"));
 
 		mockMvc.perform(post("/api/loans/borrow")
@@ -102,7 +102,7 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnBadRequest_WhenInvalidRequest() throws Exception {
-		LoanRequest request = new LoanRequest(null, null);
+		BorrowRequest request = new BorrowRequest(null);
 
 		mockMvc.perform(post("/api/loans/borrow")
 						.contentType(MediaType.APPLICATION_JSON)
@@ -112,9 +112,9 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnNotFound_WhenBookOrReaderNotFound() throws Exception {
-		LoanRequest request = new LoanRequest(5L, 12L);
+		BorrowRequest request = new BorrowRequest(5L);
 
-		when(loanService.borrowBook(any(LoanRequest.class)))
+		when(loanService.borrowBook(any(BorrowRequest.class), anyString()))
 				.thenThrow(new ResourceNotFoundException("Resource not found"));
 
 		mockMvc.perform(post("/api/loans/borrow")

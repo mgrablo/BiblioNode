@@ -5,10 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.ErrorResponse;
-import io.github.mgrablo.BiblioNode.dto.LoanRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.service.LoanService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +32,7 @@ class LoanController {
 	private final LoanService loanService;
 
 	@PostMapping("/borrow")
+	@PreAuthorize("hasRole('READER')")
 	@Operation(
 			summary = "Borrow a book",
 			description = "Creates a new loan record. Validates if the book is available and if the reader exists."
@@ -43,13 +47,16 @@ class LoanController {
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<LoanResponse> borrowBook(
-			@Valid @RequestBody LoanRequest request
+			@Valid @RequestBody BorrowRequest request,
+			@AuthenticationPrincipal Jwt jwt
 	) {
-		var response = loanService.borrowBook(request);
+		String email = jwt.getSubject();
+		var response = loanService.borrowBook(request, email);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
 	@PatchMapping("/{id}/return")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(
 			summary = "Return a book",
 			description = "Registers the return of a book by loan ID and updates book availability."
@@ -69,6 +76,7 @@ class LoanController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(
 			summary = "Get loans with filters",
 			description = "Retrieves a paginated list of loans. Can be filtered by reader, book, or active status."
@@ -94,6 +102,7 @@ class LoanController {
 	}
 
 	@GetMapping("/overdue")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(
 			summary = "Get overdue loans",
 			description = "Retrieves a list of loans where the due date has passed and the book has not been returned."

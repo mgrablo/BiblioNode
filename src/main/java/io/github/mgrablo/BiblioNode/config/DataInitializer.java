@@ -1,6 +1,5 @@
 package io.github.mgrablo.BiblioNode.config;
 
-import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -74,10 +73,10 @@ public class DataInitializer implements CommandLineRunner {
 			);
 
 
-			LoanResponse returnedLoan = loanService.borrowBook(new LoanRequest(wayOfKings.id(), reader1.id()));
+			LoanResponse returnedLoan = loanService.borrowBook(new BorrowRequest(wayOfKings.id()), user1.getEmail());
 			loanService.returnBook(returnedLoan.bookId());
 
-			loanService.borrowBook(new LoanRequest(wordsOfRadiance.id(), reader1.id()));
+			loanService.borrowBook(new BorrowRequest(wordsOfRadiance.id()), user2.getEmail());
 			createOverdueLoan(reader2.id(), unsouled.id(), now);
 
 			log.info("Database seeding completed successfully.");

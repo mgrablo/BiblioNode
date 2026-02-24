@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.mgrablo.BiblioNode.dto.BookRequest;
@@ -28,6 +29,7 @@ class BookController {
 	private final BookService bookService;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Add a new book", description = "Creates a new book record in the library.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "201", description = "Book created successfully"),
@@ -46,6 +48,7 @@ class BookController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Get all books", description = "Returns a paginated list of all books in the library.")
 	@ApiResponse(responseCode = "200", description = "Successfully retrieved list of books")
 	public ResponseEntity<Page<BookResponse>> getAll(
@@ -56,6 +59,7 @@ class BookController {
 	}
 
 	@GetMapping("/{bookId}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Get book by ID", description = "Returns a single book by its unique identifier.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Found the book"),
@@ -70,6 +74,7 @@ class BookController {
 	}
 
 	@GetMapping("/find")
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Find book by title", description = "Returns a book matching the exact title.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Found the book"),
@@ -84,6 +89,7 @@ class BookController {
 	}
 
 	@GetMapping("/search")
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Search books", description = "Searches for books by title and/or author name. Both parameters are optional.")
 	@ApiResponse(responseCode = "200", description = "Successfully retrieved list of books")
 	public ResponseEntity<Page<BookResponse>> searchBooks(
@@ -96,6 +102,7 @@ class BookController {
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Update a book", description = "Updates an existing book's information.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Book updated successfully"),
@@ -113,6 +120,7 @@ class BookController {
 	}
 
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Delete a book", description = "Removes a book from the library system.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "204", description = "Book deleted successfully"),
