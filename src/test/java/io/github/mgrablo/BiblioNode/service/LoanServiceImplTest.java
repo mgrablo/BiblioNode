@@ -77,7 +77,7 @@ public class LoanServiceImplTest {
 		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-		when(readerRepository.findById(1L)).thenReturn(Optional.of(reader));
+		when(readerRepository.findByUserEmail(email)).thenReturn(Optional.of(reader));
 		when(loanRepository.save(any(Loan.class))).thenReturn(loan);
 		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
 
@@ -114,7 +114,7 @@ public class LoanServiceImplTest {
 		BorrowRequest request = new BorrowRequest(1L);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-		when(readerRepository.findById(1L)).thenReturn(Optional.empty());
+		when(readerRepository.findByUserEmail("test@email.com")).thenReturn(Optional.empty());
 
 		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request, "test@email.com"));
 	}
