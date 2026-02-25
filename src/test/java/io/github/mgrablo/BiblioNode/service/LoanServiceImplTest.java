@@ -23,10 +23,12 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.mgrablo.BiblioNode.config.LoanProperties;
 import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
+import io.github.mgrablo.BiblioNode.exception.LoanLimitExceededException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.LoanMapper;
 import io.github.mgrablo.BiblioNode.model.*;
@@ -57,11 +59,16 @@ public class LoanServiceImplTest {
 
 	@BeforeEach
 	void setup() {
+		LoanProperties loanProperties = new LoanProperties();
+		loanProperties.setMaxActiveLoans(5);
+		loanProperties.setDefaultLoanDays(14);
+
 		fixedClock = Clock.fixed(fixedInstant, zoneId);
 		loanService = new LoanServiceImpl(loanRepository,
 				bookRepository,
 				readerRepository,
 				mapper,
+				loanProperties,
 				fixedClock
 		);
 	}
@@ -117,6 +124,20 @@ public class LoanServiceImplTest {
 		when(readerRepository.findByUserEmail("test@email.com")).thenReturn(Optional.empty());
 
 		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request, "test@email.com"));
+	}
+
+	@Test
+	public void borrowBook_ShouldThrowException_WhenLoanLimitExceeded() {
+		Book book = createTestBook(1L, "Test Book", "111");
+		String email = "test@email.com";
+		Reader reader = createTestReader(1L, "Test Reader", email);
+		BorrowRequest request = new BorrowRequest(1L);
+
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+		when(readerRepository.findByUserEmail(email)).thenReturn(Optional.of(reader));
+		when(loanRepository.countByReaderIdAndReturnDateIsNull(reader.getId())).thenReturn(5L);
+
+		assertThrows(LoanLimitExceededException.class, () -> loanService.borrowBook(request, email));
 	}
 
 	@Test

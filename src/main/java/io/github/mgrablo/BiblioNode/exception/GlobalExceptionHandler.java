@@ -88,6 +88,19 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
 	}
 
+	@ExceptionHandler(LoanLimitExceededException.class)
+	public ResponseEntity<ErrorResponse> handleLoanLimitExceeded(LoanLimitExceededException e, HttpServletRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.BAD_REQUEST.value(),
+				"Loan Limit Exceeded",
+				e.getMessage(),
+				request.getRequestURI()
+		);
+
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
 		String targetType = Optional.ofNullable(e.getRequiredType())

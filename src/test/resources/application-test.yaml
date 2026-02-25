@@ -5,6 +5,9 @@ app:
   rsa:
     public-key: ${RSA_PUBLIC_KEY:file:./certs/public_key.pem}
     private-key: ${RSA_PRIVATE_KEY:file:./certs/private_key.pem}
+  loan:
+    max-active-loans: 2
+    default-loan-days: 14
 
 spring:
   datasource:
