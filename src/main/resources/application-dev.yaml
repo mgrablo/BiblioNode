@@ -1,7 +1,7 @@
 app:
   initial-admin:
-    email: ${INITIAL_ADMIN_EMAIL:root@biblionode.com}
-    password: ${INITIAL_ADMIN_PASSWORD:root1234}
+    email: ${BD_INITIAL_ADMIN_EMAIL:root@biblionode.com}
+    password: ${BD_INITIAL_ADMIN_PASSWORD:root1234}
 
 spring:
   application:

@@ -120,7 +120,11 @@ Best for quick preview. No Java/Gradle installation required.
    - Email: `root@biblionode.com`
    - Password: `root1234`
 
-   *(You can change these via `INITIAL_ADMIN_EMAIL` and `INITIAL_ADMIN_PASSWORD` environment variables or update them later via API)*
+   *(You can change these via `BD_INITIAL_ADMIN_EMAIL` and `BD_INITIAL_ADMIN_PASSWORD` environment variables or update them later via API)*
+
+   > [!TIP]
+   > You can also create a `.env` file in the root directory to set these variables.
+   > Check `.env.example` for reference.
 
 3. **Access API documentation**:
 
