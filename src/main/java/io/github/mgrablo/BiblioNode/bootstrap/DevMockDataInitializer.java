@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 import io.github.mgrablo.BiblioNode.dto.*;
 import io.github.mgrablo.BiblioNode.model.Loan;
 import io.github.mgrablo.BiblioNode.model.User;
-import io.github.mgrablo.BiblioNode.repository.*;
+import io.github.mgrablo.BiblioNode.repository.BookRepository;
+import io.github.mgrablo.BiblioNode.repository.LoanRepository;
+import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
+import io.github.mgrablo.BiblioNode.repository.UserRepository;
 import io.github.mgrablo.BiblioNode.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,7 @@ public class DevMockDataInitializer implements CommandLineRunner {
 	private final ReaderService readerService;
 	private final LoanService loanService;
 
+	private final UserRepository userRepository;
 	private final LoanRepository loanRepository;
 	private final BookRepository bookRepository;
 	private final ReaderRepository readerRepository;
@@ -37,6 +41,11 @@ public class DevMockDataInitializer implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
+		if (userRepository.existsByEmail("jan.kowalski@email.com")) {
+			log.info("Development data already exists. Skipping seeding.");
+			return;
+		}
+
 		log.info("Starting database seeding for development profile...");
 
 		LocalDateTime now = LocalDateTime.now(clock);
@@ -50,6 +59,7 @@ public class DevMockDataInitializer implements CommandLineRunner {
 		);
 
 		// Books
+		log.info("Adding sample books to the database...");
 		BookResponse wayOfKings = bookService.addBook(
 				new BookRequest("The Way of Kings", "978-0765365279", sanderson.id())
 		);
@@ -61,12 +71,12 @@ public class DevMockDataInitializer implements CommandLineRunner {
 		);
 
 		//Readers
-		User user1 = userService.createAccount("jan.kowalski@email.com", "password123");
+		User user1 = createOrGetUser("jan.kowalski@email.com", "password123");
 		ReaderResponse reader1 = readerService.createProfile(
 				new ReaderRequest("Jan Kowalski"),
 				user1
 		);
-		User user2 = userService.createAccount("anna.nowak@email.com", "password123");
+		User user2 = createOrGetUser("anna.nowak@email.com", "password321");
 		ReaderResponse reader2 = readerService.createProfile(
 				new ReaderRequest("Anna Nowak"),
 				user2
@@ -80,6 +90,11 @@ public class DevMockDataInitializer implements CommandLineRunner {
 		createOverdueLoan(reader2.id(), unsouled.id(), now);
 
 		log.info("Database seeding completed successfully.");
+	}
+
+	private User createOrGetUser(String email, String password) {
+		return userRepository.findByEmail(email)
+				.orElseGet(() -> userService.createAccount(email, password));
 	}
 
 	private void createOverdueLoan(Long readerId, Long bookId, LocalDateTime now) {
