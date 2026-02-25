@@ -1,4 +1,4 @@
-package io.github.mgrablo.BiblioNode.config;
+package io.github.mgrablo.BiblioNode.bootstrap;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
