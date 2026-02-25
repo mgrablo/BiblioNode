@@ -18,6 +18,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +32,9 @@ public class RsaKeyConfig {
 	public RsaKeyConfig(RsaKeyProperties rsaKeyProperties, Environment environment) {
 		this.rsaKeyProperties = rsaKeyProperties;
 
-		if (Arrays.asList(environment.getActiveProfiles()).contains("dev")) {
+		List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
+
+		if (activeProfiles.contains("dev") || activeProfiles.contains("test")) {
 			ensureKeysExist();
 		}
 	}
