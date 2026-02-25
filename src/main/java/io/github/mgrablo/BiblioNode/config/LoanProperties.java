@@ -11,4 +11,5 @@ import lombok.Setter;
 @Getter @Setter
 public class LoanProperties {
 	private int maxActiveLoans = 5;
+	private int defaultLoanDays = 14;
 }

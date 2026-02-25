@@ -59,7 +59,7 @@ public class LoanServiceImpl implements LoanService {
 		LocalDateTime now = LocalDateTime.now(clock);
 		Loan loan = new Loan();
 		loan.setLoanDate(now);
-		loan.setDueDate(now.plusDays(14));
+		loan.setDueDate(now.plusDays(loanProperties.getDefaultLoanDays()));
 		loan.setBook(book);
 		loan.setReader(reader);
 
