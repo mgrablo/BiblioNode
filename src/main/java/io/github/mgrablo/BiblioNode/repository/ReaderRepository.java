@@ -7,7 +7,7 @@ import java.util.Optional;
 import io.github.mgrablo.BiblioNode.model.Reader;
 
 public interface ReaderRepository extends JpaRepository<Reader, Long> {
-	boolean existsByEmail(String email);
+	boolean existsByUserEmail(String email);
 
-	Optional<Reader> findByEmail(String email);
+	Optional<Reader> findByUserEmail(String email);
 }

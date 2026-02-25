@@ -13,7 +13,9 @@ public interface ReaderMapper {
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "modifiedAt", ignore = true)
 	@Mapping(target = "loans", ignore = true)
+	@Mapping(target = "user", ignore = true)
 	Reader toEntity(ReaderRequest request);
 
+	@Mapping(source = "user.email", target = "email")
 	ReaderResponse toResponse(Reader reader);
 }

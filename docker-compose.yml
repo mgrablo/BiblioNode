@@ -21,16 +21,21 @@ services:
     container_name: biblionode-app
     ports:
       - "8080:8080"
+    volumes:
+      - ./certs:/app/certs
     depends_on:
       db:
         condition: service_healthy
     environment:
-      # Uncomment the following line if you want to start the application with initial data
-#     SPRING_PROFILES_ACTIVE: dev
+      BD_INITIAL_ADMIN_EMAIL: ${BD_INITIAL_ADMIN_EMAIL:-}
+      BD_INITIAL_ADMIN_PASSWORD: ${BD_INITIAL_ADMIN_PASSWORD:-}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/biblionode-db
       SPRING_DATASOURCE_USERNAME: dev_user
       SPRING_DATASOURCE_PASSWORD: dev_password
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      RSA_PUBLIC_KEY: file:/app/certs/public_key.pem
+      RSA_PRIVATE_KEY: file:/app/certs/private_key.pem
 
 volumes:
   postgres_data:

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="08-create-roles-table" author="mgrablo">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints unique="true" uniqueConstraintName="uk_roles_name"/>
+            </column>
+        </createTable>
+        <insert tableName="roles">
+            <column name="name">ROLE_READER</column>
+        </insert>
+        <insert tableName="roles">
+            <column name="name">ROLE_ADMIN</column>
+        </insert>
+    </changeSet>
+    <changeSet id="09-create-users-table" author="mgrablo">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_users_email"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="modified_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <addColumn tableName="readers">
+            <column name="user_id" type="BIGINT">
+                <constraints unique="true" uniqueConstraintName="uk_readers_user_id"
+                             foreignKeyName="fk_reader_user"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+
+        <dropColumn tableName="readers" columnName="email" />
+    </changeSet>
+    <changeSet id="10-create-user-roles-table" author="mgrablo">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_user_roles_user"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_user_roles_role"
+                             referencedTableName="roles"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="user_roles"
+                   columnNames="user_id, role_id"
+                   constraintName="pk_user_roles"/>
+    </changeSet>
+</databaseChangeLog>

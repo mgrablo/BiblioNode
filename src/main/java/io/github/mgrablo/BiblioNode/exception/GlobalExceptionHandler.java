@@ -2,6 +2,8 @@ package io.github.mgrablo.BiblioNode.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.security.core.AuthenticationException;
 
 import io.github.mgrablo.BiblioNode.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -114,5 +118,41 @@ public class GlobalExceptionHandler {
 				request.getRequestURI()
 		);
 		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	public ResponseEntity<ErrorResponse> handleAuthorizationDenied(AuthorizationDeniedException e, HttpServletRequest request) {
+		ErrorResponse error = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.FORBIDDEN.value(),
+				HttpStatus.FORBIDDEN.getReasonPhrase(),
+				"Access denied: You do not have enough permissions.",
+				request.getRequestURI()
+		);
+		return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+	}
+
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e, HttpServletRequest request) {
+		ErrorResponse error = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.UNAUTHORIZED.value(),
+				HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+				"Authentication failed: Invalid email or password.",
+				request.getRequestURI()
+		);
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(AuthenticationException.class)
+	public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e, HttpServletRequest request) {
+		ErrorResponse error = new ErrorResponse(
+				LocalDateTime.now(),
+				HttpStatus.UNAUTHORIZED.value(),
+				HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+				"Full authentication is required to access this resource",
+				request.getRequestURI()
+		);
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
 	}
 }

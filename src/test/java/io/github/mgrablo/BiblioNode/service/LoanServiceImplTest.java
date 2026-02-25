@@ -23,16 +23,13 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
-import io.github.mgrablo.BiblioNode.dto.LoanRequest;
+import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.LoanMapper;
-import io.github.mgrablo.BiblioNode.model.Author;
-import io.github.mgrablo.BiblioNode.model.Book;
-import io.github.mgrablo.BiblioNode.model.Loan;
-import io.github.mgrablo.BiblioNode.model.Reader;
+import io.github.mgrablo.BiblioNode.model.*;
 import io.github.mgrablo.BiblioNode.repository.BookRepository;
 import io.github.mgrablo.BiblioNode.repository.LoanRepository;
 import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
@@ -73,17 +70,18 @@ public class LoanServiceImplTest {
 	public void borrowBook_ShouldReturnLoanResponse_WhenBookAvailable() {
 		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
 		Book book = spy(createTestBook(1L, "Test Book", "111"));
-		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
+		String email = "test@email.com";
+		Reader reader = createTestReader(1L, "Test Reader", email);
 		Loan loan = createTestLoan(1L, book, reader, expectedNow);
-		LoanRequest request = new LoanRequest(1L, 1L);
+		BorrowRequest request = new BorrowRequest(1L);
 		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-		when(readerRepository.findById(1L)).thenReturn(Optional.of(reader));
+		when(readerRepository.findByUserEmail(email)).thenReturn(Optional.of(reader));
 		when(loanRepository.save(any(Loan.class))).thenReturn(loan);
 		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
 
-		LoanResponse result = loanService.borrowBook(request);
+		LoanResponse result = loanService.borrowBook(request, email);
 
 		assertEquals(expectedResponse, result);
 		assertFalse(book.isAvailable());
@@ -94,31 +92,31 @@ public class LoanServiceImplTest {
 	public void borrowBook_ShouldThrowException_WhenBookNotAvailable() {
 		Book book = createTestBook(1L, "Test Book", "111");
 		book.setAvailable(false);
-		LoanRequest request = new LoanRequest(1L, 1L);
+		BorrowRequest request = new BorrowRequest(1L);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 
-		assertThrows(BookNotAvailableException.class, () -> loanService.borrowBook(request));
+		assertThrows(BookNotAvailableException.class, () -> loanService.borrowBook(request, "test@email.com"));
 	}
 
 	@Test
 	public void borrowBook_ShouldThrowException_WhenBookNotFound() {
-		LoanRequest request = new LoanRequest(1L, 1L);
+		BorrowRequest request = new BorrowRequest(1L);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 
-		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request));
+		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request, "test@email.com"));
 	}
 
 	@Test
 	public void borrowBook_ShouldThrowException_WhenReaderNotFound() {
 		Book book = createTestBook(1L, "Test Book", "111");
-		LoanRequest request = new LoanRequest(1L, 1L);
+		BorrowRequest request = new BorrowRequest(1L);
 
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-		when(readerRepository.findById(1L)).thenReturn(Optional.empty());
+		when(readerRepository.findByUserEmail("test@email.com")).thenReturn(Optional.empty());
 
-		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request));
+		assertThrows(ResourceNotFoundException.class, () -> loanService.borrowBook(request, "test@email.com"));
 	}
 
 	@Test
@@ -281,10 +279,13 @@ public class LoanServiceImplTest {
 	}
 
 	private Reader createTestReader(Long id, String name, String email) {
+		User user = new User();
+		user.setId(id);
+		user.setEmail(email);
+
 		Reader reader = new Reader();
 		reader.setId(id);
 		reader.setFullName(name);
-		reader.setEmail(email);
 		reader.setLoans(emptyList());
 
 		return reader;

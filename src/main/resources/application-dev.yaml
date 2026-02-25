@@ -1,3 +1,11 @@
+app:
+  initial-admin:
+    email: ${BD_INITIAL_ADMIN_EMAIL:root@biblionode.com}
+    password: ${BD_INITIAL_ADMIN_PASSWORD:root1234}
+  rsa:
+    public-key: ${RSA_PUBLIC_KEY:file:./certs/public_key.pem}
+    private-key: ${RSA_PRIVATE_KEY:file:./certs/private_key.pem}
+
 spring:
   application:
     name: BiblioNode

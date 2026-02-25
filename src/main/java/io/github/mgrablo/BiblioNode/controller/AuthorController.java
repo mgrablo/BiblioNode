@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.mgrablo.BiblioNode.dto.AuthorRequest;
@@ -28,6 +29,7 @@ class AuthorController {
 	private final AuthorService authorService;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Add a new author", description = "Creates a new author record in the library system.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "201", description = "Author created successfully"),
@@ -42,6 +44,7 @@ class AuthorController {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Get all authors", description = "Returns a paginated list of all authors.")
 	@ApiResponse(responseCode = "200", description = "Successfully retrieved list of authors")
 	ResponseEntity<Page<AuthorResponse>> getAll(
@@ -52,6 +55,7 @@ class AuthorController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Get author by ID", description = "Returns a single author by their unique identifier.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Found the author"),
@@ -66,6 +70,7 @@ class AuthorController {
 	}
 
 	@GetMapping("/search")
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
 	@Operation(summary = "Search author by name", description = "Finds an author by their name.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Found the author"),
@@ -80,6 +85,7 @@ class AuthorController {
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Update an author", description = "Updates an existing author's information.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Author updated successfully"),
@@ -97,6 +103,7 @@ class AuthorController {
 	}
 
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Delete an author", description = "Removes an author from the library system.")
 	@ApiResponses({
 			@ApiResponse(responseCode = "204", description = "Author deleted successfully"),

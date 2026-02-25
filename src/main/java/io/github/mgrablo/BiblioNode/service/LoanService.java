@@ -3,11 +3,11 @@ package io.github.mgrablo.BiblioNode.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import io.github.mgrablo.BiblioNode.dto.LoanRequest;
+import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 
 public interface LoanService {
-	LoanResponse borrowBook(LoanRequest request);
+	LoanResponse borrowBook(BorrowRequest request, String email);
 	LoanResponse returnBook(Long loanId);
 
 	Page<LoanResponse> getAllLoans(Pageable pageable);

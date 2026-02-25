@@ -22,7 +22,7 @@ A library management system built with a layered architecture, focusing on data 
 
 ## Tech Stack
 - **Language**: Java 21
-- **Framework**: Spring Boot 4.0.2
+- **Framework**: Spring Boot 4.0.2, Spring Security
 - **Database**: PostgreSQL
 - **Mapping**: MapStruct (Entity & DTO)
 - **Documentation**: Swagger UI
@@ -34,6 +34,9 @@ erDiagram
    AUTHOR ||--o{ BOOK : "writes"
    READER ||--o{ LOAN : "borrows"
    BOOK ||--o{ LOAN : "is subject of"
+   USER ||--|| READER : "is linked to"
+   USER ||--o{ USER_ROLE : "has"
+   ROLE ||--o{ USER_ROLE : "assigned to"
 
    AUTHOR {
       Long id PK
@@ -47,10 +50,23 @@ erDiagram
       boolean available
       Long authorId FK
    }
+   USER {
+      Long id PK
+      String email
+      String password
+   }
+   ROLE {
+      Long id PK
+      String name
+   }
+   USER_ROLE {
+       Long userId FK
+       Long roleId FK
+   }
    READER {
       Long id PK
       String fullName
-      String email
+      Long userId FK
    }
    LOAN {
       Long id PK
@@ -63,6 +79,7 @@ erDiagram
 ```
 
 ## Key Features
+- **Authentication & Authorization**: REST API secured with JSON Web Tokens (JWT). Role-based access control (RBAC) separating regular users and administrators.
 - **Advanced Loan System**: Full lifecycle of book borrowing and returns with automated availability management and overdue tracking.
 - **JPA Auditing**: Automated tracking of creation and modification timestamps for every resource using `@CreatedDate` and `@LastModifiedDate`.
 - **Global Exception Handling**: Centralized error management using `@RestControllerAdvice` to ensure consistent JSON error responses across the API.
@@ -78,7 +95,8 @@ The project maintains a high standard of quality through different testing layer
 ## Setup Instructions
 
 > [!NOTE]
-> If you want to start the app with initial data, uncomment `SPRING_PROFILES_ACTIVE: dev` in the `docker-compose.yml` file.
+> The application uses `SPRING_PROFILES_ACTIVE` environment variable to determine the active profile.
+> Default is `prod`. To verify setup with sample data, use `dev` profile.
 
 ### Option 1: Quick Run (Docker only)
 Best for quick preview. No Java/Gradle installation required.
@@ -88,10 +106,26 @@ Best for quick preview. No Java/Gradle installation required.
    git clone https://github.com/mgrablo/BiblioNode.git
    cd BiblioNode
    ```
-2. **Setup database**:
+2. **Setup database & Run App**:
+   You can specify the profile inline:
+   ```bash
+   SPRING_PROFILES_ACTIVE=dev docker-compose up -d
+   ```
+   Or just run with default `prod` profile:
    ```bash
    docker-compose up -d
    ```
+
+   **Default Admin Credentials:**
+   - Email: `root@biblionode.com`
+   - Password: `root1234`
+
+   *(You can change these via `BD_INITIAL_ADMIN_EMAIL` and `BD_INITIAL_ADMIN_PASSWORD` environment variables or update them later via API)*
+
+   > [!TIP]
+   > You can also create a `.env` file in the root directory to set these variables.
+   > Check `.env.example` for reference.
+
 3. **Access API documentation**:
 
     Once the server is running, navigate to:
@@ -106,7 +140,11 @@ Best for making changes to the code with fast feedback
     ```
 2. **Start the app locally**:
    ```bash
-   ./gradlew bootRun
+   # Linux/Mac
+   SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
+   
+   # Windows (PowerShell)
+   $env:SPRING_PROFILES_ACTIVE="dev"; ./gradlew bootRun
    ```
 3. **Access API documentation**:
 
@@ -124,4 +162,7 @@ docker-compose down -v
 2. [x] Database Auditing & Pagination.
 3. [x] Database Migrations with Liquibase.
 4. [x] Loan System Implementation.
-5. [ ] (Planned) JWT Authentication & User Roles.
+   - [x] Automatic availability management.
+   - [x] Overdue tracking.
+   - [ ] Personal loan history for readers (`api/me/`).
+5. [x] JWT Authentication & User Roles.

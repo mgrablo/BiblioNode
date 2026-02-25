@@ -5,9 +5,10 @@ import org.springframework.data.domain.Pageable;
 
 import io.github.mgrablo.BiblioNode.dto.ReaderRequest;
 import io.github.mgrablo.BiblioNode.dto.ReaderResponse;
+import io.github.mgrablo.BiblioNode.model.User;
 
 public interface ReaderService {
-	ReaderResponse createReader(ReaderRequest request);
+	ReaderResponse createProfile(ReaderRequest request, User user);
 	ReaderResponse getReaderById(Long id);
 	ReaderResponse getReaderByEmail(String email);
 	Page<ReaderResponse> getAll(Pageable pageable);

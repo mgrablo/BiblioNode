@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
-import io.github.mgrablo.BiblioNode.dto.LoanRequest;
+import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
@@ -35,7 +35,7 @@ public class LoanServiceImpl implements LoanService {
 	private final Clock clock;
 
 	@Override
-	public LoanResponse borrowBook(LoanRequest request) {
+	public LoanResponse borrowBook(BorrowRequest request, String email) {
 		Book book = bookRepository.findById(request.bookId())
 				.orElseThrow(() -> new ResourceNotFoundException("Book not found for id: " + request.bookId()));
 
@@ -43,8 +43,8 @@ public class LoanServiceImpl implements LoanService {
 			throw new BookNotAvailableException("Book is currently not available for loan");
 		}
 
-		Reader reader = readerRepository.findById(request.readerId())
-				.orElseThrow(() -> new ResourceNotFoundException("Reader not found for id: " + request.readerId()));
+		Reader reader = readerRepository.findByUserEmail(email)
+				.orElseThrow(() -> new ResourceNotFoundException("Reader not found"));
 
 		book.setAvailable(false);
 

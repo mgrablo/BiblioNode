@@ -3,6 +3,7 @@ package io.github.mgrablo.BiblioNode.controller;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,10 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,16 +29,18 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import io.github.mgrablo.BiblioNode.dto.LoanRequest;
+import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
+import io.github.mgrablo.BiblioNode.exception.GlobalExceptionHandler;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.service.LoanService;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(LoanController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
+@Import(GlobalExceptionHandler.class)
 public class LoanControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -56,10 +62,10 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnCreated_WhenValidRequest() throws Exception {
-		LoanRequest request = new LoanRequest(5L, 12L);
+		BorrowRequest request = new BorrowRequest(5L);
 		LocalDateTime fixedNow = LocalDateTime.now(fixedClock);
 
-		when(loanService.borrowBook(any(LoanRequest.class)))
+		when(loanService.borrowBook(any(BorrowRequest.class), anyString()))
 				.thenReturn(new LoanResponse(1L,
 						5L,
 						"Test Title",
@@ -72,6 +78,7 @@ public class LoanControllerTest {
 						));
 
 		mockMvc.perform(post("/api/loans/borrow")
+						.with(readerUser())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(request))
 				).andExpect(status().isCreated())
@@ -86,14 +93,16 @@ public class LoanControllerTest {
 				.andExpect(jsonPath("$.returnDate").doesNotExist());
 	}
 
+
 	@Test
 	public void borrowBook_ShouldReturnConflict_WhenBookNotAvailable() throws Exception {
-		LoanRequest request = new LoanRequest(5L, 12L);
+		BorrowRequest request = new BorrowRequest(5L);
 
-		when(loanService.borrowBook(any(LoanRequest.class)))
+		when(loanService.borrowBook(any(BorrowRequest.class), anyString()))
 				.thenThrow(new BookNotAvailableException("Book not available"));
 
 		mockMvc.perform(post("/api/loans/borrow")
+						.with(readerUser())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(request))
 				).andExpect(status().isConflict())
@@ -102,9 +111,10 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnBadRequest_WhenInvalidRequest() throws Exception {
-		LoanRequest request = new LoanRequest(null, null);
+		BorrowRequest request = new BorrowRequest(null);
 
 		mockMvc.perform(post("/api/loans/borrow")
+						.with(readerUser())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(request))
 				).andExpect(status().isBadRequest());
@@ -112,12 +122,13 @@ public class LoanControllerTest {
 
 	@Test
 	public void borrowBook_ShouldReturnNotFound_WhenBookOrReaderNotFound() throws Exception {
-		LoanRequest request = new LoanRequest(5L, 12L);
+		BorrowRequest request = new BorrowRequest(5L);
 
-		when(loanService.borrowBook(any(LoanRequest.class)))
+		when(loanService.borrowBook(any(BorrowRequest.class), anyString()))
 				.thenThrow(new ResourceNotFoundException("Resource not found"));
 
 		mockMvc.perform(post("/api/loans/borrow")
+						.with(readerUser())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(request))
 				).andExpect(status().isNotFound())
@@ -142,6 +153,7 @@ public class LoanControllerTest {
 				));
 
 		mockMvc.perform(patch("/api/loans/{id}/return", loanId)
+						.with(adminUser())
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(loanId))
@@ -156,6 +168,7 @@ public class LoanControllerTest {
 				.thenThrow(new ResourceNotFoundException("Loan not found"));
 
 		mockMvc.perform(patch("/api/loans/{id}/return", loanId)
+						.with(adminUser())
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isNotFound())
 				.andExpect(jsonPath("$.message").value("Loan not found"));
@@ -164,6 +177,7 @@ public class LoanControllerTest {
 	@Test
 	public void returnBook_ShouldReturnBadRequest_WhenInvalidId() throws Exception {
 		mockMvc.perform(patch("/api/loans/{id}/return", "invalid-id")
+						.with(adminUser())
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isBadRequest());
 	}
@@ -176,6 +190,7 @@ public class LoanControllerTest {
 				.thenThrow(new LoanAlreadyReturnedException("Loan already returned"));
 
 		mockMvc.perform(patch("/api/loans/{id}/return", loanId)
+						.with(adminUser())
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isConflict())
 				.andExpect(jsonPath("$.message").value("Loan already returned"));
@@ -193,6 +208,7 @@ public class LoanControllerTest {
 		when(loanService.getAllLoans(any(Pageable.class))).thenReturn(loanResponsePage);
 
 		mockMvc.perform(get("/api/loans")
+						.with(adminUser())
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").isArray())
@@ -219,6 +235,7 @@ public class LoanControllerTest {
 		when(loanService.getLoansByReaderId(eq(12L), any(Pageable.class))).thenReturn(loanResponsePage);
 
 		mockMvc.perform(get("/api/loans")
+						.with(adminUser())
 						.param("readerId", "12")
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk())
@@ -246,6 +263,7 @@ public class LoanControllerTest {
 		when(loanService.getActiveLoansByReaderId(eq(12L), any(Pageable.class))).thenReturn(loanResponsePage);
 
 		mockMvc.perform(get("/api/loans")
+						.with(adminUser())
 				.param("readerId", "12")
 				.param("activeOnly", "true")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -274,6 +292,7 @@ public class LoanControllerTest {
 		when(loanService.getLoansByBookId(eq(5L), any(Pageable.class))).thenReturn(loanResponsePage);
 
 		mockMvc.perform(get("/api/loans")
+						.with(adminUser())
 				.param("bookId", "5")
 				.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isOk())
@@ -301,6 +320,7 @@ public class LoanControllerTest {
 		when(loanService.getActiveLoans(any(Pageable.class))).thenReturn(loanResponsePage);
 
 		mockMvc.perform(get("/api/loans")
+						.with(adminUser())
 				.param("activeOnly", "true")
 				.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isOk())
@@ -328,6 +348,7 @@ public class LoanControllerTest {
 		when(loanService.getOverdueLoans(any(Pageable.class))).thenReturn(loanResponsePage);
 
 		mockMvc.perform(get("/api/loans/overdue")
+						.with(adminUser())
 						.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").isArray())
@@ -345,6 +366,7 @@ public class LoanControllerTest {
 	@Test
 	public void getLoans_ShouldReturnBadRequest_WhenInvalidActiveOnlyValue() throws Exception {
 		mockMvc.perform(get("/api/loans")
+				.with(adminUser())
 				.param("activeOnly", "invalid-value")
 				.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isBadRequest());
@@ -353,6 +375,7 @@ public class LoanControllerTest {
 	@Test
 	public void getLoans_ShouldReturnBadRequest_WhenInvalidReaderId() throws Exception {
 		mockMvc.perform(get("/api/loans")
+				.with(adminUser())
 				.param("readerId", "invalid-id")
 				.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isBadRequest());
@@ -361,6 +384,7 @@ public class LoanControllerTest {
 	@Test
 	public void getLoans_ShouldReturnBadRequest_WhenInvalidBookId() throws Exception {
 		mockMvc.perform(get("/api/loans")
+				.with(adminUser())
 				.param("bookId", "invalid-id")
 				.contentType(MediaType.APPLICATION_JSON)
 		).andExpect(status().isBadRequest());
@@ -381,5 +405,15 @@ public class LoanControllerTest {
 				dueDate,
 				returnDate
 		);
+	}
+
+	private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor readerUser() {
+		return jwt().authorities(new SimpleGrantedAuthority("ROLE_READER"))
+				.jwt(j -> j.subject("reader@email.com"));
+	}
+
+	private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor adminUser() {
+		return jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				.jwt(j -> j.subject("root@biblionode.com"));
 	}
 }

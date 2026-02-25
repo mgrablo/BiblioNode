@@ -2,6 +2,7 @@ package io.github.mgrablo.BiblioNode.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record ReaderRequest(
-		@NotBlank String fullName
+public record LoginRequest(
+		@NotBlank String email,
+		@NotBlank String password
 ) { }

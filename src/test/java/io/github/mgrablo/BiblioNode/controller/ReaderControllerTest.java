@@ -38,56 +38,6 @@ public class ReaderControllerTest {
 	private ObjectMapper objectMapper;
 
 	@Test
-	public void createReader_ShouldReturnCreated_WhenValidRequest() throws Exception {
-		ReaderRequest request = new ReaderRequest("Test Name", "test@email.com");
-		ReaderResponse response = new ReaderResponse(1L, "Test Name", "test@email.com", List.of());
-
-		when(readerService.createReader(any(ReaderRequest.class))).thenReturn(response);
-
-		mockMvc.perform(post("/api/readers")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(request))
-				).andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id").value(1L))
-				.andExpect(jsonPath("$.fullName").value("Test Name"))
-				.andExpect(jsonPath("$.email").value("test@email.com"));
-
-		verify(readerService, times(1)).createReader(any());
-	}
-
-	@Test
-	public void createReader_ShouldReturnBadRequest_WhenNameIsEmpty() throws Exception {
-		ReaderRequest request = new ReaderRequest("", "test@email.com");
-
-		mockMvc.perform(post("/api/readers")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(request))
-		).andExpect(status().isBadRequest());
-	}
-
-	@Test
-	public void createReader_ShouldReturnBadRequest_WhenEmailIsInvalid() throws Exception {
-		ReaderRequest request = new ReaderRequest("", "bademail");
-
-		mockMvc.perform(post("/api/readers")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(request))
-		).andExpect(status().isBadRequest());
-	}
-
-	@Test
-	public void createReader_ShouldReturnConflict_WhenEmailAlreadyInUse() throws Exception {
-		ReaderRequest request = new ReaderRequest("Test Name", "used@email.com");
-
-		when(readerService.createReader(any(ReaderRequest.class))).thenThrow(DataIntegrityException.class);
-
-		mockMvc.perform(post("/api/readers")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(request))
-		).andExpect(status().isConflict());
-	}
-
-	@Test
 	public void getReaderById_ShouldReturnResponse_WhenReaderExists() throws Exception {
 		ReaderResponse response = new ReaderResponse(1L, "Test Name", "test@email.com", List.of());
 
@@ -169,7 +119,7 @@ public class ReaderControllerTest {
 
 	@Test
 	public void updateReader_ShouldReturnOk_WhenRequestIsValidAndReaderExists() throws Exception {
-		ReaderRequest request = new ReaderRequest("New Name", "new@email.com");
+		ReaderRequest request = new ReaderRequest("New Name");
 		ReaderResponse response = new ReaderResponse(1L, "New Name", "new@email.com", List.of());
 		when(readerService.updateReader(1L, request)).thenReturn(response);
 
@@ -185,7 +135,7 @@ public class ReaderControllerTest {
 
 	@Test
 	public void updateReader_ShouldReturnConflict_WhenEmailIsAlreadyInUseByAnotherReader() throws Exception {
-		ReaderRequest request = new ReaderRequest("New Name", "used@email.com");
+		ReaderRequest request = new ReaderRequest("New Name");
 
 		when(readerService.updateReader(any(Long.class), any(ReaderRequest.class))).thenThrow(DataIntegrityException.class);
 
@@ -197,17 +147,7 @@ public class ReaderControllerTest {
 
 	@Test
 	public void updateReader_ShouldReturnBadRequest_WhenNameIsBlank() throws Exception {
-		ReaderRequest request = new ReaderRequest("", "new@email.com");
-
-		mockMvc.perform(put("/api/readers/1")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(request))
-		).andExpect(status().isBadRequest());
-	}
-
-	@Test
-	public void updateReader_ShouldReturnBadRequest_WhenEmailIsInvalid() throws Exception {
-		ReaderRequest request = new ReaderRequest("New Name", "newemail");
+		ReaderRequest request = new ReaderRequest("");
 
 		mockMvc.perform(put("/api/readers/1")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -217,7 +157,7 @@ public class ReaderControllerTest {
 
 	@Test
 	public void updateReader_ShouldReturnNotFound_WhenReaderDoesNotExist() throws Exception {
-		ReaderRequest request = new ReaderRequest("New Name", "new@email.com");
+		ReaderRequest request = new ReaderRequest("New Name");
 
 		when(readerService.updateReader(any(Long.class), any(ReaderRequest.class))).thenThrow(ResourceNotFoundException.class);
 
