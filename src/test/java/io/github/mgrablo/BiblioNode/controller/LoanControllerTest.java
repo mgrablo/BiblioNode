@@ -31,10 +31,7 @@ import java.util.List;
 
 import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
-import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
-import io.github.mgrablo.BiblioNode.exception.GlobalExceptionHandler;
-import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
-import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
+import io.github.mgrablo.BiblioNode.exception.*;
 import io.github.mgrablo.BiblioNode.service.LoanService;
 import tools.jackson.databind.ObjectMapper;
 
@@ -118,6 +115,21 @@ public class LoanControllerTest {
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(request))
 				).andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void borrowBook_ShouldReturnBadRequest_WhenLimitExceeded() throws Exception {
+		BorrowRequest request = new BorrowRequest(5L);
+
+		when(loanService.borrowBook(any(BorrowRequest.class), any()))
+				.thenThrow(new LoanLimitExceededException("Loan limit exceeded"));
+
+		mockMvc.perform(post("/api/loans/borrow")
+						.with(readerUser())
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(request))
+				).andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.error").value("Loan Limit Exceeded"));
 	}
 
 	@Test

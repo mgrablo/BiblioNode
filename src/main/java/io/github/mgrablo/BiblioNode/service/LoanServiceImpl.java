@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
+import io.github.mgrablo.BiblioNode.config.LoanProperties;
 import io.github.mgrablo.BiblioNode.dto.BorrowRequest;
 import io.github.mgrablo.BiblioNode.dto.LoanResponse;
 import io.github.mgrablo.BiblioNode.exception.BookNotAvailableException;
 import io.github.mgrablo.BiblioNode.exception.LoanAlreadyReturnedException;
+import io.github.mgrablo.BiblioNode.exception.LoanLimitExceededException;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.LoanMapper;
 import io.github.mgrablo.BiblioNode.model.Book;
@@ -31,6 +33,7 @@ public class LoanServiceImpl implements LoanService {
 	private final ReaderRepository readerRepository;
 
 	private final LoanMapper mapper;
+	private final LoanProperties loanProperties;
 
 	private final Clock clock;
 
@@ -45,6 +48,11 @@ public class LoanServiceImpl implements LoanService {
 
 		Reader reader = readerRepository.findByUserEmail(email)
 				.orElseThrow(() -> new ResourceNotFoundException("Reader not found"));
+
+		Long activeLoansCount = loanRepository.countByReaderIdAndReturnDateIsNull(reader.getId());
+		if (activeLoansCount >= loanProperties.getMaxActiveLoans()) {
+			throw new LoanLimitExceededException("Reader has exceeded the maximum number of active loans (" + loanProperties.getMaxActiveLoans() + ")");
+		}
 
 		book.setAvailable(false);
 
