@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.naming.AuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 
 import io.github.mgrablo.BiblioNode.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;

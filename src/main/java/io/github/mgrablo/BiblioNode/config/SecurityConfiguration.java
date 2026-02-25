@@ -23,10 +23,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -35,12 +39,8 @@ public class SecurityConfiguration {
 
 	private final RsaKeyConfig rsaKeys;
 
-	public SecurityConfiguration(RsaKeyConfig rsaKeys) {
-		this.rsaKeys = rsaKeys;
-	}
-
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) {
+	public SecurityFilterChain filterChain(HttpSecurity httpSecurity, HandlerExceptionResolver handlerExceptionResolver) {
 		return httpSecurity.
 				csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
@@ -53,6 +53,12 @@ public class SecurityConfiguration {
 						oauth2.jwt(jwt ->
 								jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
 						)
+				)
+				.exceptionHandling(exceptions -> exceptions
+						.authenticationEntryPoint((request, response, authException) ->
+								handlerExceptionResolver.resolveException(request, response, null, authException))
+						.accessDeniedHandler((request, response, accessDeniedException) ->
+								handlerExceptionResolver.resolveException(request, response, null, accessDeniedException))
 				)
 				.build();
 	}

@@ -27,8 +27,9 @@ services:
       db:
         condition: service_healthy
     environment:
-      # Uncomment the following line if you want to start the application with initial data
-#     SPRING_PROFILES_ACTIVE: dev
+      INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/biblionode-db
       SPRING_DATASOURCE_USERNAME: dev_user
       SPRING_DATASOURCE_PASSWORD: dev_password
