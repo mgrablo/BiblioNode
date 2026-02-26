@@ -85,12 +85,16 @@ erDiagram
 - **Global Exception Handling**: Centralized error management using `@RestControllerAdvice` to ensure consistent JSON error responses across the API.
 - **Validation**: Input data is strictly validated using Hibernate Validator annotations (e.g., `@NotBlank`, `@Size`) to maintain data quality.
 - **Clean Architecture**: Strict separation between database entities and API response models using the DTO (Data Transfer Object) pattern.
+- **Database Versioning**: Full schema control and versioning using Liquibase.
+- **Optimized Persistence**: Utilization of JPA EntityGraphs to eliminate N+1 query problems during profile aggregation to improve performance by reducing database round-trips..
+- **Externalized Configuration**: Business rules (loan limits, duration) are managed via YAML profiles.
 
 ## Testing
 The project maintains a high standard of quality through different testing layers:
 - **Unit Tests**: Focused on business logic within the Service layer, utilizing Mockito for dependency isolation.
 - **Web Layer Tests**: Utilizing MockMvc to verify REST endpoints, HTTP status codes, JSON serialization, and validation logic without starting the full server.
 - **Persistence Tests**: `@DataJpaTest` used to verify complex JPQL queries and relationship mapping.
+- **CI/CD Integration**: Automated test execution via GitHub Actions on every push.
 
 ## Setup Instructions
 
@@ -139,6 +143,11 @@ Best for making changes to the code with fast feedback
     docker-compose up -d db
     ```
 2. **Start the app locally**:
+    > [!NOTE]
+    > Make sure you have JDK 21 and Gradle installed locally to run the app in development mode. The app will connect to the database running in Docker.
+
+    - The app will automatically generate RSA keys in `certs/` folder on first run when the `dev` profile is active.
+    - Run via IDE or: 
    ```bash
    # Linux/Mac
    SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
@@ -164,5 +173,5 @@ docker-compose down -v
 4. [x] Loan System Implementation.
    - [x] Automatic availability management.
    - [x] Overdue tracking.
-   - [ ] Personal loan history for readers (`api/me/`).
+   - [x] Personal loan history for readers (`api/me/`).
 5. [x] JWT Authentication & User Roles.
