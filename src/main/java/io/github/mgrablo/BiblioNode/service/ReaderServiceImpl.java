@@ -7,10 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.mgrablo.BiblioNode.dto.ReaderRequest;
 import io.github.mgrablo.BiblioNode.dto.ReaderResponse;
+import io.github.mgrablo.BiblioNode.dto.UserProfileResponse;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.ReaderMapper;
 import io.github.mgrablo.BiblioNode.model.Reader;
 import io.github.mgrablo.BiblioNode.model.User;
+import io.github.mgrablo.BiblioNode.repository.LoanRepository;
 import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class ReaderServiceImpl implements ReaderService {
 
 	private final ReaderRepository readerRepository;
+	private final LoanRepository loanRepository;
 	private final ReaderMapper mapper;
 
 	@Override
@@ -43,6 +46,22 @@ public class ReaderServiceImpl implements ReaderService {
 		return readerRepository.findByUserEmail(email)
 				.map(mapper::toResponse)
 				.orElseThrow(() -> new ResourceNotFoundException("Reader not found for email: " + email));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public UserProfileResponse getUserProfileByEmail(String email) {
+		Reader reader = readerRepository.findByUserEmail(email)
+				.orElseThrow(() -> new ResourceNotFoundException("Reader not found for email: " + email));
+
+		Long activeLoansCount = loanRepository.countByReaderIdAndReturnDateIsNull(reader.getId());
+
+		return new UserProfileResponse(
+				email,
+				reader.getFullName(),
+				reader.getCreatedAt(),
+				activeLoansCount
+		);
 	}
 
 	@Override

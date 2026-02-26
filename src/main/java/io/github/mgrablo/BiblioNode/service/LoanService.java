@@ -18,4 +18,6 @@ public interface LoanService {
 	Page<LoanResponse> getActiveLoansByReaderId(Long readerId, Pageable pageable);
 
 	Page<LoanResponse> getOverdueLoans(Pageable pageable);
+
+	Page<LoanResponse> getLoansByReaderEmail(String email, Pageable pageable);
 }
