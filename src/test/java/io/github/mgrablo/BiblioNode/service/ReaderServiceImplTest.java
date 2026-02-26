@@ -19,10 +19,12 @@ import java.util.Optional;
 
 import io.github.mgrablo.BiblioNode.dto.ReaderRequest;
 import io.github.mgrablo.BiblioNode.dto.ReaderResponse;
+import io.github.mgrablo.BiblioNode.dto.UserProfileResponse;
 import io.github.mgrablo.BiblioNode.exception.ResourceNotFoundException;
 import io.github.mgrablo.BiblioNode.mapper.ReaderMapper;
 import io.github.mgrablo.BiblioNode.model.Reader;
 import io.github.mgrablo.BiblioNode.model.User;
+import io.github.mgrablo.BiblioNode.repository.LoanRepository;
 import io.github.mgrablo.BiblioNode.repository.ReaderRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +35,9 @@ public class ReaderServiceImplTest {
 
 	@Mock
 	private ReaderRepository readerRepository;
+
+	@Mock
+	private LoanRepository loanRepository;
 
 	@InjectMocks
 	private ReaderServiceImpl readerService;
@@ -98,6 +103,24 @@ public class ReaderServiceImplTest {
 		assertThrows(ResourceNotFoundException.class, () ->
 				readerService.getReaderByEmail(email)
 		);
+	}
+
+	@Test
+	public void getUserProfileByEmail_ShouldReturnUserProfile_WhenReaderExists() {
+		String email = "test@email.com";
+		User user = createTestUser(email);
+		Reader reader = createTestReader(1L, "TestName", user);
+		Long activeLoansCount = 2L;
+
+		when(readerRepository.findByUserEmail(anyString())).thenReturn(Optional.of(reader));
+		when(loanRepository.countByReaderIdAndReturnDateIsNull(anyLong())).thenReturn(activeLoansCount);
+
+		UserProfileResponse result = readerService.getUserProfileByEmail(email);
+
+		assertEquals(email, result.email());
+		assertEquals(reader.getFullName(), result.name());
+		assertEquals(reader.getCreatedAt(), result.memberSince());
+		assertEquals(activeLoansCount, result.activeLoansCount());
 	}
 
 	@Test

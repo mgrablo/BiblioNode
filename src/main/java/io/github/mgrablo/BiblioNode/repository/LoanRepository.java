@@ -14,6 +14,9 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 	Page<Loan> findByReaderId(Long readerId, Pageable pageable);
 
 	@EntityGraph(attributePaths = {"book", "book.author", "reader"})
+	Page<Loan> findByReaderUserEmail(String email, Pageable pageable);
+
+	@EntityGraph(attributePaths = {"book", "book.author", "reader"})
 	Page<Loan> findByBookId(Long bookId, Pageable pageable);
 
 	@EntityGraph(attributePaths = {"book", "book.author", "reader"})
@@ -26,4 +29,5 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 	Page<Loan> findAllByReturnDateIsNullAndDueDateBefore(LocalDateTime now, Pageable pageable);
 
 	Long countByReaderIdAndReturnDateIsNull(Long readerId);
+
 }

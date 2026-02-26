@@ -218,6 +218,24 @@ public class LoanServiceImplTest {
 	}
 
 	@Test
+	public void getLoansByReaderEmail_ShouldReturnMappedPage() {
+		Book book = createTestBook(1L, "Test Book", "111");
+		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");
+		LocalDateTime expectedNow = LocalDateTime.now(fixedClock);
+		Loan loan = createTestLoan(1L, book, reader, expectedNow);
+		LoanResponse expectedResponse = createTestLoanResponse(1L, book, reader, expectedNow, null);
+		Page<Loan> loanPage = new PageImpl<>(List.of(loan));
+
+		when(loanRepository.findByReaderUserEmail(anyString(), any(Pageable.class))).thenReturn(loanPage);
+		when(mapper.toResponse(any(Loan.class))).thenReturn(expectedResponse);
+
+		Page<LoanResponse> result = loanService.getLoansByReaderEmail("test@email.com", Pageable.ofSize(10));
+
+		assertEquals(1, result.getTotalElements());
+		assertEquals(expectedResponse, result.getContent().getFirst());
+	}
+
+	@Test
 	public void getLoansByBookId_ShouldReturnMappedPage() {
 		Book book = createTestBook(1L, "Test Book", "111");
 		Reader reader = createTestReader(1L, "Test Reader", "test@email.com");

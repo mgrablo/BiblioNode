@@ -93,6 +93,12 @@ public class LoanServiceImpl implements LoanService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public Page<LoanResponse> getLoansByReaderEmail(String email, Pageable pageable) {
+		return loanRepository.findByReaderUserEmail(email, pageable).map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public Page<LoanResponse> getLoansByBookId(Long bookId, Pageable pageable) {
 		return loanRepository.findByBookId(bookId, pageable).map(mapper::toResponse);
 	}
