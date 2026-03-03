@@ -1,6 +1,8 @@
 # BiblioNode - Library API
 
 [![Tests](https://github.com/mgrablo/BiblioNode/actions/workflows/test.yml/badge.svg)](https://github.com/mgrablo/BiblioNode/actions/workflows/test.yml)
+![Coverage](.github/badges/jacoco.svg)
+![Branches](.github/badges/branches.svg)
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Spring](https://img.shields.io/badge/Spring_Boot-4.0.2-green)
 ![License](https://img.shields.io/badge/License-Apache_2.0-orange)
