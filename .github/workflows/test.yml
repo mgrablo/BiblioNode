@@ -48,5 +48,6 @@ jobs:
           commit_message: "docs: update JaCoCo coverage badge [skip ci]"
           repo: ${{ github.repository }}
           branch: ${{ github.head_ref || github.ref_name }}
+          file_pattern: '*.svg'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
