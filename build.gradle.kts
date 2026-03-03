@@ -1,5 +1,6 @@
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "4.0.2"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -23,6 +24,38 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
+jacoco {
+	toolVersion = "0.8.14"
+}
+
+tasks.test {
+	finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+	reports {
+		csv.required = true
+		html.required = true
+	}
+	val excludes = listOf(
+		"**/dto/**",
+		"**/mapper/**",
+		"**/config/**",
+		"**/model/**",
+		"**/exception/**",
+		"**/bootstrap/**",
+		"**/*MapperImpl*.*",
+	)
+
+	classDirectories.setFrom(files(classDirectories.files.map {
+		fileTree(it).matching {
+			exclude(excludes)
+		}
+	}))
+}
+
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-h2console")

@@ -1,4 +1,4 @@
-name: Tests
+name: Tests with JaCoCo
 on:
   push:
     branches: [master]
@@ -9,10 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -25,5 +27,27 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Build and Run Tests
-        run: ./gradlew build --no-daemon
+        run: ./gradlew test jacocoTestReport
 
+      - name: Generate JaCoCo badge
+        id: jacoco
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+
+      - name: Log coverage percentage
+        run: |
+          echo "Coverage: ${{ steps.jacoco.outputs.coverage }}"
+          echo "Branches Coverage: ${{ steps.jacoco.outputs.branches }}"
+
+      - name: Commit and push the badge
+        if: github.event_name == 'pull_request'
+        uses: planetscale/ghcommit-action@v0.2.20
+        with:
+          commit_message: "docs: update JaCoCo coverage badge [skip ci]"
+          repo: ${{ github.repository }}
+          branch: ${{ github.head_ref || github.ref_name }}
+          file_pattern: '*.svg'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
