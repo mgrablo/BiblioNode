@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
+import io.github.mgrablo.BiblioNode.config.SecurityProperties;
 import io.github.mgrablo.BiblioNode.dto.*;
 import io.github.mgrablo.BiblioNode.model.User;
 import io.github.mgrablo.BiblioNode.repository.UserRepository;
@@ -26,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
 	private final ReaderService readerService;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtEncoder jwtEncoder;
+	private final SecurityProperties securityProperties;
 
 	@Override
 	public ReaderResponse register(RegisterRequest request) {
@@ -52,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 		JwtClaimsSet claims = JwtClaimsSet.builder()
 				.issuer("BiblioNode")
 				.issuedAt(now)
-				.expiresAt(now.plus(1, ChronoUnit.HOURS))
+				.expiresAt(now.plus(securityProperties.jwtExpirationHours(), ChronoUnit.HOURS))
 				.subject(user.getEmail())
 				.claim("roles", scope)
 				.build();

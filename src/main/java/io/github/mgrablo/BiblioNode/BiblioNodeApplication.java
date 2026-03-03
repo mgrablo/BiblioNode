@@ -5,9 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import io.github.mgrablo.BiblioNode.config.LoanProperties;
+import io.github.mgrablo.BiblioNode.config.SecurityProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(LoanProperties.class)
+@EnableConfigurationProperties({LoanProperties.class, SecurityProperties.class})
 public class BiblioNodeApplication {
 
 	public static void main(String[] args) {

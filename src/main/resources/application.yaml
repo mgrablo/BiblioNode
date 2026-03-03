@@ -8,6 +8,8 @@ app:
   loan:
     max-active-loans: 5
     default-loan-days: 14
+  security:
+    jwt-expiration-hours: 1
 
 spring:
   application:
