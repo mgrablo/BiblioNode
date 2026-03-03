@@ -10,6 +10,9 @@ app:
     default-loan-days: 21
   security:
     jwt-expiration-hours: 24
+  pagination:
+    default-page-size: 15
+    max-page-size: 100
 
 spring:
   application:
@@ -41,6 +44,8 @@ springdoc:
 logging:
   level:
     com.biblionode: DEBUG
+    org.springdoc: DEBUG
+    org.springframework.web: DEBUG
 
 server:
   port: 8080
