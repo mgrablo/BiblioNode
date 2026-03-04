@@ -50,8 +50,8 @@ public class LoanServiceImpl implements LoanService {
 				.orElseThrow(() -> new ResourceNotFoundException("Reader not found"));
 
 		Long activeLoansCount = loanRepository.countByReaderIdAndReturnDateIsNull(reader.getId());
-		if (activeLoansCount >= loanProperties.getMaxActiveLoans()) {
-			throw new LoanLimitExceededException("Reader has exceeded the maximum number of active loans (" + loanProperties.getMaxActiveLoans() + ")");
+		if (activeLoansCount >= loanProperties.maxActiveLoans()) {
+			throw new LoanLimitExceededException("Reader has exceeded the maximum number of active loans (" + loanProperties.maxActiveLoans() + ")");
 		}
 
 		book.setAvailable(false);
@@ -59,7 +59,7 @@ public class LoanServiceImpl implements LoanService {
 		LocalDateTime now = LocalDateTime.now(clock);
 		Loan loan = new Loan();
 		loan.setLoanDate(now);
-		loan.setDueDate(now.plusDays(loanProperties.getDefaultLoanDays()));
+		loan.setDueDate(now.plusDays(loanProperties.defaultLoanDays()));
 		loan.setBook(book);
 		loan.setReader(reader);
 

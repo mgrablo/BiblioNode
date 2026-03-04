@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import java.util.Optional;
 import java.util.Set;
 
+import io.github.mgrablo.BiblioNode.config.SecurityProperties;
 import io.github.mgrablo.BiblioNode.dto.*;
 import io.github.mgrablo.BiblioNode.exception.DataIntegrityException;
 import io.github.mgrablo.BiblioNode.model.Role;
@@ -42,6 +44,20 @@ class AuthServiceImplTest {
 
 	@InjectMocks
 	private AuthServiceImpl authService;
+
+	@BeforeEach
+	void setup() {
+		SecurityProperties securityProperties = new SecurityProperties(1);
+
+		authService = new AuthServiceImpl(
+				userService,
+				userRepository,
+				readerService,
+				passwordEncoder,
+				jwtEncoder,
+				securityProperties
+		);
+	}
 
 	@Test
 	void register_ShouldCoordinateUserAndProfileCreation() {

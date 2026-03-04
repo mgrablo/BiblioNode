@@ -59,9 +59,7 @@ public class LoanServiceImplTest {
 
 	@BeforeEach
 	void setup() {
-		LoanProperties loanProperties = new LoanProperties();
-		loanProperties.setMaxActiveLoans(5);
-		loanProperties.setDefaultLoanDays(14);
+		LoanProperties loanProperties = new LoanProperties(5, 14);
 
 		fixedClock = Clock.fixed(fixedInstant, zoneId);
 		loanService = new LoanServiceImpl(loanRepository,
