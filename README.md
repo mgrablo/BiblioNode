@@ -133,7 +133,7 @@ Best for quick preview. No Java/Gradle installation required.
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/mgrablo/BiblioNode.git
-   cd BiblioNode/biblionode-api
+   cd BiblioNode
    ```
 2. **Start the application**:
    ```bash
@@ -159,6 +159,11 @@ Best for making changes to the code with fast feedback.
 2. **Start the app locally**:
     > [!NOTE]
     > Requires JDK 21 and Gradle locally. The app will connect to the database running in Docker. Keys are generated automatically in `certs/` on first run (`dev` profile).
+
+    Navigate to the API directory:
+    ```bash
+    cd biblionode-api
+    ```
 
    ```bash
    # Linux/Mac

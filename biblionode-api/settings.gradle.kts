@@ -1,1 +1,1 @@
-rootProject.name = "BiblioNode"
+rootProject.name = "biblionode-api"

@@ -16,11 +16,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  app:
+  api:
     build:
       context: ./biblionode-api
       dockerfile: Dockerfile
-    container_name: biblionode-app
+    container_name: biblionode-api
     ports:
       - "8080:8080"
     volumes:
