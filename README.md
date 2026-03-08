@@ -160,6 +160,11 @@ Best for making changes to the code with fast feedback.
     > [!NOTE]
     > Requires JDK 21 and Gradle locally. The app will connect to the database running in Docker. Keys are generated automatically in `certs/` on first run (`dev` profile).
 
+    Navigate to the API directory:
+    ```bash
+    cd biblionode-api
+    ```
+
    ```bash
    # Linux/Mac
    SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
