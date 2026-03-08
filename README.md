@@ -133,7 +133,7 @@ Best for quick preview. No Java/Gradle installation required.
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/mgrablo/BiblioNode.git
-   cd BiblioNode
+   cd BiblioNode/biblionode-api
    ```
 2. **Start the application**:
    ```bash

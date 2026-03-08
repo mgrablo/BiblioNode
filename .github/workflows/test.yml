@@ -1,4 +1,4 @@
-name: Tests with JaCoCo
+name: Test backend
 on:
   push:
     branches: [master]
@@ -6,8 +6,11 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: biblionode-api
     permissions:
       contents: write
 
@@ -27,6 +30,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Build and Run Tests
+        working-directory: biblionode-api
         run: ./gradlew test jacocoTestReport
 
       - name: Generate JaCoCo badge
@@ -34,7 +38,7 @@ jobs:
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
-          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+          jacoco-csv-file: biblionode-api/build/reports/jacoco/test/jacocoTestReport.csv
 
       - name: Log coverage percentage
         run: |

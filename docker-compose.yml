@@ -17,12 +17,14 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   app:
-    build: .
+    build:
+      context: ./biblionode-api
+      dockerfile: Dockerfile
     container_name: biblionode-app
     ports:
       - "8080:8080"
     volumes:
-      - ./certs:/app/certs
+      - ./biblionode-api/certs:/app/certs
     depends_on:
       db:
         condition: service_healthy
