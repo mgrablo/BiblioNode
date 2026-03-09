@@ -23,6 +23,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import lombok.RequiredArgsConstructor;
@@ -39,10 +42,13 @@ public class SecurityConfiguration {
 
 	private final RsaKeyConfig rsaKeys;
 
+	private final SecurityProperties securityProperties;
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity, HandlerExceptionResolver handlerExceptionResolver) {
-		return httpSecurity.
-				csrf(AbstractHttpConfigurer::disable)
+		return httpSecurity
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 						.requestMatchers("/api/auth/**").permitAll()
@@ -86,5 +92,19 @@ public class SecurityConfiguration {
 		JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
 		authenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
 		return authenticationConverter;
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		configuration.setAllowedOrigins(securityProperties.cors().allowedOrigins());
+		configuration.setAllowedMethods(securityProperties.cors().allowedMethods());
+		configuration.setAllowedHeaders(securityProperties.cors().allowedHeaders());
+		configuration.setAllowCredentials(securityProperties.cors().allowCredentials());
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
