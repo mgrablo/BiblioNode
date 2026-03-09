@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -47,7 +48,15 @@ class AuthServiceImplTest {
 
 	@BeforeEach
 	void setup() {
-		SecurityProperties securityProperties = new SecurityProperties(1);
+		SecurityProperties securityProperties = new SecurityProperties(
+				1,
+				new SecurityProperties.CorsProperties(
+						List.of("http://localhost:3000"),
+						List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"),
+						List.of("Authorization", "Content-Type"),
+						true
+				));
+
 
 		authService = new AuthServiceImpl(
 				userService,
