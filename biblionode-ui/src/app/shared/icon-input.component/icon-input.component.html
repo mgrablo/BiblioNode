@@ -1,0 +1,20 @@
+<div
+  (click)="inputRef.focus()"
+  class="flex w-full cursor-text items-center rounded border-2 border-gray-700 bg-white px-3 py-2 transition-all focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:bg-gray-900"
+>
+  <div class="mr-2 flex items-center text-gray-500 select-none">
+    <ng-content select="[start]"></ng-content>
+  </div>
+
+  <input
+    #inputRef
+    [type]="type()"
+    [formControl]="control()"
+    class="w-full flex-1 border-none bg-transparent text-black placeholder-gray-400 outline-none dark:text-white"
+    [placeholder]="placeholder()"
+  />
+
+  <div class="ml-2 flex items-center text-gray-500 select-none">
+    <ng-content select="[end]"></ng-content>
+  </div>
+</div>
