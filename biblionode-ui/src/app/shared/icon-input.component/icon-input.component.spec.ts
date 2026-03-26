@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconInputComponent } from './icon-input.component';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Component} from '@angular/core';
-import {By} from '@angular/platform-browser';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 @Component({
   standalone: true,
@@ -13,14 +13,14 @@ import {By} from '@angular/platform-browser';
       <span start id="test-start">StartIcon</span>
       <span end id="test-end">EndIcon</span>
     </app-icon-input>
-  `
+  `,
 })
 class TestHostComponent {
   control = new FormControl('');
 }
 
 describe('IconInputComponent', () => {
-  describe("Core Functionality", () => {
+  describe('Core Functionality', () => {
     let component: IconInputComponent;
     let fixture: ComponentFixture<IconInputComponent>;
 
@@ -52,7 +52,7 @@ describe('IconInputComponent', () => {
       fixture.detectChanges();
       expect(component.type()).toBe('text');
       expect(inputElement.type).toBe('text');
-    })
+    });
 
     it('should display placeholder', () => {
       const placeholderText = 'Enter your text';
@@ -60,7 +60,7 @@ describe('IconInputComponent', () => {
       fixture.detectChanges();
       const inputElement: HTMLInputElement = fixture.nativeElement.querySelector('input');
       expect(inputElement.placeholder).toBe(placeholderText);
-    })
+    });
 
     it('should update the input when the FormControl value changes', () => {
       const control = new FormControl('initial');
@@ -84,6 +84,42 @@ describe('IconInputComponent', () => {
       inputElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
       expect(control.value).toBe('user input');
+    });
+
+    it('should show error message when control is touched and invalid', async () => {
+      const control = new FormControl('', Validators.required);
+      fixture.componentRef.setInput('control', control);
+      control.markAsTouched();
+
+      fixture.detectChanges();
+
+      const errorComponent = fixture.nativeElement.querySelector('[role="alert"]');
+      expect(errorComponent).toBeTruthy();
+      expect(errorComponent.textContent).toBe('Invalid input');
+    });
+
+    it('should show custom error message based on errorMessages input', () => {
+      const control = new FormControl('', Validators.required);
+      fixture.componentRef.setInput('control', control);
+      fixture.componentRef.setInput('errorMessages', { required: 'This field is required' });
+      control.markAsTouched();
+
+      fixture.detectChanges();
+
+      const errorComponent = fixture.nativeElement.querySelector('[role="alert"]');
+      expect(errorComponent).toBeTruthy();
+      expect(errorComponent.textContent).toBe('This field is required');
+    });
+
+    it('should not show error message when control is valid', () => {
+      const control = new FormControl('valid value', Validators.required);
+      fixture.componentRef.setInput('control', control);
+      control.markAsTouched();
+
+      fixture.detectChanges();
+
+      const errorComponent = fixture.nativeElement.querySelector('[role="alert"]');
+      expect(errorComponent).toBeNull();
     });
   });
 
@@ -114,4 +150,3 @@ describe('IconInputComponent', () => {
     });
   });
 });
-
