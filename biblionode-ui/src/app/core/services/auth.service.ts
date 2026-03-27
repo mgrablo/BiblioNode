@@ -1,7 +1,8 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginRequest, LoginResponse } from '../../models/auth.model';
+import { LoginRequest, LoginResponse, RegisterRequest } from '../../models/auth.model';
 import { catchError, tap } from 'rxjs';
+import { ReaderProfile } from '../../models/reader-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,10 @@ export class AuthService {
         throw error;
       }),
     );
+  }
+
+  register(request: RegisterRequest) {
+    return this.http.post<ReaderProfile>('api/auth/register', request);
   }
 
   logout() {

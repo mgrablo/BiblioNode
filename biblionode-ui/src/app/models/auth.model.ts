@@ -8,3 +8,9 @@ export interface LoginResponse {
   email: string;
   roles: string[];
 }
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  fullName: string;
+}

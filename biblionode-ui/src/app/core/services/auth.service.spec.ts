@@ -109,4 +109,35 @@ describe('AuthService', () => {
     service.logout();
     expect(service.isAuthenticated()).toBe(false);
   });
+
+  it('should send correct register request', () => {
+    const data = { fullName: 'John Doe', email: 'john.doe@email.com', password: 'password1234' };
+    service.register(data).subscribe();
+
+    const req = httpTesting.expectOne('api/auth/register', '');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(data);
+
+    req.flush({ id: 1, fullName: 'John Doe', email: 'john.doe@email.com' });
+
+    httpTesting.verify();
+  });
+
+  it('should handle register error', async () => {
+    const registerPromise = firstValueFrom(
+      service.register({
+        fullName: 'John Doe',
+        email: 'john.doe@email.com',
+        password: 'password1234',
+      }),
+    );
+    const req = httpTesting.expectOne('api/auth/register', '');
+    expect(req.request.method).toBe('POST');
+
+    req.flush({ message: 'Email already exists' }, { status: 400, statusText: 'Bad Request' });
+
+    await expect(registerPromise).rejects.toThrow();
+
+    httpTesting.verify();
+  });
 });
