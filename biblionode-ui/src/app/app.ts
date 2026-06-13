@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeToggleComponent } from './shared/theme-toggle/theme-toggle.component';
+import { ThemeToggleComponent } from './shared/components/theme-toggle/theme-toggle.component';
 import { NavbarComponent } from './shared/layout/navbar/navbar.component';
 
 @Component({
