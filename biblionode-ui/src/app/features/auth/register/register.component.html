@@ -1,0 +1,69 @@
+<div class="flex flex-col items-center justify-center h-full w-full">
+  <div class="flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4">
+    <div class="flex flex-col items-center justify-center">
+      <h1 class="text-2xl font-bold text-blue-950 dark:text-blue-200">BiblioNode</h1>
+      <h2 class="font-bold my-2 dark:text-gray-300 text-gray-900">Create Your Account</h2>
+    </div>
+
+    <form [formGroup]="registerForm" class="flex flex-col space-y-4" (ngSubmit)="onSubmit()">
+      <app-icon-input
+        [control]="fullName"
+        placeholder="Full Name*"
+        [errorMessages]="{
+          required: 'Please enter your full name',
+        }"
+      >
+        <span start class="material-symbols-outlined">person</span>
+      </app-icon-input>
+      <app-icon-input
+        [control]="email"
+        placeholder="Email*"
+        [errorMessages]="{
+          required: 'Email is required',
+          email: 'Please enter a valid email address'
+        }"
+      >
+        <span start class="material-symbols-outlined">mail</span>
+      </app-icon-input>
+      <app-icon-input
+        [control]="password"
+        placeholder="Password*"
+        [isPassword]="true"
+        [errorMessages]="{
+          required: 'Please enter your password',
+          minLength: 'Password must be at least 8 characters long',
+          strongPassword: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+        }"
+      >
+        <span start class="material-symbols-outlined">lock</span>
+      </app-icon-input>
+      <app-icon-input
+        [control]="confirmPassword"
+        placeholder="Confirm Password*"
+        [isPassword]="true"
+        [errorMessages]="{
+          required: 'Please confirm your password',
+          passwordMismatch: 'Passwords do not match'
+        }"
+      >
+        <span start class="material-symbols-outlined">lock</span>
+      </app-icon-input>
+
+      <button type="submit"
+              [disabled]="registerForm.invalid || isLoading()"
+              class="flex flex-row items-center justify-center
+              bg-blue-900 text-white hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed
+               transition-colors rounded p-2 font-bold cursor-pointer"
+              [class.cursor-wait]="isLoading()"
+              aria-label="Sign Up button">
+        @if (isLoading()) {
+          <span class="material-symbols-outlined animate-spin">progress_activity</span>
+          <span>Registering...</span>
+        } @else {
+          <span>Sign Up</span>
+        }
+      </button>
+      <p>Already have an account? <a (click)="moveToSignInPage()" class="text-blue-700 hover:cursor-pointer">Sign In</a></p>
+    </form>
+  </div>
+</div>
