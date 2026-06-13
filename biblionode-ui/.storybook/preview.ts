@@ -21,7 +21,7 @@ export default preview;
 export const decorators = [
   withThemeByClassName({
     themes: {
-      light: 'light',
+      light: 'light bg-gray-100',
       dark: 'dark bg-mauve-950',
     },
     defaultTheme: 'light',

@@ -1022,7 +1022,50 @@
                     }
                 }
             },
-            "templateData": "<main\n  class=\"flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-mauve-950 text-black dark:text-white\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md w-full max-w-sm space-y-4\">\n    <div class=\"flex items-center justify-center\">\n      <h1 class=\"text-2xl mb-8 font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n    </div>\n\n    @if (incorrectCredentialsMessage()) {\n      <div class=\"flex flex-row items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative\"\n           role=\"alert\">\n        <p class=\"text-red-500 text-sm\">Incorrect email or password.</p>\n        <button class=\"absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer\"\n                (click)=\"hideIncorrectCredentialsMessage()\">\n          <span class=\"material-symbols-outlined\">close</span>\n        </button>\n      </div>\n    }\n\n    <form [formGroup]=\"loginForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"signIn()\">\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">mail</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password\"\n        [isPassword]=\"!passwordVisible()\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n\n        <button type=\"button\"\n                end\n                class=\"rounded-full cursor-pointer w-7 h-7 flex items-center justify-center\"\n                (click)=\"togglePasswordVisibility()\">\n          @if (passwordVisible()) {\n            <span class=\"material-symbols-outlined\">visibility_off</span>\n          } @else {\n            <span class=\"material-symbols-outlined\">visibility</span>\n          }\n        </button>\n      </app-icon-input>\n\n      <button type=\"submit\"\n              class=\"bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\">\n        Sign In\n      </button>\n      <button type=\"button\"\n              class=\"border-blue-900 text-blue-900 dark:text-white hover:text-white border-2 hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\"\n              (click)=\"moveToSignUpPage()\">Sign Up\n      </button>\n    </form>\n\n  </div>\n</main>\n"
+            "templateData": "<main class=\"flex flex-col items-center justify-center h-full w-screen bg-gray-100 dark:bg-mauve-950 text-black dark:text-white\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex items-center justify-center\">\n      <h1 class=\"text-2xl mb-8 font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n    </div>\n\n    @if (incorrectCredentialsMessage()) {\n      <div class=\"flex flex-row items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative\"\n           role=\"alert\">\n        <p class=\"text-red-500 text-sm\">Incorrect email or password.</p>\n        <button class=\"absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer\"\n                (click)=\"hideIncorrectCredentialsMessage()\">\n          <span class=\"material-symbols-outlined\">close</span>\n        </button>\n      </div>\n    }\n\n    <form [formGroup]=\"loginForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"signIn()\">\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">mail</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password\"\n        [isPassword]=\"!passwordVisible()\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n\n        <button type=\"button\"\n                end\n                class=\"rounded-full cursor-pointer w-7 h-7 flex items-center justify-center\"\n                (click)=\"togglePasswordVisibility()\">\n          @if (passwordVisible()) {\n            <span class=\"material-symbols-outlined\">visibility_off</span>\n          } @else {\n            <span class=\"material-symbols-outlined\">visibility</span>\n          }\n        </button>\n      </app-icon-input>\n\n      <button type=\"submit\"\n              class=\"bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\">\n        Sign In\n      </button>\n      <button type=\"button\"\n              class=\"border-blue-900 text-blue-900 dark:text-white hover:text-white border-2 hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\"\n              (click)=\"moveToSignUpPage()\">Sign Up\n      </button>\n    </form>\n\n  </div>\n</main>\n"
+        },
+        {
+            "name": "NavbarComponent",
+            "id": "component-NavbarComponent-5a03514984547d4d5f2f6408a1adae6fd195bd928e6861165293325d880c345e0c7ba8d6cb5a32bd8a308da3b9bf5fc31184e071ab77b178802b252c4812d624",
+            "file": "src/app/shared/layout/navbar/navbar.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-navbar",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./navbar.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [
+                {
+                    "name": "ThemeToggleComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';\n\n@Component({\n  selector: 'app-navbar',\n  imports: [ThemeToggleComponent],\n  templateUrl: './navbar.component.html',\n  styleUrl: './navbar.component.scss',\n})\nexport class NavbarComponent {}\n",
+            "styleUrl": "./navbar.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<nav class=\"fixed bottom-0 left-0 z-50 h-16 w-full flex-row items-center justify-around border-t px-4 bg-gray-200 dark:bg-mauve-950 border-b-2 border-gray-300 dark:border-mauve-800\nmd:sticky md:top-0 md:h-screen md:w-64 md:flex-col md:items-start md:justify-start md:gap-8 md:border-r md:border-t-0 md:py-8\">\n  <app-theme-toggle class=\"ml-auto\"/>\n</nav>\n"
         },
         {
             "name": "PageComponent",
@@ -1185,7 +1228,7 @@
                 "line": 13
             },
             "extends": [],
-            "templateData": "<button class=\"btn rounded-lg p-2 text-gray-800 hover:text-gray-950 dark:text-gray-200  hover:dark:text-gray-50 transition-colors\"\n        aria-label=\"Toggle theme\"\n        (click)=\"toggleTheme()\">\n  <span class=\"material-symbols-outlined hover:rotate-45 hover:scale-105 transition-all duration-300 inline-block\">\n    @if (isDark()) {\n      dark_mode\n    } @else {\n      light_mode\n    }\n  </span>\n</button>\n"
+            "templateData": "<button class=\"btn rounded-lg p-2 text-gray-800 hover:text-gray-950 dark:text-gray-200  hover:dark:text-gray-50 transition-colors w-10 h-10\"\n        aria-label=\"Toggle theme\"\n        (click)=\"toggleTheme()\">\n  <span class=\"material-symbols-outlined hover:rotate-45 hover:scale-105 transition-all duration-300 inline-block\">\n    @if (isDark()) {\n      dark_mode\n    } @else {\n      light_mode\n    }\n  </span>\n</button>\n"
         }
     ],
     "modules": [],
@@ -1385,6 +1428,15 @@
                 "name": "IconInputComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/layout/navbar/navbar.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NavbarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
