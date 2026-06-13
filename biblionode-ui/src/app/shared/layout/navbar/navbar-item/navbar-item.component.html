@@ -1,0 +1,18 @@
+<a [href]="href()"
+   class="group flex flex-col items-center gap-1 rounded-xl p-2 transition-all hover:bg-gray-100 dark:hover:bg-gray-900 md:w-full"
+   [class.text-gray-600]="!isActive()"
+   [class.text-blue-950]="isActive()"
+   [class.dark:text-blue-200]="isActive()"
+   [class.text-gray-400]="!isActive()"
+   >
+
+  <span class="material-symbols-outlined transition-transform group-hover:scale-110">
+    {{ icon() }}
+  </span>
+
+  <span class="text-[10px] tracking-wide md:text-base"
+        [class.font-semibold]="isActive()"
+        [class.font-medium]="!isActive()">
+    {{ label() }}
+  </span>
+</a>
