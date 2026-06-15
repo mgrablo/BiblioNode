@@ -1,11 +1,13 @@
-import {Component, signal} from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ThemeToggleComponent } from './shared/theme-toggle/theme-toggle.component';
+import { NavbarComponent } from './shared/layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ThemeToggleComponent, NavbarComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('BiblioNode!');
