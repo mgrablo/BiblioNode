@@ -1,0 +1,11 @@
+<div class="flex h-full w-full flex-col">
+  <div class="mb-6">
+    <h1 class="m-0 mb-1.5 font-serif text-2xl font-semibold lg:text-3xl">Browse Books</h1>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5">
+    @for (book of books(); track book.id) {
+      <app-book-card [book]="book" />
+    }
+  </div>
+</div>

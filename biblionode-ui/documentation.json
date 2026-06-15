@@ -2,6 +2,81 @@
     "pipes": [],
     "interfaces": [
         {
+            "name": "Book",
+            "id": "interface-Book-b0a7064253789828d54f5c7a73da3857fbb0efea65b93adf10bcb031d98429c50bcbbbb1adf32ca38a9d544265a2c84bdad9e0e09e80062e33797897fd792dbf",
+            "file": "src/app/models/book.model.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface Book {\n  id: number;\n  title: string;\n  authorName: string;\n  isbn: string;\n  availableCopies: number;\n  coverUrl?: string;\n}\n",
+            "properties": [
+                {
+                    "name": "authorName",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "availableCopies",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "coverUrl",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "isbn",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 172,
+            "methods": [],
+            "extends": []
+        },
+        {
             "name": "Loan",
             "id": "interface-Loan-744f5ba3ea0a9b8cc1e410ad11254f22751ae10d53a3f85f01a94831ada68a7e0c9b4f8b628b51800b2eb4a845127f21829e30d72b1582dbf5d347677a4f1219",
             "file": "src/app/models/loan.model.ts",
@@ -445,12 +520,59 @@
     ],
     "guards": [],
     "interceptors": [],
-    "classes": [],
+    "classes": [
+        {
+            "name": "AuthValidators",
+            "id": "class-AuthValidators-24dc46514a74371fa340cc8eb6374b09fd46a48af48dfac53130ddcc46860863d78fdc7261acd0da9219e19759e79e12479c6bbdf2ef2d8582e6f1456c1384cd",
+            "file": "src/app/core/validators/auth.validators.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';\n\nexport class AuthValidators {\n  static strongPassword(): ValidatorFn {\n    return (control: AbstractControl): ValidationErrors | null => {\n      const value = control.value;\n      if (!value) return null;\n\n      const hasUpperCase = /[A-Z]/.test(value);\n      const hasLowerCase = /[a-z]/.test(value);\n      const hasNumber = /\\d/.test(value);\n      const hasSpecialChar = /[!@#$%^&*(),.?\":{}|<>]/.test(value);\n\n      const passwordValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;\n      return !passwordValid ? { strongPassword: true } : null;\n    };\n  }\n\n  static passwordMatch: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {\n    const password = control.get('password');\n    const confirmPassword = control.get('confirmPassword');\n\n    if (!password || !confirmPassword) return null;\n\n    if (password.value !== confirmPassword.value) {\n      confirmPassword.setErrors({ passwordMismatch: true });\n      return { passwordMismatch: true };\n    }\n\n    return null;\n  };\n}\n",
+            "inputsClass": [],
+            "outputsClass": [],
+            "properties": [
+                {
+                    "name": "passwordMatch",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ValidatorFn",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "modifierKind": [
+                        126
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "strongPassword",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "ValidatorFn",
+                    "typeParameters": [],
+                    "line": 4,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        126
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "extends": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
     "directives": [],
     "components": [
         {
             "name": "App",
-            "id": "component-App-b00273b547f793f3db7e75907c391c07b2fecfb8bc89d58d12363bc056afb851183d80139354f37e1e3107c5ad095626d1b66ea31e5a8e08620f193580ad6f6f",
+            "id": "component-App-b6b52c835b4ce58b0c8f2d09095ae8d83c9c21a2279ab5fe48909988771eabcd0234fe88f627ba838a01a54dd9cd9bfe920fe8b0f1fbbadb64c19cd2c2000e65",
             "file": "src/app/app.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -495,20 +617,174 @@
                     "name": "RouterOutlet"
                 },
                 {
-                    "name": "ThemeToggleComponent",
+                    "name": "NavbarComponent",
                     "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, signal} from '@angular/core';\nimport { RouterOutlet } from '@angular/router';\nimport { ThemeToggleComponent } from './shared/theme-toggle/theme-toggle.component';\n\n@Component({\n  selector: 'app-root',\n  imports: [RouterOutlet, ThemeToggleComponent],\n  templateUrl: './app.html',\n  styleUrl: './app.scss',\n})\nexport class App {\n  protected readonly title = signal('BiblioNode!');\n}\n",
+            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { RouterOutlet } from '@angular/router';\nimport { NavbarComponent } from './shared/layout/navbar/navbar.component';\n\n@Component({\n  selector: 'app-root',\n  imports: [RouterOutlet, NavbarComponent],\n  templateUrl: './app.html',\n  styleUrl: './app.scss',\n})\nexport class App {\n  protected readonly title = signal('BiblioNode!');\n}\n",
             "styleUrl": "./app.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<main class=\"main\">\r\n  <nav class=\"flex bg-gray-200 dark:bg-mauve-950 border-b-2 border-gray-300 dark:border-mauve-800 transition-colors\">\r\n    <app-theme-toggle class=\"align-self-center ml-auto\"/>\r\n  </nav>\r\n  <div class=\"content\">\r\n    <router-outlet />\r\n  </div>\r\n</main>\r\n"
+            "templateData": "<div class=\"flex min-h-screen flex-col md:flex-row\">\r\n  <app-navbar />\r\n  <main class=\"main flex flex-col flex-1 p-4 pb-24 md:p-8 md:pb-8 items-center justify-center bg-gray-100 dark:bg-mauve-950 text-black dark:text-white\">\r\n    <router-outlet />\r\n  </main>\r\n</div>\r\n"
+        },
+        {
+            "name": "BookCardComponent",
+            "id": "component-BookCardComponent-d3480eb59f946139338f797c0bcd961611e52a5708d47880e984e3e23cbb8a8cbd4c4eb19f1b39ea4f1ab2f9fa206ddb7fc8954231dfb9f37a604b25447d078a",
+            "file": "src/app/shared/components/book-card/book-card.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-book-card",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./book-card.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "book",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Book",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 13,
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "spinePalette",
+                    "defaultValue": "[\n    '#3F5D4E',\n    '#B08D57',\n    '#7C4A3C',\n    '#4A6A8A',\n    '#8A6A9E',\n    '#5E7355',\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "NgOptimizedImage"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { Book } from '../../../models/book.model';\nimport { NgOptimizedImage } from '@angular/common';\n\n@Component({\n  selector: 'app-book-card',\n  standalone: true,\n  imports: [NgOptimizedImage],\n  templateUrl: './book-card.component.html',\n  styleUrl: './book-card.component.scss',\n})\nexport class BookCardComponent {\n  book = input.required<Book>();\n\n  private readonly spinePalette = [\n    '#3F5D4E',\n    '#B08D57',\n    '#7C4A3C',\n    '#4A6A8A',\n    '#8A6A9E',\n    '#5E7355',\n  ];\n\n  get spineColor(): string {\n    return this.spinePalette[this.book().id % this.spinePalette.length];\n  }\n\n  get statusColorClass(): string {\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\n  }\n\n  get statusText(): string {\n    if (this.book().availableCopies === 0) {\n      return 'Checked out';\n    }\n    const noun = this.book().availableCopies === 1 ? 'copy' : 'copies';\n    return `${this.book().availableCopies} ${noun} on the shelf`;\n  }\n}\n",
+            "styleUrl": "./book-card.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "accessors": {
+                "spineColor": {
+                    "name": "spineColor",
+                    "getSignature": {
+                        "name": "spineColor",
+                        "type": "string",
+                        "returnType": "string",
+                        "line": 24
+                    }
+                },
+                "statusColorClass": {
+                    "name": "statusColorClass",
+                    "getSignature": {
+                        "name": "statusColorClass",
+                        "type": "string",
+                        "returnType": "string",
+                        "line": 28
+                    }
+                },
+                "statusText": {
+                    "name": "statusText",
+                    "getSignature": {
+                        "name": "statusText",
+                        "type": "string",
+                        "returnType": "string",
+                        "line": 32
+                    }
+                }
+            },
+            "templateData": "<article\n  class=\"flex flex-col bg-white border border-[#E4DDD1] rounded-xl overflow-hidden transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)]\"\n>\n  <div\n    class=\"relative aspect-3/4 flex items-center justify-center bg-[#3F5D4E] before:content-[''] before:absolute before:top-0 before:left-0 before:w-2.5 before:h-full before:bg-black/18\"\n    [style.background]=\"book().coverUrl ? 'none' : spineColor\"\n  >\n    @if (book().coverUrl) {\n      <img\n        [src]=\"book().coverUrl\"\n        [alt]=\"'Cover of ' + book().title\"\n        class=\"w-full h-full object-cover\"\n      />\n    } @else {\n      <span class=\"font-serif text-[2.75rem] font-semibold text-[#F7F3EC] opacity-85\">\n        {{ book().title.charAt(0) }}\n      </span>\n    }\n  </div>\n  <div class=\"flex flex-col gap-1 px-4 pt-3.5 pb-4\">\n    <h3 class=\"font-serif text-[1.05rem] font-semibold m-0 leading-tight\">{{ book().title }}</h3>\n    <p class=\"m-0 text-sm text-[#6E6A63]\">{{ book().authorName }}</p>\n    <p class=\"m-0 mt-0.5 font-mono text-[0.72rem] text-[#6E6A63] tracking-wide\">ISBN {{ book().isbn }}</p>\n    <p class=\"m-0 mt-2 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold\" [class]=\"statusColorClass\">\n      <span class=\"w-2 h-2 rounded-full bg-current\" aria-hidden=\"true\"></span>\n      {{ statusText }}\n    </p>\n  </div>\n</article>\n"
+        },
+        {
+            "name": "BrowseComponent",
+            "id": "component-BrowseComponent-e200ac2cd13e0e58402f363856b6ab1e3d6e70fd298aa48bc53ef7ddff8dbd2cc61cc2f9cb4c7dfed0e6379994857cd02331c5425159afe8558799ad5f69db6c",
+            "file": "src/app/features/browse/browse.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-browse",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./browse.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "books",
+                    "defaultValue": "[\n    {\n      id: 1,\n      title: 'The Way Of Kings',\n      authorName: 'Brandon Sanderson',\n      isbn: '1234567890',\n      availableCopies: 10,\n      coverUrl: 'https://m.media-amazon.com/images/I/81cO02Zz6VL.jpg',\n    },\n    {\n      id: 2,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 3,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 4,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 5,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 6,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 7,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 8,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 9,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Array<Book>",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [
+                {
+                    "name": "BookCardComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { Book } from '../../models/book.model';\nimport { BookCardComponent } from '../../shared/components/book-card/book-card.component';\n\n@Component({\n  selector: 'app-browse',\n  imports: [BookCardComponent],\n  templateUrl: './browse.component.html',\n  styleUrl: './browse.component.scss',\n})\nexport class BrowseComponent {\n  books: Array<Book> = [\n    {\n      id: 1,\n      title: 'The Way Of Kings',\n      authorName: 'Brandon Sanderson',\n      isbn: '1234567890',\n      availableCopies: 10,\n      coverUrl: 'https://m.media-amazon.com/images/I/81cO02Zz6VL.jpg',\n    },\n    {\n      id: 2,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 3,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 4,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 5,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 6,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 7,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 8,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 9,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n  ];\n}\n",
+            "styleUrl": "./browse.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <h1>Browse</h1>\n  <div class=\"grid grid-cols-1 md:grid-cols-5 gap-4\">\n    @for (book of books; track book.id) {\n      <app-book-card [book]=\"book\" />\n    }\n  </div>\n</div>\n"
         },
         {
             "name": "ButtonComponent",
@@ -733,7 +1009,7 @@
         {
             "name": "IconInputComponent",
             "id": "component-IconInputComponent-c3e0fe8d63df6e08b317e085a5b808f98846a231d20239cec33674a38058e8c195b6ad8518069e5bcf3470eaafbfb3f804b9e2028176ebc8bfc0d32395419ee0",
-            "file": "src/app/shared/icon-input.component/icon-input.component.ts",
+            "file": "src/app/shared/components/icon-input.component/icon-input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -856,7 +1132,7 @@
         },
         {
             "name": "LoginComponent",
-            "id": "component-LoginComponent-3a725f6ff84dd23f05ea3839ec5f682877affe29af96ab5adfa4d5138cc8429f5643709f5341972621036e1344fd2715baf3b6822367ea5ab0c76a9da5a359ee",
+            "id": "component-LoginComponent-03a2bea331181d2d622d3b818cff1dd06222ccadfe621e646d4de05bbc421f7af75439aca38ba17d78f50f7b1dc0c7231e59153edee800de7acef9594f70b5ce",
             "file": "src/app/features/auth/login/login.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -996,7 +1272,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, inject, signal } from '@angular/core';\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\nimport { Router } from '@angular/router';\nimport { IconInputComponent } from '../../../shared/icon-input.component/icon-input.component';\nimport { AuthService } from '../../../core/services/auth.service';\n\n@Component({\n  selector: 'app-login',\n  imports: [ReactiveFormsModule, IconInputComponent],\n  templateUrl: './login.component.html',\n  styleUrl: './login.component.scss',\n})\nexport class LoginComponent {\n  private router = inject(Router);\n  private authService = inject(AuthService);\n\n  loginForm = new FormGroup({\n    email: new FormControl<string>('', {\n      validators: [Validators.required, Validators.email],\n      nonNullable: true,\n    }),\n    password: new FormControl<string>('', {\n      validators: Validators.required,\n      nonNullable: true,\n    }),\n  });\n\n  get email() {\n    return this.loginForm.get('email') as FormControl<string>;\n  }\n  get password() {\n    return this.loginForm.get('password') as FormControl<string>;\n  }\n\n  passwordVisible = signal(false);\n  incorrectCredentialsMessage = signal(false);\n\n  signIn() {\n    if (this.loginForm.valid) {\n      this.authService.login({ email: this.email.value, password: this.password.value }).subscribe({\n        next: () => this.router.navigate(['/']),\n        error: (err) => {\n          this.incorrectCredentialsMessage.set(true);\n          this.loginForm.markAsTouched();\n        },\n      });\n    }\n  }\n\n  moveToSignUpPage() {\n    this.router.navigate(['/auth/signup']);\n  }\n\n  togglePasswordVisibility() {\n    this.passwordVisible.update((visible) => !visible);\n  }\n\n  hideIncorrectCredentialsMessage() {\n    this.incorrectCredentialsMessage.set(false);\n  }\n}\n",
+            "sourceCode": "import { Component, inject, signal } from '@angular/core';\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\nimport { Router } from '@angular/router';\nimport { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';\nimport { AuthService } from '../../../core/services/auth.service';\n\n@Component({\n  selector: 'app-login',\n  imports: [ReactiveFormsModule, IconInputComponent],\n  templateUrl: './login.component.html',\n  styleUrl: './login.component.scss',\n})\nexport class LoginComponent {\n  private router = inject(Router);\n  private authService = inject(AuthService);\n\n  loginForm = new FormGroup({\n    email: new FormControl<string>('', {\n      validators: [Validators.required, Validators.email],\n      nonNullable: true,\n    }),\n    password: new FormControl<string>('', {\n      validators: Validators.required,\n      nonNullable: true,\n    }),\n  });\n\n  get email() {\n    return this.loginForm.get('email') as FormControl<string>;\n  }\n  get password() {\n    return this.loginForm.get('password') as FormControl<string>;\n  }\n\n  passwordVisible = signal(false);\n  incorrectCredentialsMessage = signal(false);\n\n  signIn() {\n    if (this.loginForm.valid) {\n      this.authService.login({ email: this.email.value, password: this.password.value }).subscribe({\n        next: () => this.router.navigate(['/']),\n        error: (err) => {\n          this.incorrectCredentialsMessage.set(true);\n          this.loginForm.markAsTouched();\n        },\n      });\n    }\n  }\n\n  moveToSignUpPage() {\n    this.router.navigate(['/auth/signup']);\n  }\n\n  togglePasswordVisibility() {\n    this.passwordVisible.update((visible) => !visible);\n  }\n\n  hideIncorrectCredentialsMessage() {\n    this.incorrectCredentialsMessage.set(false);\n  }\n}\n",
             "styleUrl": "./login.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1022,11 +1298,11 @@
                     }
                 }
             },
-            "templateData": "<main class=\"flex flex-col items-center justify-center h-full w-screen bg-gray-100 dark:bg-mauve-950 text-black dark:text-white\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex items-center justify-center\">\n      <h1 class=\"text-2xl mb-8 font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n    </div>\n\n    @if (incorrectCredentialsMessage()) {\n      <div class=\"flex flex-row items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative\"\n           role=\"alert\">\n        <p class=\"text-red-500 text-sm\">Incorrect email or password.</p>\n        <button class=\"absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer\"\n                (click)=\"hideIncorrectCredentialsMessage()\">\n          <span class=\"material-symbols-outlined\">close</span>\n        </button>\n      </div>\n    }\n\n    <form [formGroup]=\"loginForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"signIn()\">\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">mail</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password\"\n        [isPassword]=\"!passwordVisible()\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n\n        <button type=\"button\"\n                end\n                class=\"rounded-full cursor-pointer w-7 h-7 flex items-center justify-center\"\n                (click)=\"togglePasswordVisibility()\">\n          @if (passwordVisible()) {\n            <span class=\"material-symbols-outlined\">visibility_off</span>\n          } @else {\n            <span class=\"material-symbols-outlined\">visibility</span>\n          }\n        </button>\n      </app-icon-input>\n\n      <button type=\"submit\"\n              class=\"bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\">\n        Sign In\n      </button>\n      <button type=\"button\"\n              class=\"border-blue-900 text-blue-900 dark:text-white hover:text-white border-2 hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\"\n              (click)=\"moveToSignUpPage()\">Sign Up\n      </button>\n    </form>\n\n  </div>\n</main>\n"
+            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex items-center justify-center\">\n      <h1 class=\"text-2xl mb-8 font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n    </div>\n\n    @if (incorrectCredentialsMessage()) {\n      <div class=\"flex flex-row items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative\"\n           role=\"alert\">\n        <p class=\"text-red-500 text-sm\">Incorrect email or password.</p>\n        <button class=\"absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer\"\n                (click)=\"hideIncorrectCredentialsMessage()\">\n          <span class=\"material-symbols-outlined\">close</span>\n        </button>\n      </div>\n    }\n\n    <form [formGroup]=\"loginForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"signIn()\">\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">mail</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password\"\n        [isPassword]=\"!passwordVisible()\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n\n        <button type=\"button\"\n                end\n                class=\"rounded-full cursor-pointer w-7 h-7 flex items-center justify-center\"\n                (click)=\"togglePasswordVisibility()\">\n          @if (passwordVisible()) {\n            <span class=\"material-symbols-outlined\">visibility_off</span>\n          } @else {\n            <span class=\"material-symbols-outlined\">visibility</span>\n          }\n        </button>\n      </app-icon-input>\n\n      <button type=\"submit\"\n              class=\"bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\">\n        Sign In\n      </button>\n      <button type=\"button\"\n              class=\"border-blue-900 text-blue-900 dark:text-white hover:text-white border-2 hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\"\n              (click)=\"moveToSignUpPage()\">Sign Up\n      </button>\n    </form>\n\n  </div>\n</div>\n"
         },
         {
             "name": "NavbarComponent",
-            "id": "component-NavbarComponent-5a03514984547d4d5f2f6408a1adae6fd195bd928e6861165293325d880c345e0c7ba8d6cb5a32bd8a308da3b9bf5fc31184e071ab77b178802b252c4812d624",
+            "id": "component-NavbarComponent-0d957b7ae6a65113a04c8696cffb958852223637d3edfef2e513bc1b3426159819a3993157733aa9cde1f0cd1482bdfd4cea8cb02f125040193cb01dfa95fded",
             "file": "src/app/shared/layout/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1054,18 +1330,107 @@
                 {
                     "name": "ThemeToggleComponent",
                     "type": "component"
+                },
+                {
+                    "name": "NavbarItemComponent",
+                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';\n\n@Component({\n  selector: 'app-navbar',\n  imports: [ThemeToggleComponent],\n  templateUrl: './navbar.component.html',\n  styleUrl: './navbar.component.scss',\n})\nexport class NavbarComponent {}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';\nimport { NavbarItemComponent } from './navbar-item/navbar-item.component';\n\n@Component({\n  selector: 'app-navbar',\n  imports: [ThemeToggleComponent, NavbarItemComponent],\n  templateUrl: './navbar.component.html',\n  styleUrl: './navbar.component.scss',\n})\nexport class NavbarComponent {}\n",
             "styleUrl": "./navbar.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<nav class=\"fixed bottom-0 left-0 z-50 h-16 w-full flex-row items-center justify-around border-t px-4 bg-gray-200 dark:bg-mauve-950 border-b-2 border-gray-300 dark:border-mauve-800\nmd:sticky md:top-0 md:h-screen md:w-64 md:flex-col md:items-start md:justify-start md:gap-8 md:border-r md:border-t-0 md:py-8\">\n  <app-theme-toggle class=\"ml-auto\"/>\n</nav>\n"
+            "templateData": "<nav class=\"fixed bottom-0 left-0 z-50 flex h-16 w-full flex-row items-center justify-around border-t-2 border-gray-300 bg-gray-200 px-2 dark:border-mauve-800 dark:bg-mauve-950\n            md:sticky md:top-0 md:h-screen md:w-24 md:flex-col md:items-center md:justify-start md:gap-8 md:border-r-2 md:border-t-0 md:py-8\">\n  <app-navbar-item\n    icon=\"menu_book\"\n    label=\"Browse\"\n    href=\"/browse\"\n    [isActive]=\"true\"\n  />\n\n  <app-navbar-item\n    icon=\"menu_book\"\n    label=\"Browse\"\n    href=\"/\"\n    [isActive]=\"false\"\n  />\n\n  <app-theme-toggle class=\"hidden md:block md:mt-auto\"/>\n</nav>\n"
+        },
+        {
+            "name": "NavbarItemComponent",
+            "id": "component-NavbarItemComponent-456f883c0cfab2d50d8e62e8223dde9b3420afb82f66ef540546199c40eae0df3fb69a6d0a20e3f289c77d169c2ed1b5d5cbd8f3f8ae4d53a31b09db50dc0764",
+            "file": "src/app/shared/layout/navbar/navbar-item/navbar-item.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-navbar-item",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./navbar-item.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "href",
+                    "defaultValue": "'#'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 12,
+                    "required": false
+                },
+                {
+                    "name": "icon",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 10,
+                    "required": true
+                },
+                {
+                    "name": "isActive",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 13,
+                    "required": false
+                },
+                {
+                    "name": "label",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 11,
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, input } from '@angular/core';\n\n@Component({\n  selector: 'app-navbar-item',\n  standalone: true,\n  templateUrl: './navbar-item.component.html',\n  styleUrl: './navbar-item.component.scss',\n})\nexport class NavbarItemComponent {\n  icon = input.required<string>();\n  label = input.required<string>();\n  href = input<string>('#');\n  isActive = input<boolean>(true);\n}\n",
+            "styleUrl": "./navbar-item.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<a [href]=\"href()\"\n   class=\"group flex flex-col items-center gap-1 rounded-xl p-2 transition-all hover:bg-gray-100 dark:hover:bg-gray-900 md:w-full\"\n   [class.text-gray-600]=\"!isActive()\"\n   [class.text-blue-950]=\"isActive()\"\n   [class.dark:text-blue-200]=\"isActive()\"\n   [class.text-gray-400]=\"!isActive()\"\n   >\n\n  <span class=\"material-symbols-outlined transition-transform group-hover:scale-110\">\n    {{ icon() }}\n  </span>\n\n  <span class=\"text-[10px] tracking-wide md:text-base\"\n        [class.font-semibold]=\"isActive()\"\n        [class.font-medium]=\"!isActive()\">\n    {{ label() }}\n  </span>\n</a>\n"
         },
         {
             "name": "PageComponent",
@@ -1162,9 +1527,177 @@
             "extends": []
         },
         {
+            "name": "RegisterComponent",
+            "id": "component-RegisterComponent-fe4375b02ee49e1ce650991e223e54d780d93ea0f56566fc5c1bb8f167d161941999bda709109b8535f33d1aa992fe4f33acad85842f82066643a37a9bffb0fa",
+            "file": "src/app/features/auth/register/register.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-register",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./register.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "authService",
+                    "defaultValue": "inject(AuthService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "isLoading",
+                    "defaultValue": "signal(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 43
+                },
+                {
+                    "name": "passwordVisible",
+                    "defaultValue": "signal(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 42
+                },
+                {
+                    "name": "registerForm",
+                    "defaultValue": "new FormGroup(\n    {\n      fullName: new FormControl('', {\n        validators: Validators.required,\n        nonNullable: true,\n      }),\n      email: new FormControl<string>('', {\n        validators: [Validators.required, Validators.email],\n        nonNullable: true,\n      }),\n      password: new FormControl<string>('', {\n        validators: [Validators.required, Validators.minLength(8), AuthValidators.strongPassword()],\n        nonNullable: true,\n      }),\n      confirmPassword: new FormControl<string>('', {\n        validators: [Validators.required, Validators.minLength(8)],\n        nonNullable: true,\n      }),\n    },\n    {\n      validators: AuthValidators.passwordMatch,\n    },\n  )",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "router",
+                    "defaultValue": "inject(Router)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "moveToSignInPage",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 77,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onSubmit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 58,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [
+                {
+                    "name": "ReactiveFormsModule",
+                    "type": "module"
+                },
+                {
+                    "name": "IconInputComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, inject, signal } from '@angular/core';\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\nimport { Router } from '@angular/router';\nimport { AuthService } from '../../../core/services/auth.service';\nimport { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';\nimport { AuthValidators } from '../../../core/validators/auth.validators';\n\n@Component({\n  selector: 'app-register',\n  imports: [ReactiveFormsModule, IconInputComponent],\n  templateUrl: './register.component.html',\n  styleUrl: './register.component.scss',\n})\nexport class RegisterComponent {\n  private router = inject(Router);\n  private authService = inject(AuthService);\n\n  registerForm = new FormGroup(\n    {\n      fullName: new FormControl('', {\n        validators: Validators.required,\n        nonNullable: true,\n      }),\n      email: new FormControl<string>('', {\n        validators: [Validators.required, Validators.email],\n        nonNullable: true,\n      }),\n      password: new FormControl<string>('', {\n        validators: [Validators.required, Validators.minLength(8), AuthValidators.strongPassword()],\n        nonNullable: true,\n      }),\n      confirmPassword: new FormControl<string>('', {\n        validators: [Validators.required, Validators.minLength(8)],\n        nonNullable: true,\n      }),\n    },\n    {\n      validators: AuthValidators.passwordMatch,\n    },\n  );\n\n  passwordVisible = signal(false);\n  isLoading = signal(false);\n\n  get fullName() {\n    return this.registerForm.get('fullName') as FormControl<string>;\n  }\n  get email() {\n    return this.registerForm.get('email') as FormControl<string>;\n  }\n  get password() {\n    return this.registerForm.get('password') as FormControl<string>;\n  }\n  get confirmPassword() {\n    return this.registerForm.get('confirmPassword') as FormControl<string>;\n  }\n\n  onSubmit() {\n    if (this.registerForm.valid) {\n      this.isLoading.set(true);\n      this.authService\n        .register({\n          fullName: this.fullName.value,\n          email: this.email.value,\n          password: this.password.value,\n        })\n        .subscribe({\n          next: () => this.router.navigate(['/auth/login']),\n          error: (err) => {\n            console.error('Registration failed', err);\n            this.isLoading.set(false);\n          },\n        });\n    }\n  }\n\n  moveToSignInPage() {\n    this.router.navigate(['/auth/login']);\n  }\n}\n",
+            "styleUrl": "./register.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "accessors": {
+                "fullName": {
+                    "name": "fullName",
+                    "getSignature": {
+                        "name": "fullName",
+                        "type": "",
+                        "returnType": "",
+                        "line": 45
+                    }
+                },
+                "email": {
+                    "name": "email",
+                    "getSignature": {
+                        "name": "email",
+                        "type": "",
+                        "returnType": "",
+                        "line": 48
+                    }
+                },
+                "password": {
+                    "name": "password",
+                    "getSignature": {
+                        "name": "password",
+                        "type": "",
+                        "returnType": "",
+                        "line": 51
+                    }
+                },
+                "confirmPassword": {
+                    "name": "confirmPassword",
+                    "getSignature": {
+                        "name": "confirmPassword",
+                        "type": "",
+                        "returnType": "",
+                        "line": 54
+                    }
+                }
+            },
+            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex flex-col items-center justify-center\">\n      <h1 class=\"text-2xl font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n      <h2 class=\"font-bold my-2 dark:text-gray-300 text-gray-900\">Create Your Account</h2>\n    </div>\n\n    <form [formGroup]=\"registerForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"onSubmit()\">\n      <app-icon-input\n        [control]=\"fullName\"\n        placeholder=\"Full Name*\"\n        [errorMessages]=\"{\n          required: 'Please enter your full name',\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">person</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email*\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">mail</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password*\"\n        [isPassword]=\"true\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n          minLength: 'Password must be at least 8 characters long',\n          strongPassword: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"confirmPassword\"\n        placeholder=\"Confirm Password*\"\n        [isPassword]=\"true\"\n        [errorMessages]=\"{\n          required: 'Please confirm your password',\n          passwordMismatch: 'Passwords do not match'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n      </app-icon-input>\n\n      <button type=\"submit\"\n              [disabled]=\"registerForm.invalid || isLoading()\"\n              class=\"flex flex-row items-center justify-center\n              bg-blue-900 text-white hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed\n               transition-colors rounded p-2 font-bold cursor-pointer\"\n              [class.cursor-wait]=\"isLoading()\"\n              aria-label=\"Sign Up button\">\n        @if (isLoading()) {\n          <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\n          <span>Registering...</span>\n        } @else {\n          <span>Sign Up</span>\n        }\n      </button>\n      <p>Already have an account? <a (click)=\"moveToSignInPage()\" class=\"text-blue-700 hover:cursor-pointer\">Sign In</a></p>\n    </form>\n  </div>\n</div>\n"
+        },
+        {
             "name": "ThemeToggleComponent",
             "id": "component-ThemeToggleComponent-0d2c376e63e77d1e3fed4c7b9ce827b224b4584ef6a5186769a3f4cd2deaa9521f4479a9e0754f2d2214dae392219178c9838045eaa7f48521750421a0116a13",
-            "file": "src/app/shared/theme-toggle/theme-toggle.component.ts",
+            "file": "src/app/shared/components/theme-toggle/theme-toggle.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -1262,7 +1795,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Routes",
-                "defaultValue": "[\n  {\n    path: 'auth',\n    children: [{ path: 'login', component: LoginComponent }],\n  },\n]"
+                "defaultValue": "[\n  {\n    path: 'auth',\n    children: [\n      { path: 'login', component: LoginComponent },\n      { path: 'signup', component: RegisterComponent },\n    ],\n  },\n  {\n    path: 'browse',\n    component: BrowseComponent,\n  },\n]"
             }
         ],
         "functions": [],
@@ -1302,7 +1835,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Routes",
-                    "defaultValue": "[\n  {\n    path: 'auth',\n    children: [{ path: 'login', component: LoginComponent }],\n  },\n]"
+                    "defaultValue": "[\n  {\n    path: 'auth',\n    children: [\n      { path: 'login', component: LoginComponent },\n      { path: 'signup', component: RegisterComponent },\n    ],\n  },\n  {\n    path: 'browse',\n    component: BrowseComponent,\n  },\n]"
                 }
             ]
         },
@@ -1313,10 +1846,17 @@
     "routes": {
         "name": "<root>",
         "kind": "module",
-        "children": []
+        "children": [
+            {
+                "name": "BrowseComponent",
+                "kind": "component",
+                "path": "browse",
+                "filename": "src/app/app.routes.ts"
+            }
+        ]
     },
     "coverage": {
-        "count": 4,
+        "count": 3,
         "status": "low",
         "files": [
             {
@@ -1368,12 +1908,39 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/core/validators/auth.validators.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "AuthValidators",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/features/auth/login/login.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "LoginComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/auth/register/register.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "RegisterComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/browse/browse.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "BrowseComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {
@@ -1404,6 +1971,15 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/models/book.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Book",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/models/loan.model.ts",
                 "type": "interface",
                 "linktype": "interface",
@@ -1422,12 +1998,39 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/shared/icon-input.component/icon-input.component.ts",
+                "filePath": "src/app/shared/components/book-card/book-card.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "BookCardComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/icon-input.component/icon-input.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "IconInputComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/theme-toggle/theme-toggle.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ThemeToggleComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/layout/navbar/navbar-item/navbar-item.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NavbarItemComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -1437,15 +2040,6 @@
                 "name": "NavbarComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/shared/theme-toggle/theme-toggle.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "ThemeToggleComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
                 "status": "low"
             },
             {
