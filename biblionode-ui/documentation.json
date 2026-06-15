@@ -630,11 +630,11 @@
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"flex min-h-screen flex-col md:flex-row\">\r\n  <app-navbar />\r\n  <main class=\"main flex flex-col flex-1 p-4 pb-24 md:p-8 md:pb-8 items-center justify-center bg-gray-100 dark:bg-mauve-950 text-black dark:text-white\">\r\n    <router-outlet />\r\n  </main>\r\n</div>\r\n"
+            "templateData": "<div\n  class=\"flex min-h-screen flex-col bg-gray-100 text-black md:flex-row dark:bg-mauve-950 dark:text-white\"\n>\n  <app-navbar />\n  <main class=\"flex-1 p-4 pb-24 md:p-8 md:pb-8\">\n    <router-outlet />\n  </main>\n</div>\n"
         },
         {
             "name": "BookCardComponent",
-            "id": "component-BookCardComponent-d3480eb59f946139338f797c0bcd961611e52a5708d47880e984e3e23cbb8a8cbd4c4eb19f1b39ea4f1ab2f9fa206ddb7fc8954231dfb9f37a604b25447d078a",
+            "id": "component-BookCardComponent-4ffdd513ebc67a54f6201ff78750f3e96cc9d0a00afc80475451da0b096943a357a1a0f6286437409ab4d20085cd319dd05837a31b1f60cd1493444cec8d5227",
             "file": "src/app/shared/components/book-card/book-card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -686,25 +686,21 @@
             "hostBindings": [],
             "hostListeners": [],
             "standalone": true,
-            "imports": [
-                {
-                    "name": "NgOptimizedImage"
-                }
-            ],
+            "imports": [],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\nimport { Book } from '../../../models/book.model';\nimport { NgOptimizedImage } from '@angular/common';\n\n@Component({\n  selector: 'app-book-card',\n  standalone: true,\n  imports: [NgOptimizedImage],\n  templateUrl: './book-card.component.html',\n  styleUrl: './book-card.component.scss',\n})\nexport class BookCardComponent {\n  book = input.required<Book>();\n\n  private readonly spinePalette = [\n    '#3F5D4E',\n    '#B08D57',\n    '#7C4A3C',\n    '#4A6A8A',\n    '#8A6A9E',\n    '#5E7355',\n  ];\n\n  get spineColor(): string {\n    return this.spinePalette[this.book().id % this.spinePalette.length];\n  }\n\n  get statusColorClass(): string {\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\n  }\n\n  get statusText(): string {\n    if (this.book().availableCopies === 0) {\n      return 'Checked out';\n    }\n    const noun = this.book().availableCopies === 1 ? 'copy' : 'copies';\n    return `${this.book().availableCopies} ${noun} on the shelf`;\n  }\n}\n",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { Book } from '../../../models/book.model';\nimport { NgOptimizedImage } from '@angular/common';\n\n@Component({\n  selector: 'app-book-card',\n  standalone: true,\n  imports: [],\n  templateUrl: './book-card.component.html',\n  styleUrl: './book-card.component.scss',\n})\nexport class BookCardComponent {\n  book = input.required<Book>();\n\n  private readonly spinePalette = [\n    '#3F5D4E',\n    '#B08D57',\n    '#7C4A3C',\n    '#4A6A8A',\n    '#8A6A9E',\n    '#5E7355',\n  ];\n\n  get coverColor(): string {\n    return this.spinePalette[this.book().id % this.spinePalette.length];\n  }\n\n  get statusColorClass(): string {\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\n  }\n\n  get statusText(): string {\n    if (this.book().availableCopies === 0) {\n      return 'Checked out';\n    }\n    const txt = this.book().availableCopies === 1 ? 'copy' : 'copies';\n    return `${this.book().availableCopies} ${txt} left`;\n  }\n}\n",
             "styleUrl": "./book-card.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
             "accessors": {
-                "spineColor": {
-                    "name": "spineColor",
+                "coverColor": {
+                    "name": "coverColor",
                     "getSignature": {
-                        "name": "spineColor",
+                        "name": "coverColor",
                         "type": "string",
                         "returnType": "string",
                         "line": 24
@@ -729,11 +725,66 @@
                     }
                 }
             },
-            "templateData": "<article\n  class=\"flex flex-col bg-white border border-[#E4DDD1] rounded-xl overflow-hidden transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)]\"\n>\n  <div\n    class=\"relative aspect-3/4 flex items-center justify-center bg-[#3F5D4E] before:content-[''] before:absolute before:top-0 before:left-0 before:w-2.5 before:h-full before:bg-black/18\"\n    [style.background]=\"book().coverUrl ? 'none' : spineColor\"\n  >\n    @if (book().coverUrl) {\n      <img\n        [src]=\"book().coverUrl\"\n        [alt]=\"'Cover of ' + book().title\"\n        class=\"w-full h-full object-cover\"\n      />\n    } @else {\n      <span class=\"font-serif text-[2.75rem] font-semibold text-[#F7F3EC] opacity-85\">\n        {{ book().title.charAt(0) }}\n      </span>\n    }\n  </div>\n  <div class=\"flex flex-col gap-1 px-4 pt-3.5 pb-4\">\n    <h3 class=\"font-serif text-[1.05rem] font-semibold m-0 leading-tight\">{{ book().title }}</h3>\n    <p class=\"m-0 text-sm text-[#6E6A63]\">{{ book().authorName }}</p>\n    <p class=\"m-0 mt-0.5 font-mono text-[0.72rem] text-[#6E6A63] tracking-wide\">ISBN {{ book().isbn }}</p>\n    <p class=\"m-0 mt-2 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold\" [class]=\"statusColorClass\">\n      <span class=\"w-2 h-2 rounded-full bg-current\" aria-hidden=\"true\"></span>\n      {{ statusText }}\n    </p>\n  </div>\n</article>\n"
+            "templateData": "<article\n  class=\"flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)] dark:border-mauve-800 dark:bg-black\"\n>\n  <div\n    [style.background]=\"book().coverUrl ? 'none' : coverColor\"\n    class=\"relative flex aspect-3/4 items-center justify-center before:absolute before:top-0 before:left-0 before:h-full before:w-2.5 before:bg-black/18 before:content-['']\"\n  >\n    @if (book().coverUrl) {\n      <img\n        [alt]=\"'Cover of ' + book().title\"\n        [src]=\"book().coverUrl\"\n        class=\"h-full w-full object-center\"\n      />\n    } @else {\n      <span class=\"font-serif text-5xl font-semibold text-amber-50 opacity-85\">\n        {{ book().title.charAt(0) }}\n      </span>\n    }\n  </div>\n\n  <div class=\"flex flex-col gap-1 px-4 py-4\">\n    <h3\n      class=\"m-0 font-serif text-[1.05rem] leading-tight font-semibold text-black dark:text-gray-200\"\n    >\n      {{ book().title }}\n    </h3>\n    <p class=\"m-0 text-sm text-mauve-500\">{{ book().authorName }}</p>\n    <p\n      [class]=\"statusColorClass\"\n      class=\"m-0 mt-2 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold\"\n    >\n      <span aria-hidden=\"true\" class=\"h-2 w-2 rounded-full bg-current\"></span>\n      {{ statusText }}\n    </p>\n  </div>\n</article>\n"
+        },
+        {
+            "name": "BookGridComponent",
+            "id": "component-BookGridComponent-ed7e9d6c332d2e441ce6e5c821ecf31c31547e73769308e84dc02be91c4532ea266111f9ff032a6cfdf84a347c1528e5d29db9ea6205060c6ae05267ecc72e1d",
+            "file": "src/app/features/browse/book-grid/book-grid.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-book-grid",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./book-grid.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "books",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Iterable<Book>",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 13,
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "BookCardComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { Book } from '../../../models/book.model';\nimport { BookCardComponent } from '../../../shared/components/book-card/book-card.component';\n\n@Component({\n  selector: 'app-book-grid',\n  standalone: true,\n  imports: [BookCardComponent],\n  templateUrl: './book-grid.component.html',\n  styleUrl: './book-grid.component.scss',\n})\nexport class BookGridComponent {\n  books = input.required<Iterable<Book>>();\n}\n",
+            "styleUrl": "./book-grid.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div class=\"flex h-full w-full flex-col\">\n  <div class=\"mb-6\">\n    <h1 class=\"m-0 mb-1.5 font-serif text-2xl font-semibold lg:text-3xl\">Browse Books</h1>\n  </div>\n\n  <div class=\"grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5\">\n    @for (book of books(); track book.id) {\n      <app-book-card [book]=\"book\" />\n    }\n  </div>\n</div>\n"
         },
         {
             "name": "BrowseComponent",
-            "id": "component-BrowseComponent-e200ac2cd13e0e58402f363856b6ab1e3d6e70fd298aa48bc53ef7ddff8dbd2cc61cc2f9cb4c7dfed0e6379994857cd02331c5425159afe8558799ad5f69db6c",
+            "id": "component-BrowseComponent-622d0335b396b5a613eed04d13a260005586c3aa653f82c0c63b860429a703c3d98b81cbe5cacaa62c6aca58d32abc78c44464f241af3b82658954c201dbb867",
             "file": "src/app/features/browse/browse.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -753,14 +804,14 @@
             "propertiesClass": [
                 {
                     "name": "books",
-                    "defaultValue": "[\n    {\n      id: 1,\n      title: 'The Way Of Kings',\n      authorName: 'Brandon Sanderson',\n      isbn: '1234567890',\n      availableCopies: 10,\n      coverUrl: 'https://m.media-amazon.com/images/I/81cO02Zz6VL.jpg',\n    },\n    {\n      id: 2,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 3,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 4,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 5,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 6,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 7,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 8,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 9,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n  ]",
+                    "defaultValue": "[\n    {\n      id: 1,\n      title: 'The Way Of Kings',\n      authorName: 'Brandon Sanderson',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 2,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 0,\n    },\n    {\n      id: 3,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 1,\n    },\n    {\n      id: 4,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 5,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 6,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 7,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 8,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 9,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Array<Book>",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 13
                 }
             ],
             "methodsClass": [],
@@ -771,20 +822,20 @@
             "standalone": false,
             "imports": [
                 {
-                    "name": "BookCardComponent",
+                    "name": "BookGridComponent",
                     "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { Book } from '../../models/book.model';\nimport { BookCardComponent } from '../../shared/components/book-card/book-card.component';\n\n@Component({\n  selector: 'app-browse',\n  imports: [BookCardComponent],\n  templateUrl: './browse.component.html',\n  styleUrl: './browse.component.scss',\n})\nexport class BrowseComponent {\n  books: Array<Book> = [\n    {\n      id: 1,\n      title: 'The Way Of Kings',\n      authorName: 'Brandon Sanderson',\n      isbn: '1234567890',\n      availableCopies: 10,\n      coverUrl: 'https://m.media-amazon.com/images/I/81cO02Zz6VL.jpg',\n    },\n    {\n      id: 2,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 3,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 4,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 5,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 6,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 7,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 8,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 9,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n  ];\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { Book } from '../../models/book.model';\nimport { BookCardComponent } from '../../shared/components/book-card/book-card.component';\nimport { BookGridComponent } from './book-grid/book-grid.component';\n\n@Component({\n  selector: 'app-browse',\n  imports: [BookGridComponent],\n  templateUrl: './browse.component.html',\n  styleUrl: './browse.component.scss',\n})\nexport class BrowseComponent {\n  books: Array<Book> = [\n    {\n      id: 1,\n      title: 'The Way Of Kings',\n      authorName: 'Brandon Sanderson',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 2,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 0,\n    },\n    {\n      id: 3,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 1,\n    },\n    {\n      id: 4,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 5,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 6,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 7,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 8,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n    {\n      id: 9,\n      title: 'Lorem Ipsum',\n      authorName: 'Lorem Ipsum',\n      isbn: '1234567890',\n      availableCopies: 10,\n    },\n  ];\n}\n",
             "styleUrl": "./browse.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <h1>Browse</h1>\n  <div class=\"grid grid-cols-1 md:grid-cols-5 gap-4\">\n    @for (book of books; track book.id) {\n      <app-book-card [book]=\"book\" />\n    }\n  </div>\n</div>\n"
+            "templateData": "<div class=\"h-full w-full\">\n  <app-book-grid [books]=\"books\" />\n</div>\n"
         },
         {
             "name": "ButtonComponent",
@@ -1345,11 +1396,11 @@
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<nav class=\"fixed bottom-0 left-0 z-50 flex h-16 w-full flex-row items-center justify-around border-t-2 border-gray-300 bg-gray-200 px-2 dark:border-mauve-800 dark:bg-mauve-950\n            md:sticky md:top-0 md:h-screen md:w-24 md:flex-col md:items-center md:justify-start md:gap-8 md:border-r-2 md:border-t-0 md:py-8\">\n  <app-navbar-item\n    icon=\"menu_book\"\n    label=\"Browse\"\n    href=\"/browse\"\n    [isActive]=\"true\"\n  />\n\n  <app-navbar-item\n    icon=\"menu_book\"\n    label=\"Browse\"\n    href=\"/\"\n    [isActive]=\"false\"\n  />\n\n  <app-theme-toggle class=\"hidden md:block md:mt-auto\"/>\n</nav>\n"
+            "templateData": "<nav\n  class=\"fixed bottom-0 left-0 z-50 flex h-16 w-full flex-row items-center justify-around border-t-2 border-gray-300 bg-gray-200 px-2 md:sticky md:top-0 md:h-screen md:w-24 md:flex-col md:items-center md:justify-start md:gap-8 md:border-t-0 md:border-r-2 md:py-8 dark:border-mauve-800 dark:bg-mauve-950\"\n>\n  <app-navbar-item link=\"/browse\" icon=\"menu_book\" label=\"Browse\" />\n  <app-navbar-item link=\"/auth/login\" icon=\"person\" label=\"Login\" />\n\n  <app-theme-toggle class=\"hidden md:mt-auto md:block\" />\n</nav>\n"
         },
         {
             "name": "NavbarItemComponent",
-            "id": "component-NavbarItemComponent-456f883c0cfab2d50d8e62e8223dde9b3420afb82f66ef540546199c40eae0df3fb69a6d0a20e3f289c77d169c2ed1b5d5cbd8f3f8ae4d53a31b09db50dc0764",
+            "id": "component-NavbarItemComponent-bf38e520a711b68bcd568d9350f84bcb5bc4bc491d43d1aad8d942292db43f4fee3552a0992c1f584b8e101467f129348fd6bf570b67818734606b5793607811",
             "file": "src/app/shared/layout/navbar/navbar-item/navbar-item.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1366,18 +1417,6 @@
             "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "href",
-                    "defaultValue": "'#'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "string",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 12,
-                    "required": false
-                },
-                {
                     "name": "icon",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -1385,20 +1424,8 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 10,
+                    "line": 12,
                     "required": true
-                },
-                {
-                    "name": "isActive",
-                    "defaultValue": "true",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "boolean",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 13,
-                    "required": false
                 },
                 {
                     "name": "label",
@@ -1408,8 +1435,20 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 11,
+                    "line": 13,
                     "required": true
+                },
+                {
+                    "name": "link",
+                    "defaultValue": "'#'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14,
+                    "required": false
                 }
             ],
             "outputsClass": [],
@@ -1420,17 +1459,24 @@
             "hostBindings": [],
             "hostListeners": [],
             "standalone": true,
-            "imports": [],
+            "imports": [
+                {
+                    "name": "RouterLink"
+                },
+                {
+                    "name": "RouterLinkActive"
+                }
+            ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\n\n@Component({\n  selector: 'app-navbar-item',\n  standalone: true,\n  templateUrl: './navbar-item.component.html',\n  styleUrl: './navbar-item.component.scss',\n})\nexport class NavbarItemComponent {\n  icon = input.required<string>();\n  label = input.required<string>();\n  href = input<string>('#');\n  isActive = input<boolean>(true);\n}\n",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { RouterLink, RouterLinkActive } from '@angular/router';\n\n@Component({\n  selector: 'app-navbar-item',\n  standalone: true,\n  templateUrl: './navbar-item.component.html',\n  styleUrl: './navbar-item.component.scss',\n  imports: [RouterLink, RouterLinkActive],\n})\nexport class NavbarItemComponent {\n  icon = input.required<string>();\n  label = input.required<string>();\n  link = input<string>('#');\n}\n",
             "styleUrl": "./navbar-item.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<a [href]=\"href()\"\n   class=\"group flex flex-col items-center gap-1 rounded-xl p-2 transition-all hover:bg-gray-100 dark:hover:bg-gray-900 md:w-full\"\n   [class.text-gray-600]=\"!isActive()\"\n   [class.text-blue-950]=\"isActive()\"\n   [class.dark:text-blue-200]=\"isActive()\"\n   [class.text-gray-400]=\"!isActive()\"\n   >\n\n  <span class=\"material-symbols-outlined transition-transform group-hover:scale-110\">\n    {{ icon() }}\n  </span>\n\n  <span class=\"text-[10px] tracking-wide md:text-base\"\n        [class.font-semibold]=\"isActive()\"\n        [class.font-medium]=\"!isActive()\">\n    {{ label() }}\n  </span>\n</a>\n"
+            "templateData": "<a\n  class=\"button group flex flex-col items-center gap-1 rounded-xl p-2 transition-all hover:bg-gray-100 hover:text-gray-900 md:w-full dark:hover:bg-gray-900 dark:hover:text-gray-100\"\n  [routerLink]=\"link()\"\n  routerLinkActive=\"text-blue-950 dark:text-blue-200\"\n  #rla=\"routerLinkActive\"\n  [class.text-gray-500]=\"!rla.isActive\"\n  ariaCurrentWhenActive=\"page\"\n>\n  <span class=\"material-symbols-outlined transition-transform group-hover:scale-110\">\n    {{ icon() }}\n  </span>\n\n  <span class=\"text-[10px] tracking-wide md:text-base\" routerLinkActive=\"font-semibold\">\n    {{ label() }}\n  </span>\n</a>\n"
         },
         {
             "name": "PageComponent",
@@ -1935,6 +1981,15 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/features/browse/book-grid/book-grid.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "BookGridComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/features/browse/browse.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -2030,7 +2085,7 @@
                 "linktype": "component",
                 "name": "NavbarItemComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
