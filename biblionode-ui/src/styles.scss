@@ -4,6 +4,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 * {
-  @apply transition-colors;
+  @apply transition-all;
   box-sizing: border-box;
 }
