@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Book } from '../domain/models/book.model';
-import { BookCardComponent } from '../../../shared/components/book-card/book-card.component';
 import { BookGridComponent } from './book-grid/book-grid.component';
+import { BookService } from '../data-access/book.service';
+import { BookMapper } from '../domain/mappers/book.mapper';
 
 @Component({
   selector: 'app-browse',
@@ -10,69 +11,28 @@ import { BookGridComponent } from './book-grid/book-grid.component';
   styleUrl: './browse.component.scss',
 })
 export class BrowseComponent {
-  books: Array<Book> = [
-    {
-      id: 1,
-      title: 'The Way Of Kings',
-      authorName: 'Brandon Sanderson',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-    {
-      id: 2,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 0,
-    },
-    {
-      id: 3,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 1,
-    },
-    {
-      id: 4,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-    {
-      id: 5,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-    {
-      id: 6,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-    {
-      id: 7,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-    {
-      id: 8,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-    {
-      id: 9,
-      title: 'Lorem Ipsum',
-      authorName: 'Lorem Ipsum',
-      isbn: '1234567890',
-      availableCopies: 10,
-    },
-  ];
+  private bookService = inject(BookService);
+
+  books = signal<Book[]>([]);
+  isLoading = signal(false);
+  errorMessage = signal<string | null>(null);
+
+  ngOnInit() {
+    this.loadAllBooks();
+  }
+
+  loadAllBooks() {
+    this.isLoading.set(true);
+    this.bookService.getAllBooks().subscribe({
+      next: (page) => {
+        this.books.set(BookMapper.toBookList(page.content));
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching books:', err);
+        this.errorMessage.set('Failed to load books. Please try again later.');
+        this.isLoading.set(false);
+      },
+    });
+  }
 }
