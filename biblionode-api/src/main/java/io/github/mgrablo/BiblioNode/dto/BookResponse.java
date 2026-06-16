@@ -11,6 +11,8 @@ public record BookResponse(
 		String authorName,
 		Long authorId,
 		boolean available,
+		String coverUrl,
+		String description,
 
 		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 		LocalDateTime createdAt,

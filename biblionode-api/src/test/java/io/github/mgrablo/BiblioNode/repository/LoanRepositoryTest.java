@@ -98,7 +98,7 @@ public class LoanRepositoryTest {
 	}
 
 	private Book persistBook(String title, String isbn, Author author) {
-		Book book = new Book(null, title, isbn, author, true);
+		Book book = new Book(null, title, isbn, author, true, null, null);
 		return entityManager.persist(book);
 	}
 
