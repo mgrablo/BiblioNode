@@ -91,7 +91,7 @@ public class BookControllerSecurityTest {
     @Test
     void getById_ShouldAllowReader() throws Exception {
         when(bookService.findBookById(1L))
-                .thenReturn(new BookResponse(1L, "Title", "123", "Author", 1L, true, java.time.LocalDateTime.now(), java.time.LocalDateTime.now()));
+                .thenReturn(getMockBookResponse());
 
         mockMvc.perform(get("/api/books/1")
                 .with(user("reader").roles("READER"))
@@ -101,7 +101,7 @@ public class BookControllerSecurityTest {
     @Test
     void findByTitle_ShouldAllowReader() throws Exception {
         when(bookService.findBookByTitle(any(String.class)))
-                .thenReturn(new BookResponse(1L, "Title", "123", "Author", 1L, true, java.time.LocalDateTime.now(), java.time.LocalDateTime.now()));
+                .thenReturn(getMockBookResponse());
 
         mockMvc.perform(get("/api/books/find")
                 .param("bookTitle", "Title")
@@ -123,7 +123,7 @@ public class BookControllerSecurityTest {
     @Test
     void updateBook_ShouldAllowAdmin() throws Exception {
         when(bookService.updateBook(any(Long.class), any(io.github.mgrablo.BiblioNode.dto.BookRequest.class)))
-                .thenReturn(new BookResponse(1L, "Title", "123", "Author", 1L, true, java.time.LocalDateTime.now(), java.time.LocalDateTime.now()));
+                .thenReturn(getMockBookResponse());
 
         mockMvc.perform(put("/api/books/1")
                 .with(user("admin").roles("ADMIN"))
@@ -157,5 +157,19 @@ public class BookControllerSecurityTest {
                 .with(user("reader").roles("READER"))
                 .with(csrf())
         ).andExpect(status().isForbidden());
+    }
+
+    private BookResponse getMockBookResponse() {
+        return new BookResponse(1L,
+            "Title",
+            "123",
+            "Author",
+            1L,
+            true,
+            null,
+            "Lorem Ipsum",
+            java.time.LocalDateTime.now(),
+            java.time.LocalDateTime.now()
+        );
     }
 }

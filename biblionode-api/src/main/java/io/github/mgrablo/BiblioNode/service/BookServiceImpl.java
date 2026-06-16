@@ -70,6 +70,8 @@ public class BookServiceImpl implements BookService {
 
 		book.setTitle(bookRequest.title());
 		book.setIsbn(bookRequest.isbn());
+		book.setDescription(bookRequest.description());
+		book.setCoverUrl(bookRequest.coverUrl());
 
 		if (!book.getAuthor().getId().equals(bookRequest.authorId())) {
 			Author newAuthor = authorRepository.findById(bookRequest.authorId())

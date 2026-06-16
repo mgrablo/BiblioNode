@@ -16,7 +16,7 @@ public class LoanMapperTest {
 	public void shouldMapLoanToLoanResponse() {
 		LocalDateTime testDate = LocalDateTime.of(2024, 1, 1, 12, 0);
 		Author author = new Author(1L, "Test Author", "Bio", null);
-		Book book = new Book(1L, "Test Book", "111", author, true);
+		Book book = new Book(1L, "Test Book", "111", author, true, null, null);
 		User user = new User();
 		user.setId(1L);
 		user.setEmail("test@email.com");
