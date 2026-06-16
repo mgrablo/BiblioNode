@@ -26,6 +26,12 @@ public class Book extends BaseEntity {
 	@Column(nullable = false)
 	private boolean available = true;
 
+	@Column(length = 1000)
+	private String coverUrl;
+
+	@Column(columnDefinition = "clob")
+	private String description;
+
 	public Book(Long id, String title, String isbn, Author author) {
 		this.id = id;
 		this.title = title;
