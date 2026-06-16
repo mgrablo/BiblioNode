@@ -1,0 +1,36 @@
+<article
+  class="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)] dark:border-mauve-800 dark:bg-black"
+>
+  <div
+    [style.background]="book().coverUrl ? 'none' : coverColor"
+    class="relative flex aspect-3/4 items-center justify-center before:absolute before:top-0 before:left-0 before:h-full before:w-2.5 before:bg-black/18 before:content-['']"
+  >
+    @if (book().coverUrl) {
+      <img
+        [alt]="'Cover of ' + book().title"
+        [src]="book().coverUrl"
+        class="h-full w-full object-center"
+      />
+    } @else {
+      <span class="font-serif text-5xl font-semibold text-amber-50 opacity-85">
+        {{ book().title.charAt(0) }}
+      </span>
+    }
+  </div>
+
+  <div class="flex flex-col gap-1 px-4 py-4">
+    <h3
+      class="m-0 font-serif text-[1.05rem] leading-tight font-semibold text-black dark:text-gray-200"
+    >
+      {{ book().title }}
+    </h3>
+    <p class="m-0 text-sm text-mauve-500">{{ book().authorName }}</p>
+    <p
+      [class]="statusColorClass"
+      class="m-0 mt-2 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold"
+    >
+      <span aria-hidden="true" class="h-2 w-2 rounded-full bg-current"></span>
+      {{ statusText }}
+    </p>
+  </div>
+</article>
