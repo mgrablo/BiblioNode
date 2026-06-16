@@ -2,11 +2,12 @@ import { Component, input } from '@angular/core';
 import { Book } from '../../domain/models/book.model';
 import { NgOptimizedImage } from '@angular/common';
 import { BookCoverComponent } from '../book-cover/book-cover.component';
+import { StatusBadgeComponent } from '../status-badge/status-badge.component';
 
 @Component({
   selector: 'app-book-card',
   standalone: true,
-  imports: [BookCoverComponent],
+  imports: [BookCoverComponent, StatusBadgeComponent],
   templateUrl: './book-card.component.html',
   styleUrl: './book-card.component.scss',
 })

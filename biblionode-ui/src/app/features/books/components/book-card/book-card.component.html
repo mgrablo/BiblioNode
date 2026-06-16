@@ -10,12 +10,6 @@
       {{ book().title }}
     </h3>
     <p class="m-0 text-sm text-mauve-500">{{ book().authorName }}</p>
-    <p
-      [class]="statusColorClass"
-      class="m-0 mt-2 inline-flex items-center gap-1.5 text-[0.8rem] font-semibold"
-    >
-      <span aria-hidden="true" class="h-2 w-2 rounded-full bg-current"></span>
-      {{ statusText }}
-    </p>
+    <p appStatusBadge [availableCopies]="book().availableCopies"></p>
   </div>
 </article>
