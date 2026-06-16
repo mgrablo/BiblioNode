@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { BookCardComponent } from './book-card.component';
-import { Book } from '../../../features/books/domain/models/book.model';
+import { Book } from '../../domain/models/book.model';
 
 const meta: Meta<BookCardComponent> = {
   title: 'Shared/Components/BookCard',

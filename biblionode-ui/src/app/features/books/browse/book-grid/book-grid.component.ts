@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Book } from '../../domain/models/book.model';
-import { BookCardComponent } from '../../../../shared/components/book-card/book-card.component';
+import { BookCardComponent } from '../../components/book-card/book-card.component';
 
 @Component({
   selector: 'app-book-grid',

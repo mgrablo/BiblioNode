@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Book } from '../../../features/books/domain/models/book.model';
+import { Book } from '../../domain/models/book.model';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
