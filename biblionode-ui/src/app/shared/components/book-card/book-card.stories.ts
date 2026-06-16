@@ -18,6 +18,7 @@ const props: Book = {
   isbn: '1234567890',
   availableCopies: 10,
   coverUrl: 'https://m.media-amazon.com/images/I/81cO02Zz6VL.jpg',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 
 export const Default: Story = {
