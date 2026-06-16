@@ -1,0 +1,9 @@
+<button
+  (click)="handleClick($event)"
+  [class]="computedClasses()"
+  [disabled]="disabled()"
+  [type]="type()"
+  class="focus-visible:outline-app-focus-ring dark:focus-visible:outline-app-focus-ring-dark box-border inline-flex cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+>
+  <ng-content></ng-content>
+</button>
