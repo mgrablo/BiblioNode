@@ -1,0 +1,16 @@
+<div
+  [style.background]="book().coverUrl ? 'none' : coverColor"
+  class="relative flex aspect-3/4 items-center justify-center before:absolute before:top-0 before:left-0 before:h-full before:w-2.5 before:bg-black/18 before:content-['']"
+>
+  @if (book().coverUrl) {
+    <img
+      [alt]="'Cover of ' + book().title"
+      [src]="book().coverUrl"
+      class="h-full w-full object-center"
+    />
+  } @else {
+    <span class="font-serif text-5xl font-semibold text-amber-50 opacity-85">
+      {{ book().title.charAt(0) }}
+    </span>
+  }
+</div>

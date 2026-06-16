@@ -3,7 +3,7 @@ import { BookCardComponent } from './book-card.component';
 import { Book } from '../../domain/models/book.model';
 
 const meta: Meta<BookCardComponent> = {
-  title: 'Shared/Components/BookCard',
+  title: 'Features/Books/Components/BookCard',
   component: BookCardComponent,
   tags: ['autodocs'],
 };
