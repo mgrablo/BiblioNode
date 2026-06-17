@@ -1,10 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegisterRequest } from "../../features/auth/data/dto/register-request.model";
-import { LoginRequest } from "../../features/auth/data/dto/login-request.model";
-import { LoginResponse } from "../../features/auth/data/dto/login-response.model";
+import { RegisterRequest } from "../dto/register-request.model";
+import { LoginRequest } from "../dto/login-request.model";
+import { LoginResponse } from "../dto/login-response.model";
 import { catchError, tap } from 'rxjs';
-import { ReaderProfile } from '../../models/reader-profile.model';
+import { ReaderProfile } from '../../../../models/reader-profile.model';
 
 @Injectable({
   providedIn: 'root',

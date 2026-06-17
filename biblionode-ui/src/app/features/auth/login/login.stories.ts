@@ -2,7 +2,7 @@ import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { LoginComponent } from './login.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { signal } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../data/services/auth.service';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
