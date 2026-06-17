@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from '../data/services/auth.service';
 import { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';
-import { AuthValidators } from '../../../core/validators/auth.validators';
+import { AuthValidators } from '../validators/auth.validators';
 
 @Component({
   selector: 'app-register',
