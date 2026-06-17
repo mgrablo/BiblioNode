@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -10,10 +10,15 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class IconInputComponent {
   control = input.required<FormControl>();
   errorMessages = input<Record<string, string>>({});
-
   placeholder = input<string>('');
-  isPassword = input<boolean>(false);
-  type = computed(() => (this.isPassword() ? 'password' : 'text'));
+  type = input<'password' | 'text'>('text');
+  leadingIcon = input<string>('');
+  trailingIcon = input<string>('');
+  leadingIconClickable = input<boolean>(false);
+  trailingIconClickable = input<boolean>(false);
+
+  leadingIconClick = output<MouseEvent>();
+  trailingIconClick = output<MouseEvent>();
 
   showErrors() {
     const { invalid, touched, errors } = this.control();
@@ -26,5 +31,13 @@ export class IconInputComponent {
       return this.errorMessages()[firstErrorKey] || 'Invalid input';
     }
     return 'Unknown error';
+  }
+
+  onTrailingIconClick(event: MouseEvent) {
+    this.trailingIconClick.emit(event);
+  }
+
+  onLeadingIconClick(event: MouseEvent) {
+    this.leadingIconClick.emit(event);
   }
 }

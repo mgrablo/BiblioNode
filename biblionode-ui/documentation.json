@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Book",
-            "id": "interface-Book-602c812b14cb2125f08f36a152ad61d73fa1b1740209d71f48fd110b3b224fcf11a2b61e262999a98aa391bd4641f1c5cff806824a1e0ac2ca5c3aa8dd7eeeda",
+            "id": "interface-Book-803355fd190889a221afa2d21103ee8931e246f01e66448033b8a06fcfd5d826c1d18aec1a8f7e52896036bb51a84115f6345c256eb52c43f488c3d7dc9489be",
             "file": "src/app/features/books/domain/models/book.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Book {\r\n  id: number;\r\n  title: string;\r\n  authorName: string;\r\n  isbn: string;\r\n  availableCopies: number;\r\n  coverUrl: string | null;\r\n  description: string | null;\r\n}\r\n",
+            "sourceCode": "export interface Book {\n  id: number;\n  title: string;\n  authorName: string;\n  isbn: string;\n  availableCopies: number;\n  coverUrl: string | null;\n  description: string | null;\n}\n",
             "properties": [
                 {
                     "name": "authorName",
@@ -88,12 +88,12 @@
         },
         {
             "name": "BookResponse",
-            "id": "interface-BookResponse-8b543dd444acd0453e05d205f2ad857b6cbc9395ef8c3f4b6b243ada166eecf9584f08cbccade280f3b39bee43144b2b94a7c74bf9e9046d07ca9474500e7a51",
+            "id": "interface-BookResponse-6f4a948f4a15dcaf73cb0b4b4c7dae6cfc8e9266ca99877ffefeebdc97fab2ff2422626bef85c8bd9da50c1f960a801c58ff12cfe1d4d9f338456a980f027edf",
             "file": "src/app/features/books/data-access/dto/book-response.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface BookResponse {\r\n  id: number;\r\n  title: string;\r\n  isbn: string;\r\n  authorName: string;\r\n  authorId: number;\r\n  available: boolean;\r\n  coverUrl: string | null;\r\n  description: string | null;\r\n  createdAt: string;\r\n  modifiedAt: string;\r\n}\r\n",
+            "sourceCode": "export interface BookResponse {\n  id: number;\n  title: string;\n  isbn: string;\n  authorName: string;\n  authorId: number;\n  available: boolean;\n  coverUrl: string | null;\n  description: string | null;\n  createdAt: string;\n  modifiedAt: string;\n}\n",
             "properties": [
                 {
                     "name": "authorId",
@@ -204,7 +204,7 @@
         {
             "name": "Loan",
             "id": "interface-Loan-744f5ba3ea0a9b8cc1e410ad11254f22751ae10d53a3f85f01a94831ada68a7e0c9b4f8b628b51800b2eb4a845127f21829e30d72b1582dbf5d347677a4f1219",
-            "file": "src/app/models/loan.model.ts",
+            "file": "src/app/shared/models/loan.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -308,12 +308,12 @@
         },
         {
             "name": "LoginRequest",
-            "id": "interface-LoginRequest-17331bc290f7a39559860265cbe4db8ef918b93e824630c6f10998f5fe1814b5918b907ea99a9c752f79ac35c63dc7569ea0c155e69cadd865280c1a1bd09aa0",
-            "file": "src/app/models/auth.model.ts",
+            "id": "interface-LoginRequest-85a06524f253af187df7d7812d1010c0a7cf482fb7d2ad63232013ed288fa298ea64db84917f6545fe1ecebaa9362b4247131fb09d79956be6393667b7fdda28",
+            "file": "src/app/features/auth/data/dto/login-request.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface LoginRequest {\r\n  email: string;\r\n  password: string;\r\n}\r\n\r\nexport interface LoginResponse {\r\n  token: string;\r\n  email: string;\r\n  roles: string[];\r\n}\r\n\r\nexport interface RegisterRequest {\r\n  email: string;\r\n  password: string;\r\n  fullName: string;\r\n}\r\n",
+            "sourceCode": "export interface LoginRequest {\r\n  email: string;\r\n  password: string;\r\n}\r\n",
             "properties": [
                 {
                     "name": "email",
@@ -343,12 +343,12 @@
         },
         {
             "name": "LoginResponse",
-            "id": "interface-LoginResponse-17331bc290f7a39559860265cbe4db8ef918b93e824630c6f10998f5fe1814b5918b907ea99a9c752f79ac35c63dc7569ea0c155e69cadd865280c1a1bd09aa0",
-            "file": "src/app/models/auth.model.ts",
+            "id": "interface-LoginResponse-d1a71df513142dd042d6525042a8d4d9724c51695fc7b4c0c497364f611e6e725994f462d6cb0663270d33b56244f08311765bbe116714fe304ba32da802a7c4",
+            "file": "src/app/features/auth/data/dto/login-response.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface LoginRequest {\r\n  email: string;\r\n  password: string;\r\n}\r\n\r\nexport interface LoginResponse {\r\n  token: string;\r\n  email: string;\r\n  roles: string[];\r\n}\r\n\r\nexport interface RegisterRequest {\r\n  email: string;\r\n  password: string;\r\n  fullName: string;\r\n}\r\n",
+            "sourceCode": "export interface LoginResponse {\r\n  token: string;\r\n  email: string;\r\n  roles: string[];\r\n}\r\n",
             "properties": [
                 {
                     "name": "email",
@@ -358,7 +358,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 8
+                    "line": 4
                 },
                 {
                     "name": "roles",
@@ -368,7 +368,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 9
+                    "line": 5
                 },
                 {
                     "name": "token",
@@ -378,7 +378,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 7
+                    "line": 3
                 }
             ],
             "indexSignatures": [],
@@ -389,7 +389,7 @@
         {
             "name": "Page",
             "id": "interface-Page-29ee945144731d9076c0d3a9128f2f1edecd69e8a457f6111300af7d944ac6e942852edced554d5ec7fe942e934a7b1953a87358fbf2e7a50683d6fed3bd031d",
-            "file": "src/app/core/models/page.model.ts",
+            "file": "src/app/shared/models/page.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -494,7 +494,7 @@
         {
             "name": "ReaderProfile",
             "id": "interface-ReaderProfile-b748eb06163fe5189962a8c5aad97d1b4b69a3a32552bda3bb06b815ef2b1cb1e3018c2160d320a96e093bdff9f388e47f7283c337c82cbc0640cc665f17afc3",
-            "file": "src/app/models/reader-profile.model.ts",
+            "file": "src/app/shared/models/reader-profile.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
@@ -548,12 +548,12 @@
         },
         {
             "name": "RegisterRequest",
-            "id": "interface-RegisterRequest-17331bc290f7a39559860265cbe4db8ef918b93e824630c6f10998f5fe1814b5918b907ea99a9c752f79ac35c63dc7569ea0c155e69cadd865280c1a1bd09aa0",
-            "file": "src/app/models/auth.model.ts",
+            "id": "interface-RegisterRequest-655b8b529f43793ecbacbc5b135b898248d20c15d3e11b61aad9b880c03f8b26ff276e21c183e60bcdd5fc6e8236781342944d7ba99e4fe017f33cdb8e7a34bf",
+            "file": "src/app/features/auth/data/dto/register-request.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface LoginRequest {\r\n  email: string;\r\n  password: string;\r\n}\r\n\r\nexport interface LoginResponse {\r\n  token: string;\r\n  email: string;\r\n  roles: string[];\r\n}\r\n\r\nexport interface RegisterRequest {\r\n  email: string;\r\n  password: string;\r\n  fullName: string;\r\n}\r\n",
+            "sourceCode": "export interface RegisterRequest {\r\n  email: string;\r\n  password: string;\r\n  fullName: string;\r\n}\r\n",
             "properties": [
                 {
                     "name": "email",
@@ -563,7 +563,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 2
                 },
                 {
                     "name": "fullName",
@@ -573,7 +573,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 4
                 },
                 {
                     "name": "password",
@@ -583,7 +583,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 3
                 }
             ],
             "indexSignatures": [],
@@ -620,8 +620,8 @@
     "injectables": [
         {
             "name": "AuthService",
-            "id": "injectable-AuthService-c82b7f08ec704f6ef6911a80e96c227a4c6b9668c2ca9d8d82a728dcd4710e43e801d64e0d1c97251321e00a27f32e062a60e33fd191f756fd3e1c1d0ca17cb8",
-            "file": "src/app/core/services/auth.service.ts",
+            "id": "injectable-AuthService-f6ba5f1617aefb82851b3b4e8ff33808ca353498ecf8f90a2b42d08a22f07f356246e8076a78260cad63d390a8590237218fb8faba5d0e41fff7eb5cf42da701",
+            "file": "src/app/features/auth/data/services/auth.service.ts",
             "properties": [
                 {
                     "name": "http",
@@ -632,7 +632,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 11,
+                    "line": 13,
                     "modifierKind": [
                         123
                     ]
@@ -646,7 +646,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 16
                 },
                 {
                     "name": "tokenSignal",
@@ -657,7 +657,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 12,
+                    "line": 14,
                     "modifierKind": [
                         123
                     ]
@@ -679,7 +679,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 16,
+                    "line": 18,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -702,7 +702,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 34,
+                    "line": 36,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -721,7 +721,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 30,
+                    "line": 32,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -743,13 +743,13 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { computed, inject, Injectable, signal } from '@angular/core';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { LoginRequest, LoginResponse, RegisterRequest } from '../../models/auth.model';\r\nimport { catchError, tap } from 'rxjs';\r\nimport { ReaderProfile } from '../../models/reader-profile.model';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class AuthService {\r\n  private http = inject(HttpClient);\r\n  private tokenSignal = signal<string | null>(localStorage.getItem('token'));\r\n\r\n  isAuthenticated = computed<boolean>(() => !!this.tokenSignal());\r\n\r\n  login(credentials: LoginRequest) {\r\n    return this.http.post<LoginResponse>('api/auth/login', credentials).pipe(\r\n      tap((response) => {\r\n        localStorage.setItem('token', response.token);\r\n        this.tokenSignal.set(response.token);\r\n      }),\r\n      catchError((error) => {\r\n        localStorage.removeItem('token');\r\n        this.tokenSignal.set(null);\r\n        throw error;\r\n      }),\r\n    );\r\n  }\r\n\r\n  register(request: RegisterRequest) {\r\n    return this.http.post<ReaderProfile>('api/auth/register', request);\r\n  }\r\n\r\n  logout() {\r\n    localStorage.removeItem('token');\r\n    this.tokenSignal.set(null);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { computed, inject, Injectable, signal } from '@angular/core';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { RegisterRequest } from \"../dto/register-request.model\";\r\nimport { LoginRequest } from \"../dto/login-request.model\";\r\nimport { LoginResponse } from \"../dto/login-response.model\";\r\nimport { catchError, tap } from 'rxjs';\r\nimport { ReaderProfile } from '../../../../shared/models/reader-profile.model';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class AuthService {\r\n  private http = inject(HttpClient);\r\n  private tokenSignal = signal<string | null>(localStorage.getItem('token'));\r\n\r\n  isAuthenticated = computed<boolean>(() => !!this.tokenSignal());\r\n\r\n  login(credentials: LoginRequest) {\r\n    return this.http.post<LoginResponse>('api/auth/login', credentials).pipe(\r\n      tap((response) => {\r\n        localStorage.setItem('token', response.token);\r\n        this.tokenSignal.set(response.token);\r\n      }),\r\n      catchError((error) => {\r\n        localStorage.removeItem('token');\r\n        this.tokenSignal.set(null);\r\n        throw error;\r\n      }),\r\n    );\r\n  }\r\n\r\n  register(request: RegisterRequest) {\r\n    return this.http.post<ReaderProfile>('api/auth/register', request);\r\n  }\r\n\r\n  logout() {\r\n    localStorage.removeItem('token');\r\n    this.tokenSignal.set(null);\r\n  }\r\n}\r\n",
             "extends": [],
             "type": "injectable"
         },
         {
             "name": "BookService",
-            "id": "injectable-BookService-dd8c82709518eb352baf6e9e6c5b7621c2156146b57758327624792d6b1935d8eca01589d7d92683c700633944549cdfd5ce148f43e20bef7c20ca0a1181a412",
+            "id": "injectable-BookService-b59731ca48a1e4b247e608b3fcc14f52860afe73f1ef889d55a7306a852a2566fb93e4d1c574fd4004dcdc9f3d5f5cf70bbd50f440efce12d265689d51ee25a2",
             "file": "src/app/features/books/data-access/book.service.ts",
             "properties": [
                 {
@@ -815,7 +815,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { inject, Injectable } from '@angular/core';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { BookResponse } from './dto/book-response';\r\nimport { Page } from '../../../core/models/page.model';\r\n\r\n@Injectable({ providedIn: 'root' })\r\nexport class BookService {\r\n  private http = inject(HttpClient);\r\n\r\n  getAllBooks() {\r\n    return this.http.get<Page<BookResponse>>('api/books');\r\n  }\r\n\r\n  getBookById(id: number) {\r\n    return this.http.get<BookResponse>(`api/books/${id}`);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { inject, Injectable } from '@angular/core';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { BookResponse } from './dto/book-response';\r\nimport { Page } from '../../../shared/models/page.model';\r\n\r\n@Injectable({ providedIn: 'root' })\r\nexport class BookService {\r\n  private http = inject(HttpClient);\r\n\r\n  getAllBooks() {\r\n    return this.http.get<Page<BookResponse>>('api/books');\r\n  }\r\n\r\n  getBookById(id: number) {\r\n    return this.http.get<BookResponse>(`api/books/${id}`);\r\n  }\r\n}\r\n",
             "extends": [],
             "type": "injectable"
         }
@@ -826,7 +826,7 @@
         {
             "name": "AuthValidators",
             "id": "class-AuthValidators-24dc46514a74371fa340cc8eb6374b09fd46a48af48dfac53130ddcc46860863d78fdc7261acd0da9219e19759e79e12479c6bbdf2ef2d8582e6f1456c1384cd",
-            "file": "src/app/core/validators/auth.validators.ts",
+            "file": "src/app/features/auth/validators/auth.validators.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
@@ -871,12 +871,12 @@
         },
         {
             "name": "BookMapper",
-            "id": "class-BookMapper-cd319ef73494ebe03330f522b481b950a37dedfe51e4dc69c69a2243e4b31bbeb5c9c3baa6bf95caed4cbf2b51855498ce37e419e62dc61b2f3f9a0a245e7f95",
+            "id": "class-BookMapper-6f3a7905d8a70c1c6000182ec728f4ecd1c719ed1a7b72c559fec7e3b0b6bd3910699ef0f6ebf4db00ba00f9bda0047d07a99fd461a07e4348cf2c4d7f79e9b8",
             "file": "src/app/features/books/domain/mappers/book.mapper.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
-            "sourceCode": "import { BookResponse } from '../../data-access/dto/book-response';\r\nimport { Book } from '../models/book.model';\r\n\r\nexport class BookMapper {\r\n  static toBook(response: BookResponse): Book {\r\n    console.log('Mapping BookResponse to Book:', response);\r\n    return {\r\n      id: response.id,\r\n      title: response.title,\r\n      isbn: response.isbn,\r\n      authorName: response.authorName,\r\n      availableCopies: response.available ? 1 : 0,\r\n      coverUrl: response.coverUrl,\r\n      description: response.description,\r\n    };\r\n  }\r\n\r\n  static toBookList(responses: BookResponse[]): Book[] {\r\n    return responses.map(BookMapper.toBook);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { BookResponse } from '../../data-access/dto/book-response';\nimport { Book } from '../models/book.model';\n\nexport class BookMapper {\n  static toBook(response: BookResponse): Book {\n    console.log('Mapping BookResponse to Book:', response);\n    return {\n      id: response.id,\n      title: response.title,\n      isbn: response.isbn,\n      authorName: response.authorName,\n      availableCopies: response.available ? 1 : 0,\n      coverUrl: response.coverUrl,\n      description: response.description,\n    };\n  }\n\n  static toBookList(responses: BookResponse[]): Book[] {\n    return responses.map(BookMapper.toBook);\n  }\n}\n",
             "inputsClass": [],
             "outputsClass": [],
             "properties": [],
@@ -962,7 +962,7 @@
     "components": [
         {
             "name": "App",
-            "id": "component-App-c642a0442633fd25d1abebbcb1c22db28c336b1a47c25b76ee44c422091fe14c8327bca83537d912d1988e57cdde8d4b80ccf79ba69218d438cffddcd3d5211b",
+            "id": "component-App-b6b52c835b4ce58b0c8f2d09095ae8d83c9c21a2279ab5fe48909988771eabcd0234fe88f627ba838a01a54dd9cd9bfe920fe8b0f1fbbadb64c19cd2c2000e65",
             "file": "src/app/app.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1014,17 +1014,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, signal } from '@angular/core';\r\nimport { RouterOutlet } from '@angular/router';\r\nimport { NavbarComponent } from './shared/layout/navbar/navbar.component';\r\n\r\n@Component({\r\n  selector: 'app-root',\r\n  imports: [RouterOutlet, NavbarComponent],\r\n  templateUrl: './app.html',\r\n  styleUrl: './app.scss',\r\n})\r\nexport class App {\r\n  protected readonly title = signal('BiblioNode!');\r\n}\r\n",
+            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { RouterOutlet } from '@angular/router';\nimport { NavbarComponent } from './shared/layout/navbar/navbar.component';\n\n@Component({\n  selector: 'app-root',\n  imports: [RouterOutlet, NavbarComponent],\n  templateUrl: './app.html',\n  styleUrl: './app.scss',\n})\nexport class App {\n  protected readonly title = signal('BiblioNode!');\n}\n",
             "styleUrl": "./app.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div\r\n  class=\"flex min-h-screen flex-col bg-gray-100 text-black md:flex-row dark:bg-mauve-950 dark:text-white\"\r\n>\r\n  <app-navbar />\r\n  <main class=\"flex-1 p-4 pb-24 md:p-8 md:pb-8\">\r\n    <router-outlet />\r\n  </main>\r\n</div>\r\n"
+            "templateData": "<div\n  class=\"flex min-h-screen flex-col bg-gray-100 text-black md:flex-row dark:bg-mauve-950 dark:text-white\"\n>\n  <app-navbar />\n  <main class=\"flex-1 p-4 pb-24 md:p-8 md:pb-8\">\n    <router-outlet />\n  </main>\n</div>\n"
         },
         {
             "name": "BacklinkComponent",
-            "id": "component-BacklinkComponent-789cbda1db4021a3fea61ab15a7773a301b6c95e5646f7d6a038d29abd392ca879db45b20e1b92b2dc29bc57824e9f3ce5c2f9786595912d55ebaad5a0ce9404",
+            "id": "component-BacklinkComponent-fc23f266d261a5b208e04cea7d63b8b55e4e99938a8e2a9aa4f51fa591deab63cbfffe3c090ac167daccc34e330d1097127fe13306c4ae9f83e4daa047ac5bfc",
             "file": "src/app/shared/components/backlink/backlink.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1067,7 +1067,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { RouterLink } from '@angular/router';\r\n\r\n@Component({\r\n  selector: 'app-backlink',\r\n  standalone: true,\r\n  imports: [RouterLink],\r\n  template: `\r\n    <a\r\n      class=\"text-app-subtext dark:text-app-subtext-dark hover:text-app-primary dark:hover:text-app-primary-dark inline-flex items-center gap-1.5 text-sm font-semibold\"\r\n      [routerLink]=\"route()\"\r\n    >\r\n      <span class=\"material-symbols-outlined\">chevron_left</span>\r\n      <ng-content></ng-content>\r\n    </a>\r\n  `,\r\n})\r\nexport class BacklinkComponent {\r\n  route = input.required<string>();\r\n}\r\n",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { RouterLink } from '@angular/router';\n\n@Component({\n  selector: 'app-backlink',\n  standalone: true,\n  imports: [RouterLink],\n  template: `\n    <a\n      class=\"text-app-subtext dark:text-app-subtext-dark hover:text-app-primary dark:hover:text-app-primary-dark inline-flex items-center gap-1.5 text-sm font-semibold\"\n      [routerLink]=\"route()\"\n    >\n      <span class=\"material-symbols-outlined\">chevron_left</span>\n      <ng-content></ng-content>\n    </a>\n  `,\n})\nexport class BacklinkComponent {\n  route = input.required<string>();\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -1075,7 +1075,7 @@
         },
         {
             "name": "BookCardComponent",
-            "id": "component-BookCardComponent-a9dc39792e093b6116492ce9bece7b7ed709812f2ee1e95965c4301aeb30083a4aa68170ae125023f911f2ee112941736eaaf6b6768031a4357e4cd2a710fe16",
+            "id": "component-BookCardComponent-59ce7dd8c018076495451c2a2fc1dc6acdd6f65c4fa5a2e78b01d534b608b144b3c4bf9bf1b194f759c7f7243b7e4cccd68838c0789c245dd144621f33b01c35",
             "file": "src/app/features/books/components/book-card/book-card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1124,7 +1124,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCoverComponent } from '../book-cover/book-cover.component';\r\nimport { StatusBadgeComponent } from '../status-badge/status-badge.component';\r\n\r\n@Component({\r\n  selector: 'app-book-card',\r\n  standalone: true,\r\n  imports: [BookCoverComponent, StatusBadgeComponent],\r\n  templateUrl: './book-card.component.html',\r\n  styleUrl: './book-card.component.scss',\r\n})\r\nexport class BookCardComponent {\r\n  book = input.required<Book>();\r\n\r\n  get statusColorClass(): string {\r\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\r\n  }\r\n\r\n  get statusText(): string {\r\n    if (this.book().availableCopies === 0) {\r\n      return 'Checked out';\r\n    }\r\n    const txt = this.book().availableCopies === 1 ? 'copy' : 'copies';\r\n    return `${this.book().availableCopies} ${txt} left`;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { Book } from '../../domain/models/book.model';\nimport { BookCoverComponent } from '../book-cover/book-cover.component';\nimport { StatusBadgeComponent } from '../status-badge/status-badge.component';\n\n@Component({\n  selector: 'app-book-card',\n  standalone: true,\n  imports: [BookCoverComponent, StatusBadgeComponent],\n  templateUrl: './book-card.component.html',\n  styleUrl: './book-card.component.scss',\n})\nexport class BookCardComponent {\n  book = input.required<Book>();\n\n  get statusColorClass(): string {\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\n  }\n\n  get statusText(): string {\n    if (this.book().availableCopies === 0) {\n      return 'Checked out';\n    }\n    const txt = this.book().availableCopies === 1 ? 'copy' : 'copies';\n    return `${this.book().availableCopies} ${txt} left`;\n  }\n}\n",
             "styleUrl": "./book-card.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1150,7 +1150,7 @@
                     }
                 }
             },
-            "templateData": "<article\r\n  class=\"flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)] dark:border-mauve-800 dark:bg-black\"\r\n>\r\n  <app-book-cover [book]=\"book()\" />\r\n\r\n  <div class=\"flex flex-col gap-1 px-4 py-4\">\r\n    <h3\r\n      class=\"m-0 font-serif text-[1.05rem] leading-tight font-semibold text-black dark:text-gray-200\"\r\n    >\r\n      {{ book().title }}\r\n    </h3>\r\n    <p class=\"m-0 text-sm text-mauve-500\">{{ book().authorName }}</p>\r\n    <p appStatusBadge [availableCopies]=\"book().availableCopies\"></p>\r\n  </div>\r\n</article>\r\n"
+            "templateData": "<article\n  class=\"flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)] dark:border-mauve-800 dark:bg-black\"\n>\n  <app-book-cover [book]=\"book()\" />\n\n  <div class=\"flex flex-col gap-1 px-4 py-4\">\n    <h3\n      class=\"m-0 font-serif text-[1.05rem] leading-tight font-semibold text-black dark:text-gray-200\"\n    >\n      {{ book().title }}\n    </h3>\n    <p class=\"m-0 text-sm text-mauve-500\">{{ book().authorName }}</p>\n    <p appStatusBadge [availableCopies]=\"book().availableCopies\"></p>\n  </div>\n</article>\n"
         },
         {
             "name": "BookCoverComponent",
@@ -1244,7 +1244,7 @@
         },
         {
             "name": "BookGridComponent",
-            "id": "component-BookGridComponent-6600a8ec4a64d82e56b2c9e03d1951ba4723de4847d1703a6e383d75f5e5fff31e7c1f1dd62258f4b8870ed16c8d817c7fab135268f7c70c22e3e662b67fadc0",
+            "id": "component-BookGridComponent-cb1525a1fb636a40ceff0c4c520dae3fc57c6105c3e09f4211350ca99bf5697ea9f79e950fbe668eb90c031ab1ff529185abf6f3bff37eab7e14e69a79b76787",
             "file": "src/app/features/books/browse/book-grid/book-grid.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1337,13 +1337,13 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, inject, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCardComponent } from '../../components/book-card/book-card.component';\r\nimport { Router } from '@angular/router';\r\n\r\n@Component({\r\n  selector: 'app-book-grid',\r\n  standalone: true,\r\n  imports: [BookCardComponent],\r\n  templateUrl: './book-grid.component.html',\r\n  styleUrl: './book-grid.component.scss',\r\n})\r\nexport class BookGridComponent {\r\n  private router = inject(Router);\r\n  books = input.required<Book[]>();\r\n\r\n  onBookClick(book: Book) {\r\n    this.router.navigate(['/books', book.id]);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, inject, input } from '@angular/core';\nimport { Book } from '../../domain/models/book.model';\nimport { BookCardComponent } from '../../components/book-card/book-card.component';\nimport { Router } from '@angular/router';\n\n@Component({\n  selector: 'app-book-grid',\n  standalone: true,\n  imports: [BookCardComponent],\n  templateUrl: './book-grid.component.html',\n  styleUrl: './book-grid.component.scss',\n})\nexport class BookGridComponent {\n  private router = inject(Router);\n  books = input.required<Book[]>();\n\n  onBookClick(book: Book) {\n    this.router.navigate(['/books', book.id]);\n  }\n}\n",
             "styleUrl": "./book-grid.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"flex h-full w-full flex-col\">\r\n  <div class=\"mb-6\">\r\n    <h1 class=\"m-0 mb-1.5 font-serif text-2xl font-semibold lg:text-3xl\">Browse Books</h1>\r\n  </div>\r\n\r\n  <div class=\"grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5\">\r\n    @for (book of books(); track book.id) {\r\n      <app-book-card [book]=\"book\" (click)=\"onBookClick(book)\" class=\"cursor-pointer\" />\r\n    }\r\n  </div>\r\n</div>\r\n"
+            "templateData": "<div class=\"flex h-full w-full flex-col\">\n  <div class=\"mb-6\">\n    <h1 class=\"m-0 mb-1.5 font-serif text-2xl font-semibold lg:text-3xl\">Browse Books</h1>\n  </div>\n\n  <div class=\"grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5\">\n    @for (book of books(); track book.id) {\n      <app-book-card [book]=\"book\" (click)=\"onBookClick(book)\" class=\"cursor-pointer\" />\n    }\n  </div>\n</div>\n"
         },
         {
             "name": "BrowseComponent",
@@ -1455,7 +1455,7 @@
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"h-full w-full\">\r\n  @if (errorMessage()) {\r\n    <div\r\n      class=\"relative mb-6 flex flex-row items-center rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700\"\r\n      role=\"alert\"\r\n    >\r\n      <p class=\"text-sm text-red-500\">{{ errorMessage() }}</p>\r\n    </div>\r\n  }\r\n  @if (isLoading()) {\r\n    <div class=\"flex h-full w-full items-center justify-center\">\r\n      <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\r\n    </div>\r\n  } @else {\r\n    <app-book-grid [books]=\"books()\" />\r\n  }\r\n</div>\r\n"
+            "templateData": "<div class=\"h-full w-full\">\n  @if (errorMessage()) {\n    <div\n      class=\"relative mb-6 flex flex-row items-center rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700\"\n      role=\"alert\"\n    >\n      <p class=\"text-sm text-red-500\">{{ errorMessage() }}</p>\n    </div>\n  }\n  @if (isLoading()) {\n    <div class=\"flex h-full w-full items-center justify-center\">\n      <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\n    </div>\n  } @else {\n    <app-book-grid [books]=\"books()\" />\n  }\n</div>\n"
         },
         {
             "name": "ButtonComponent",
@@ -1593,7 +1593,7 @@
         },
         {
             "name": "ButtonComponent",
-            "id": "component-ButtonComponent-bbe90edc92876280f1757d90706a9521f2ecbffe131fce7646bb1c69c5635e15061b1a0fa06fc2f164c69d2bcfaa27fb895a0552d396206854a76c2d401a7f61-1",
+            "id": "component-ButtonComponent-c3117ea5f502a717af78f501e75887a226fbd1ccc55587ec0dd25ca3a815ee364bb63fcd7d49f205b0ca7f6bdd8bc2bc918b8e55c862d29f4eea9d0b9e2b3516-1",
             "file": "src/app/shared/components/button/button.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1662,7 +1662,7 @@
             "propertiesClass": [
                 {
                     "name": "computedClasses",
-                    "defaultValue": "computed(() => {\r\n    if (this.disabled()) {\r\n      return 'bg-app-disabled text-app-disabled-text dark:bg-app-disabled-dark dark:text-app-disabled-text-dark';\r\n    }\r\n\r\n    if (this.variant() === 'primary') {\r\n      return `bg-app-primary text-app-primary-text hover:bg-app-primary-hover\r\n              dark:bg-app-primary-dark dark:text-app-primary-text-dark dark:hover:bg-app-primary-dark-hover`;\r\n    }\r\n\r\n    if (this.variant() === 'secondary') {\r\n      return `border-app-primary hover:bg-app-primary-hover hover:border-app-primary-hover border-2\r\n              dark:border-app-primary-dark dark:hover:bg-app-primary-dark-hover dark:hover:border-app-primary-dark-hover\r\n              text-app-primary dark:text-app-primary-dark hover:text-app-background dark:hover:text-app-background-dark`;\r\n    }\r\n\r\n    return '';\r\n  })",
+                    "defaultValue": "computed(() => {\n    if (this.disabled()) {\n      return 'bg-app-disabled text-app-disabled-text dark:bg-app-disabled-dark dark:text-app-disabled-text-dark';\n    }\n\n    if (this.variant() === 'primary') {\n      return `bg-app-primary text-app-primary-text hover:bg-app-primary-hover\n              dark:bg-app-primary-dark dark:text-app-primary-text-dark dark:hover:bg-app-primary-dark-hover`;\n    }\n\n    if (this.variant() === 'secondary') {\n      return `border-app-primary hover:bg-app-primary-hover hover:border-app-primary-hover border-2\n              dark:border-app-primary-dark dark:hover:bg-app-primary-dark-hover dark:hover:border-app-primary-dark-hover\n              text-app-primary dark:text-app-primary-dark hover:text-app-background dark:hover:text-app-background-dark`;\n    }\n\n    return '';\n  })",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
@@ -1715,7 +1715,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, computed, input, output } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-button',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './button.component.html',\r\n})\r\nexport class ButtonComponent {\r\n  variant = input<'primary' | 'secondary'>('primary');\r\n  type = input<'button' | 'submit' | 'reset'>('button');\r\n  disabled = input<boolean>(false);\r\n\r\n  onClick = output<MouseEvent>();\r\n\r\n  computedClasses = computed(() => {\r\n    if (this.disabled()) {\r\n      return 'bg-app-disabled text-app-disabled-text dark:bg-app-disabled-dark dark:text-app-disabled-text-dark';\r\n    }\r\n\r\n    if (this.variant() === 'primary') {\r\n      return `bg-app-primary text-app-primary-text hover:bg-app-primary-hover\r\n              dark:bg-app-primary-dark dark:text-app-primary-text-dark dark:hover:bg-app-primary-dark-hover`;\r\n    }\r\n\r\n    if (this.variant() === 'secondary') {\r\n      return `border-app-primary hover:bg-app-primary-hover hover:border-app-primary-hover border-2\r\n              dark:border-app-primary-dark dark:hover:bg-app-primary-dark-hover dark:hover:border-app-primary-dark-hover\r\n              text-app-primary dark:text-app-primary-dark hover:text-app-background dark:hover:text-app-background-dark`;\r\n    }\r\n\r\n    return '';\r\n  });\r\n\r\n  handleClick(event: MouseEvent) {\r\n    if (!this.disabled()) {\r\n      this.onClick.emit(event);\r\n    }\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, computed, input, output } from '@angular/core';\n\n@Component({\n  selector: 'app-button',\n  standalone: true,\n  imports: [],\n  templateUrl: './button.component.html',\n})\nexport class ButtonComponent {\n  variant = input<'primary' | 'secondary'>('primary');\n  type = input<'button' | 'submit' | 'reset'>('button');\n  disabled = input<boolean>(false);\n\n  onClick = output<MouseEvent>();\n\n  computedClasses = computed(() => {\n    if (this.disabled()) {\n      return 'bg-app-disabled text-app-disabled-text dark:bg-app-disabled-dark dark:text-app-disabled-text-dark';\n    }\n\n    if (this.variant() === 'primary') {\n      return `bg-app-primary text-app-primary-text hover:bg-app-primary-hover\n              dark:bg-app-primary-dark dark:text-app-primary-text-dark dark:hover:bg-app-primary-dark-hover`;\n    }\n\n    if (this.variant() === 'secondary') {\n      return `border-app-primary hover:bg-app-primary-hover hover:border-app-primary-hover border-2\n              dark:border-app-primary-dark dark:hover:bg-app-primary-dark-hover dark:hover:border-app-primary-dark-hover\n              text-app-primary dark:text-app-primary-dark hover:text-app-background dark:hover:text-app-background-dark`;\n    }\n\n    return '';\n  });\n\n  handleClick(event: MouseEvent) {\n    if (!this.disabled()) {\n      this.onClick.emit(event);\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -1727,7 +1727,7 @@
         },
         {
             "name": "DetailsComponent",
-            "id": "component-DetailsComponent-a6459c8213443241a1ccb30f3ebd851d68d38f43d99f2c86eb96266a3f50fa0e4114ccdcc82b1fe20e70561f7bf1ebd19034a66002c02ccc1e04fcf72e6dbde6",
+            "id": "component-DetailsComponent-47dc61afc86354fc682830ff3da4c5a384fa172d8286f50035cfa5cc7ade458041bd55286f5784528f6a917e25c227b3f5e83a7621de148526b8088036757a66",
             "file": "src/app/features/books/details/components/details.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1821,17 +1821,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, computed, inject, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCoverComponent } from '../../components/book-cover/book-cover.component';\r\nimport { StatusBadgeComponent } from '../../components/status-badge/status-badge.component';\r\nimport { ButtonComponent } from '../../../../shared/components/button/button.component';\r\nimport { BookService } from '../../data-access/book.service';\r\nimport { BacklinkComponent } from '../../../../shared/components/backlink/backlink.component';\r\n\r\n@Component({\r\n  selector: 'app-details',\r\n  imports: [BookCoverComponent, StatusBadgeComponent, ButtonComponent, BacklinkComponent],\r\n  templateUrl: './details.component.html',\r\n  styleUrl: './details.component.scss',\r\n})\r\nexport class DetailsComponent {\r\n  private bookService = inject(BookService);\r\n\r\n  book = input.required<Book>();\r\n  isAvailable = computed(() => this.book().availableCopies > 0);\r\n\r\n  onBorrow(): void {\r\n    // TODO\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, computed, inject, input } from '@angular/core';\nimport { Book } from '../../domain/models/book.model';\nimport { BookCoverComponent } from '../../components/book-cover/book-cover.component';\nimport { StatusBadgeComponent } from '../../components/status-badge/status-badge.component';\nimport { ButtonComponent } from '../../../../shared/components/button/button.component';\nimport { BookService } from '../../data-access/book.service';\nimport { BacklinkComponent } from '../../../../shared/components/backlink/backlink.component';\n\n@Component({\n  selector: 'app-details',\n  imports: [BookCoverComponent, StatusBadgeComponent, ButtonComponent, BacklinkComponent],\n  templateUrl: './details.component.html',\n  styleUrl: './details.component.scss',\n})\nexport class DetailsComponent {\n  private bookService = inject(BookService);\n\n  book = input.required<Book>();\n  isAvailable = computed(() => this.book().availableCopies > 0);\n\n  onBorrow(): void {\n    // TODO\n  }\n}\n",
             "styleUrl": "./details.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div\r\n  class=\"bg-app-background dark:bg-app-background-dark text-app-text dark:text-app-text-dark min-h-screen\"\r\n>\r\n  <div class=\"mx-auto max-w-240 px-5 py-10 lg:py-14\">\r\n    <app-backlink route=\"/browse\" class=\"mb-8 block\">Back to catalog</app-backlink>\r\n\r\n    <div class=\"grid grid-cols-1 gap-8 sm:grid-cols-[260px_1fr] lg:gap-12\">\r\n      <app-book-cover\r\n        [book]=\"book()\"\r\n        class=\"mx-auto max-w-65 rounded-xl shadow-sm sm:mx-0 dark:shadow-none\"\r\n        size=\"lg\"\r\n      />\r\n\r\n      <!-- Details -->\r\n      <div class=\"flex flex-col gap-5\">\r\n        <div>\r\n          <h1 class=\"m-0 font-serif text-3xl leading-tight font-semibold lg:text-4xl\">\r\n            {{ book().title }}\r\n          </h1>\r\n          <p class=\"text-app-subtext dark:text-app-subtext-dark m-0 mt-2 text-lg\">\r\n            {{ book().authorName }}\r\n          </p>\r\n        </div>\r\n\r\n        <dl class=\"grid max-w-sm grid-cols-2 gap-x-6 gap-y-3\">\r\n          <div class=\"flex flex-col gap-0.5\">\r\n            <dt\r\n              class=\"text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase\"\r\n            >\r\n              ISBN\r\n            </dt>\r\n            <dd class=\"text-app-text dark:text-app-text-dark m-0 font-mono text-sm tracking-wide\">\r\n              {{ book().isbn }}\r\n            </dd>\r\n          </div>\r\n          <div class=\"flex flex-col gap-0.5\">\r\n            <dt\r\n              class=\"text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase\"\r\n            >\r\n              Availability\r\n            </dt>\r\n            <dd [availableCopies]=\"book().availableCopies\" appStatusBadge></dd>\r\n          </div>\r\n        </dl>\r\n\r\n        <div class=\"pt-2\">\r\n          <app-button [disabled]=\"!isAvailable()\" type=\"button\" variant=\"primary\">\r\n            {{ isAvailable() ? 'Borrow this book' : 'Currently unavailable' }}\r\n          </app-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <!-- Description -->\r\n    @if (book().description) {\r\n      <div class=\"mt-12\">\r\n        <h2 class=\"text-2xl font-semibold\">Description</h2>\r\n        <p class=\"text-app-text dark:text-app-text-dark mt-2 whitespace-pre-wrap\">\r\n          {{ book().description }}\r\n        </p>\r\n      </div>\r\n    }\r\n  </div>\r\n</div>\r\n"
+            "templateData": "<div\n  class=\"bg-app-background dark:bg-app-background-dark text-app-text dark:text-app-text-dark min-h-screen\"\n>\n  <div class=\"mx-auto max-w-240 px-5 py-10 lg:py-14\">\n    <app-backlink route=\"/browse\" class=\"mb-8 block\">Back to catalog</app-backlink>\n\n    <div class=\"grid grid-cols-1 gap-8 sm:grid-cols-[260px_1fr] lg:gap-12\">\n      <app-book-cover\n        [book]=\"book()\"\n        class=\"mx-auto max-w-65 rounded-xl shadow-sm sm:mx-0 dark:shadow-none\"\n        size=\"lg\"\n      />\n\n      <!-- Details -->\n      <div class=\"flex flex-col gap-5\">\n        <div>\n          <h1 class=\"m-0 font-serif text-3xl leading-tight font-semibold lg:text-4xl\">\n            {{ book().title }}\n          </h1>\n          <p class=\"text-app-subtext dark:text-app-subtext-dark m-0 mt-2 text-lg\">\n            {{ book().authorName }}\n          </p>\n        </div>\n\n        <dl class=\"grid max-w-sm grid-cols-2 gap-x-6 gap-y-3\">\n          <div class=\"flex flex-col gap-0.5\">\n            <dt\n              class=\"text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase\"\n            >\n              ISBN\n            </dt>\n            <dd class=\"text-app-text dark:text-app-text-dark m-0 font-mono text-sm tracking-wide\">\n              {{ book().isbn }}\n            </dd>\n          </div>\n          <div class=\"flex flex-col gap-0.5\">\n            <dt\n              class=\"text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase\"\n            >\n              Availability\n            </dt>\n            <dd [availableCopies]=\"book().availableCopies\" appStatusBadge></dd>\n          </div>\n        </dl>\n\n        <div class=\"pt-2\">\n          <app-button [disabled]=\"!isAvailable()\" type=\"button\" variant=\"primary\">\n            {{ isAvailable() ? 'Borrow this book' : 'Currently unavailable' }}\n          </app-button>\n        </div>\n      </div>\n    </div>\n\n    <!-- Description -->\n    @if (book().description) {\n      <div class=\"mt-12\">\n        <h2 class=\"text-2xl font-semibold\">Description</h2>\n        <p class=\"text-app-text dark:text-app-text-dark mt-2 whitespace-pre-wrap\">\n          {{ book().description }}\n        </p>\n      </div>\n    }\n  </div>\n</div>\n"
         },
         {
             "name": "DetailsPageComponent",
-            "id": "component-DetailsPageComponent-ff5d9be72609d419f1a6326d7a9366990de7e171c3c7d0f23f8b197a60b6ce603d9b34885d49c56309da78bde0ea3486f5b605c67842a614374a68ed4adc91b7",
+            "id": "component-DetailsPageComponent-4ee458c269807d0b7b171d6552067da75b41ff88fe7ba1bccacd5274c3a6d2a2ac190af03679eeebc1ec5468ae068e3fc172229d42a0025e0cea4730a9732e2d",
             "file": "src/app/features/books/details/details-page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1976,7 +1976,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, inject, OnInit, signal } from '@angular/core';\r\nimport { ActivatedRoute } from '@angular/router';\r\nimport { Book } from '../domain/models/book.model';\r\nimport { BookService } from '../data-access/book.service';\r\nimport { BookResponse } from '../data-access/dto/book-response';\r\nimport { BookMapper } from '../domain/mappers/book.mapper';\r\nimport { DetailsComponent } from './components/details.component';\r\nimport { BacklinkComponent } from '../../../shared/components/backlink/backlink.component';\r\n\r\n@Component({\r\n  selector: 'app-details-page',\r\n  imports: [DetailsComponent, BacklinkComponent],\r\n  templateUrl: './details-page.component.html',\r\n  styleUrl: './details-page.component.scss',\r\n})\r\nexport class DetailsPageComponent implements OnInit {\r\n  private route = inject(ActivatedRoute);\r\n  private bookService = inject(BookService);\r\n\r\n  book = signal<Book | null>(null);\r\n  isLoading = signal(false);\r\n  errorMessage = signal<string | null>(null);\r\n\r\n  ngOnInit(): void {\r\n    this.route.paramMap.subscribe((params) => {\r\n      const idStr = params.get('id');\r\n      if (idStr) {\r\n        this.loadBookDetails(Number(idStr));\r\n      }\r\n    });\r\n  }\r\n\r\n  private loadBookDetails(id: number): void {\r\n    this.isLoading.set(true);\r\n    this.errorMessage.set(null);\r\n\r\n    this.bookService.getBookById(id).subscribe({\r\n      next: (response: BookResponse) => {\r\n        this.book.set(BookMapper.toBook(response));\r\n        this.isLoading.set(false);\r\n      },\r\n      error: (err) => {\r\n        console.error('Failed to load book', err);\r\n        this.errorMessage.set('Book not found.');\r\n        this.isLoading.set(false);\r\n      },\r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, inject, OnInit, signal } from '@angular/core';\nimport { ActivatedRoute } from '@angular/router';\nimport { Book } from '../domain/models/book.model';\nimport { BookService } from '../data-access/book.service';\nimport { BookResponse } from '../data-access/dto/book-response';\nimport { BookMapper } from '../domain/mappers/book.mapper';\nimport { DetailsComponent } from './components/details.component';\nimport { BacklinkComponent } from '../../../shared/components/backlink/backlink.component';\n\n@Component({\n  selector: 'app-details-page',\n  imports: [DetailsComponent, BacklinkComponent],\n  templateUrl: './details-page.component.html',\n  styleUrl: './details-page.component.scss',\n})\nexport class DetailsPageComponent implements OnInit {\n  private route = inject(ActivatedRoute);\n  private bookService = inject(BookService);\n\n  book = signal<Book | null>(null);\n  isLoading = signal(false);\n  errorMessage = signal<string | null>(null);\n\n  ngOnInit(): void {\n    this.route.paramMap.subscribe((params) => {\n      const idStr = params.get('id');\n      if (idStr) {\n        this.loadBookDetails(Number(idStr));\n      }\n    });\n  }\n\n  private loadBookDetails(id: number): void {\n    this.isLoading.set(true);\n    this.errorMessage.set(null);\n\n    this.bookService.getBookById(id).subscribe({\n      next: (response: BookResponse) => {\n        this.book.set(BookMapper.toBook(response));\n        this.isLoading.set(false);\n      },\n      error: (err) => {\n        console.error('Failed to load book', err);\n        this.errorMessage.set('Book not found.');\n        this.isLoading.set(false);\n      },\n    });\n  }\n}\n",
             "styleUrl": "./details-page.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1985,7 +1985,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "@if (isLoading()) {\r\n  <div class=\"flex h-full w-full items-center justify-center\">\r\n    <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\r\n  </div>\r\n} @else if (errorMessage()) {\r\n  <div class=\"mx-auto max-w-240 px-5 py-10 lg:py-14\">\r\n    <app-backlink route=\"/browse\" class=\"mb-8 block\">Back to catalog</app-backlink>\r\n    <div\r\n      class=\"relative mb-6 flex flex-row items-center rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700\"\r\n      role=\"alert\"\r\n    >\r\n      <p class=\"text-sm text-red-500\">{{ errorMessage() }}</p>\r\n    </div>\r\n  </div>\r\n} @else if (book(); as bookData) {\r\n  <app-details [book]=\"bookData\" />\r\n}\r\n"
+            "templateData": "@if (isLoading()) {\n  <div class=\"flex h-full w-full items-center justify-center\">\n    <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\n  </div>\n} @else if (errorMessage()) {\n  <div class=\"mx-auto max-w-240 px-5 py-10 lg:py-14\">\n    <app-backlink route=\"/browse\" class=\"mb-8 block\">Back to catalog</app-backlink>\n    <div\n      class=\"relative mb-6 flex flex-row items-center rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700\"\n      role=\"alert\"\n    >\n      <p class=\"text-sm text-red-500\">{{ errorMessage() }}</p>\n    </div>\n  </div>\n} @else if (book(); as bookData) {\n  <app-details [book]=\"bookData\" />\n}\n"
         },
         {
             "name": "HeaderComponent",
@@ -2075,7 +2075,7 @@
         },
         {
             "name": "IconInputComponent",
-            "id": "component-IconInputComponent-0a4ba8f113bbf16e0efc5002dc6f05a8c88621386028a710cb913b2a8d56ab944e79080c09931067bdb1d79ee808bd8b0009e683ac5715ab653656c29b3dc59a",
+            "id": "component-IconInputComponent-cdfab3231fca6777f9eead0cb7a8cbd7be4ecbd612e0e225ed52ef1b7816716464ea48a330cdb50b15ed6f3a9a9ed34ef2a4bce9b59dd4ceedc7902267c1f20c",
             "file": "src/app/shared/components/icon-input.component/icon-input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2115,7 +2115,19 @@
                     "required": false
                 },
                 {
-                    "name": "isPassword",
+                    "name": "leadingIcon",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15,
+                    "required": false
+                },
+                {
+                    "name": "leadingIconClickable",
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -2123,7 +2135,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 17,
                     "required": false
                 },
                 {
@@ -2135,24 +2147,71 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
+                    "line": 13,
+                    "required": false
+                },
+                {
+                    "name": "trailingIcon",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "required": false
+                },
+                {
+                    "name": "trailingIconClickable",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18,
+                    "required": false
+                },
+                {
+                    "name": "type",
+                    "defaultValue": "'text'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "\"password\" | \"text\"",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
                     "line": 14,
                     "required": false
                 }
             ],
-            "outputsClass": [],
-            "propertiesClass": [
+            "outputsClass": [
                 {
-                    "name": "type",
-                    "defaultValue": "computed(() => (this.isPassword() ? 'password' : 'text'))",
+                    "name": "leadingIconClick",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "unknown",
+                    "type": "MouseEvent",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 20,
+                    "required": false
+                },
+                {
+                    "name": "trailingIconClick",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "MouseEvent",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21,
+                    "required": false
                 }
             ],
+            "propertiesClass": [],
             "methodsClass": [
                 {
                     "name": "displayErrorMessage",
@@ -2160,9 +2219,73 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 23,
+                    "line": 28,
                     "deprecated": false,
                     "deprecationMessage": ""
+                },
+                {
+                    "name": "onLeadingIconClick",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "MouseEvent",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 40,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "MouseEvent",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "onTrailingIconClick",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "MouseEvent",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 36,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "MouseEvent",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "showErrors",
@@ -2170,7 +2293,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 18,
+                    "line": 23,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2189,17 +2312,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, computed, input } from '@angular/core';\r\nimport { FormControl, ReactiveFormsModule } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'app-icon-input',\r\n  imports: [ReactiveFormsModule],\r\n  templateUrl: './icon-input.component.html',\r\n  styleUrl: './icon-input.component.scss',\r\n})\r\nexport class IconInputComponent {\r\n  control = input.required<FormControl>();\r\n  errorMessages = input<Record<string, string>>({});\r\n\r\n  placeholder = input<string>('');\r\n  isPassword = input<boolean>(false);\r\n  type = computed(() => (this.isPassword() ? 'password' : 'text'));\r\n\r\n  showErrors() {\r\n    const { invalid, touched, errors } = this.control();\r\n    return invalid && touched && errors;\r\n  }\r\n\r\n  displayErrorMessage() {\r\n    if (this.showErrors()) {\r\n      const firstErrorKey = Object.keys(this.control().errors!)[0];\r\n      return this.errorMessages()[firstErrorKey] || 'Invalid input';\r\n    }\r\n    return 'Unknown error';\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, computed, input, output } from '@angular/core';\nimport { FormControl, ReactiveFormsModule } from '@angular/forms';\n\n@Component({\n  selector: 'app-icon-input',\n  imports: [ReactiveFormsModule],\n  templateUrl: './icon-input.component.html',\n  styleUrl: './icon-input.component.scss',\n})\nexport class IconInputComponent {\n  control = input.required<FormControl>();\n  errorMessages = input<Record<string, string>>({});\n  placeholder = input<string>('');\n  type = input<'password' | 'text'>('text');\n  leadingIcon = input<string>('');\n  trailingIcon = input<string>('');\n  leadingIconClickable = input<boolean>(false);\n  trailingIconClickable = input<boolean>(false);\n\n  leadingIconClick = output<MouseEvent>();\n  trailingIconClick = output<MouseEvent>();\n\n  showErrors() {\n    const { invalid, touched, errors } = this.control();\n    return invalid && touched && errors;\n  }\n\n  displayErrorMessage() {\n    if (this.showErrors()) {\n      const firstErrorKey = Object.keys(this.control().errors!)[0];\n      return this.errorMessages()[firstErrorKey] || 'Invalid input';\n    }\n    return 'Unknown error';\n  }\n\n  onTrailingIconClick(event: MouseEvent) {\n    this.trailingIconClick.emit(event);\n  }\n\n  onLeadingIconClick(event: MouseEvent) {\n    this.leadingIconClick.emit(event);\n  }\n}\n",
             "styleUrl": "./icon-input.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div\r\n  (click)=\"inputRef.focus()\"\r\n  [class.border-red-500]=\"showErrors()\"\r\n  class=\"flex w-full cursor-text items-center rounded border-2 border-gray-700 bg-white px-3 py-2 transition-all focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:bg-gray-900\"\r\n>\r\n  <div class=\"mr-2 flex items-center text-gray-500 select-none\">\r\n    <ng-content select=\"[start]\"></ng-content>\r\n  </div>\r\n\r\n  <input\r\n    #inputRef\r\n    [type]=\"type()\"\r\n    [formControl]=\"control()\"\r\n    class=\"w-full flex-1 border-none bg-transparent text-black placeholder-gray-400 outline-none dark:text-white\"\r\n    [placeholder]=\"placeholder()\"\r\n  />\r\n\r\n  <div class=\"ml-2 flex items-center text-gray-500 select-none\">\r\n    <ng-content select=\"[end]\"></ng-content>\r\n  </div>\r\n</div>\r\n@if (showErrors()) {\r\n  <div class=\"mt-1 text-sm text-red-500\">\r\n    <span role=\"alert\">{{displayErrorMessage()}}</span>\r\n  </div>\r\n}\r\n"
+            "templateData": "<div\n  (click)=\"inputRef.focus()\"\n  [class.border-app-error]=\"showErrors()\"\n  class=\"bg-app-surface dark:bg-app-surface-dark border-app-border dark:border-app-border-dark focus-within:border-app-primary dark:focus-within:border-app-primary-dark focus-within:ring-app-focus-ring dark:focus-within:ring-app-focus-ring-dark flex w-full cursor-text rounded-md border p-3 transition-colors focus-within:ring-2\"\n>\n  @if (leadingIcon()) {\n    <div\n      class=\"text-app-subtext dark:text-app-subtext-dark mr-2 flex items-center select-none\"\n      [class.cursor-pointer]=\"leadingIconClickable()\"\n      [class.cursor-default]=\"!leadingIconClickable()\"\n      (click)=\"onLeadingIconClick($event)\"\n    >\n      <span class=\"material-symbols-outlined\">{{ leadingIcon() }}</span>\n    </div>\n  }\n\n  <input\n    #inputRef\n    [type]=\"type()\"\n    [formControl]=\"control()\"\n    class=\"text-app-text dark:text-app-text-dark placeholder:text-app-subtext dark:placeholder:text-app-subtext-dark w-full flex-1 border-none bg-transparent outline-none\"\n    [placeholder]=\"placeholder()\"\n  />\n\n  @if (trailingIcon()) {\n    <div\n      class=\"text-app-subtext dark:text-app-subtext-dark ml-2 flex items-center select-none\"\n      [class]=\"\n        trailingIconClickable()\n          ? 'text-app-primary dark:text-app-subtext cursor-pointer'\n          : 'text-app-subtext dark:text-app-subtext cursor-default'\n      \"\n      (click)=\"onTrailingIconClick($event)\"\n    >\n      <span class=\"material-symbols-outlined\">{{ trailingIcon() }}</span>\n    </div>\n  }\n</div>\n<div class=\"text-app-error dark:text-app-error-dark mt-1 min-h-5 text-sm\">\n  @if (showErrors()) {\n    <span role=\"alert\">{{ displayErrorMessage() }}</span>\n  }\n</div>\n"
         },
         {
             "name": "LoginComponent",
-            "id": "component-LoginComponent-2b568b078c2172daec6a194125101211592c79357b1fbcd977f3ec6aeeb0b3032617f3c1f238b14d9036a8ba7b222f3905da6289715b2f8d1f4c7f850f63204e",
+            "id": "component-LoginComponent-151f1c69d86ccf6417c0de99c94e42de97a9d4a8dad52c0553832876425748749e9b46d6496263b8fa519712303c62711ad4b4d6465c3c7a0a5b3018e5979637",
             "file": "src/app/features/auth/login/login.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2339,7 +2462,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, inject, signal } from '@angular/core';\r\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\r\nimport { Router } from '@angular/router';\r\nimport { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';\r\nimport { AuthService } from '../../../core/services/auth.service';\r\n\r\n@Component({\r\n  selector: 'app-login',\r\n  imports: [ReactiveFormsModule, IconInputComponent],\r\n  templateUrl: './login.component.html',\r\n  styleUrl: './login.component.scss',\r\n})\r\nexport class LoginComponent {\r\n  private router = inject(Router);\r\n  private authService = inject(AuthService);\r\n\r\n  loginForm = new FormGroup({\r\n    email: new FormControl<string>('', {\r\n      validators: [Validators.required, Validators.email],\r\n      nonNullable: true,\r\n    }),\r\n    password: new FormControl<string>('', {\r\n      validators: Validators.required,\r\n      nonNullable: true,\r\n    }),\r\n  });\r\n\r\n  get email() {\r\n    return this.loginForm.get('email') as FormControl<string>;\r\n  }\r\n  get password() {\r\n    return this.loginForm.get('password') as FormControl<string>;\r\n  }\r\n\r\n  passwordVisible = signal(false);\r\n  incorrectCredentialsMessage = signal(false);\r\n\r\n  signIn() {\r\n    if (this.loginForm.valid) {\r\n      this.authService.login({ email: this.email.value, password: this.password.value }).subscribe({\r\n        next: () => this.router.navigate(['/']),\r\n        error: (err) => {\r\n          this.incorrectCredentialsMessage.set(true);\r\n          this.loginForm.markAsTouched();\r\n        },\r\n      });\r\n    }\r\n  }\r\n\r\n  moveToSignUpPage() {\r\n    this.router.navigate(['/auth/signup']);\r\n  }\r\n\r\n  togglePasswordVisibility() {\r\n    this.passwordVisible.update((visible) => !visible);\r\n  }\r\n\r\n  hideIncorrectCredentialsMessage() {\r\n    this.incorrectCredentialsMessage.set(false);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, inject, signal } from '@angular/core';\r\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\r\nimport { Router } from '@angular/router';\r\nimport { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';\r\nimport { AuthService } from '../data/services/auth.service';\r\n\r\n@Component({\r\n  selector: 'app-login',\r\n  imports: [ReactiveFormsModule, IconInputComponent],\r\n  templateUrl: './login.component.html',\r\n  styleUrl: './login.component.scss',\r\n})\r\nexport class LoginComponent {\r\n  private router = inject(Router);\r\n  private authService = inject(AuthService);\r\n\r\n  loginForm = new FormGroup({\r\n    email: new FormControl<string>('', {\r\n      validators: [Validators.required, Validators.email],\r\n      nonNullable: true,\r\n    }),\r\n    password: new FormControl<string>('', {\r\n      validators: Validators.required,\r\n      nonNullable: true,\r\n    }),\r\n  });\r\n\r\n  get email() {\r\n    return this.loginForm.get('email') as FormControl<string>;\r\n  }\r\n  get password() {\r\n    return this.loginForm.get('password') as FormControl<string>;\r\n  }\r\n\r\n  passwordVisible = signal(false);\r\n  incorrectCredentialsMessage = signal(false);\r\n\r\n  signIn() {\r\n    if (this.loginForm.valid) {\r\n      this.authService.login({ email: this.email.value, password: this.password.value }).subscribe({\r\n        next: () => this.router.navigate(['/']),\r\n        error: (err) => {\r\n          this.incorrectCredentialsMessage.set(true);\r\n          this.loginForm.markAsTouched();\r\n        },\r\n      });\r\n    }\r\n  }\r\n\r\n  moveToSignUpPage() {\r\n    this.router.navigate(['/auth/signup']);\r\n  }\r\n\r\n  togglePasswordVisibility() {\r\n    this.passwordVisible.update((visible) => !visible);\r\n  }\r\n\r\n  hideIncorrectCredentialsMessage() {\r\n    this.incorrectCredentialsMessage.set(false);\r\n  }\r\n}\r\n",
             "styleUrl": "./login.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -2365,11 +2488,11 @@
                     }
                 }
             },
-            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\r\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\r\n    <div class=\"flex items-center justify-center\">\r\n      <h1 class=\"text-2xl mb-8 font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\r\n    </div>\r\n\r\n    @if (incorrectCredentialsMessage()) {\r\n      <div class=\"flex flex-row items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative\"\r\n           role=\"alert\">\r\n        <p class=\"text-red-500 text-sm\">Incorrect email or password.</p>\r\n        <button class=\"absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer\"\r\n                (click)=\"hideIncorrectCredentialsMessage()\">\r\n          <span class=\"material-symbols-outlined\">close</span>\r\n        </button>\r\n      </div>\r\n    }\r\n\r\n    <form [formGroup]=\"loginForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"signIn()\">\r\n      <app-icon-input\r\n        [control]=\"email\"\r\n        placeholder=\"Email\"\r\n        [errorMessages]=\"{\r\n          required: 'Email is required',\r\n          email: 'Please enter a valid email address'\r\n        }\"\r\n      >\r\n        <span start class=\"material-symbols-outlined\">mail</span>\r\n      </app-icon-input>\r\n      <app-icon-input\r\n        [control]=\"password\"\r\n        placeholder=\"Password\"\r\n        [isPassword]=\"!passwordVisible()\"\r\n        [errorMessages]=\"{\r\n          required: 'Please enter your password',\r\n        }\"\r\n      >\r\n        <span start class=\"material-symbols-outlined\">lock</span>\r\n\r\n        <button type=\"button\"\r\n                end\r\n                class=\"rounded-full cursor-pointer w-7 h-7 flex items-center justify-center\"\r\n                (click)=\"togglePasswordVisibility()\">\r\n          @if (passwordVisible()) {\r\n            <span class=\"material-symbols-outlined\">visibility_off</span>\r\n          } @else {\r\n            <span class=\"material-symbols-outlined\">visibility</span>\r\n          }\r\n        </button>\r\n      </app-icon-input>\r\n\r\n      <button type=\"submit\"\r\n              class=\"bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\">\r\n        Sign In\r\n      </button>\r\n      <button type=\"button\"\r\n              class=\"border-blue-900 text-blue-900 dark:text-white hover:text-white border-2 hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\"\r\n              (click)=\"moveToSignUpPage()\">Sign Up\r\n      </button>\r\n    </form>\r\n\r\n  </div>\r\n</div>\r\n"
+            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex items-center justify-center\">\n      <h1 class=\"text-2xl mb-8 font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n    </div>\n\n    @if (incorrectCredentialsMessage()) {\n      <div class=\"flex flex-row items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative\"\n           role=\"alert\">\n        <p class=\"text-red-500 text-sm\">Incorrect email or password.</p>\n        <button class=\"absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer\"\n                (click)=\"hideIncorrectCredentialsMessage()\">\n          <span class=\"material-symbols-outlined\">close</span>\n        </button>\n      </div>\n    }\n\n    <form [formGroup]=\"loginForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"signIn()\">\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email\"\n        leadingIcon=\"mail\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      />\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password\"\n        [type]=\"passwordVisible() ? 'text' : 'password'\"\n        leadingIcon=\"lock\"\n        [trailingIcon]=\"passwordVisible() ? 'visibility_off' : 'visibility'\"\n        [trailingIconClickable]=\"true\"\n        (trailingIconClick)=\"togglePasswordVisibility()\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n        }\"\n      />\n\n      <button type=\"submit\"\n              class=\"bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\">\n        Sign In\n      </button>\n      <button type=\"button\"\n              class=\"border-blue-900 text-blue-900 dark:text-white hover:text-white border-2 hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer\"\n              (click)=\"moveToSignUpPage()\">Sign Up\n      </button>\n    </form>\n\n  </div>\n</div>\n"
         },
         {
             "name": "NavbarComponent",
-            "id": "component-NavbarComponent-bd17489fe9fe87867e8d03f42b2aefd8879ee5b7d8e9a5262db5b71c20055eb098cdca0b356f029c71d1a0d6394f1cf96cde1258c04920ca75fa004a787c9da7",
+            "id": "component-NavbarComponent-0d957b7ae6a65113a04c8696cffb958852223637d3edfef2e513bc1b3426159819a3993157733aa9cde1f0cd1482bdfd4cea8cb02f125040193cb01dfa95fded",
             "file": "src/app/shared/layout/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2406,17 +2529,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';\r\nimport { NavbarItemComponent } from './navbar-item/navbar-item.component';\r\n\r\n@Component({\r\n  selector: 'app-navbar',\r\n  imports: [ThemeToggleComponent, NavbarItemComponent],\r\n  templateUrl: './navbar.component.html',\r\n  styleUrl: './navbar.component.scss',\r\n})\r\nexport class NavbarComponent {}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';\nimport { NavbarItemComponent } from './navbar-item/navbar-item.component';\n\n@Component({\n  selector: 'app-navbar',\n  imports: [ThemeToggleComponent, NavbarItemComponent],\n  templateUrl: './navbar.component.html',\n  styleUrl: './navbar.component.scss',\n})\nexport class NavbarComponent {}\n",
             "styleUrl": "./navbar.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<nav\r\n  class=\"fixed bottom-0 left-0 z-50 flex h-16 w-full flex-row items-center justify-around border-t-2 border-gray-300 bg-gray-200 px-2 md:sticky md:top-0 md:h-screen md:w-24 md:flex-col md:items-center md:justify-start md:gap-8 md:border-t-0 md:border-r-2 md:py-8 dark:border-mauve-800 dark:bg-mauve-950\"\r\n>\r\n  <app-navbar-item link=\"/browse\" icon=\"menu_book\" label=\"Browse\" />\r\n  <app-navbar-item link=\"/auth/login\" icon=\"person\" label=\"Login\" />\r\n\r\n  <app-theme-toggle class=\"hidden md:mt-auto md:block\" />\r\n</nav>\r\n"
+            "templateData": "<nav\n  class=\"fixed bottom-0 left-0 z-50 flex h-16 w-full flex-row items-center justify-around border-t-2 border-gray-300 bg-gray-200 px-2 md:sticky md:top-0 md:h-screen md:w-24 md:flex-col md:items-center md:justify-start md:gap-8 md:border-t-0 md:border-r-2 md:py-8 dark:border-mauve-800 dark:bg-mauve-950\"\n>\n  <app-navbar-item link=\"/browse\" icon=\"menu_book\" label=\"Browse\" />\n  <app-navbar-item link=\"/auth/login\" icon=\"person\" label=\"Login\" />\n\n  <app-theme-toggle class=\"hidden md:mt-auto md:block\" />\n</nav>\n"
         },
         {
             "name": "NavbarItemComponent",
-            "id": "component-NavbarItemComponent-331dd0d480ded354d5c188f4bcd2cc30a2c904d56cc991daccfe3afcfb68d619d842a5d57a4ea0e6d4809c52dfcc05a8789d52c8d1d2817f72d227077d20fa1f",
+            "id": "component-NavbarItemComponent-bf38e520a711b68bcd568d9350f84bcb5bc4bc491d43d1aad8d942292db43f4fee3552a0992c1f584b8e101467f129348fd6bf570b67818734606b5793607811",
             "file": "src/app/shared/layout/navbar/navbar-item/navbar-item.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2486,13 +2609,13 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { RouterLink, RouterLinkActive } from '@angular/router';\r\n\r\n@Component({\r\n  selector: 'app-navbar-item',\r\n  standalone: true,\r\n  templateUrl: './navbar-item.component.html',\r\n  styleUrl: './navbar-item.component.scss',\r\n  imports: [RouterLink, RouterLinkActive],\r\n})\r\nexport class NavbarItemComponent {\r\n  icon = input.required<string>();\r\n  label = input.required<string>();\r\n  link = input<string>('#');\r\n}\r\n",
+            "sourceCode": "import { Component, input } from '@angular/core';\nimport { RouterLink, RouterLinkActive } from '@angular/router';\n\n@Component({\n  selector: 'app-navbar-item',\n  standalone: true,\n  templateUrl: './navbar-item.component.html',\n  styleUrl: './navbar-item.component.scss',\n  imports: [RouterLink, RouterLinkActive],\n})\nexport class NavbarItemComponent {\n  icon = input.required<string>();\n  label = input.required<string>();\n  link = input<string>('#');\n}\n",
             "styleUrl": "./navbar-item.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<a\r\n  class=\"button group flex flex-col items-center gap-1 rounded-xl p-2 transition-all hover:bg-gray-100 hover:text-gray-900 md:w-full dark:hover:bg-gray-900 dark:hover:text-gray-100\"\r\n  [routerLink]=\"link()\"\r\n  routerLinkActive=\"text-blue-950 dark:text-blue-200\"\r\n  #rla=\"routerLinkActive\"\r\n  [class.text-gray-500]=\"!rla.isActive\"\r\n  ariaCurrentWhenActive=\"page\"\r\n>\r\n  <span class=\"material-symbols-outlined transition-transform group-hover:scale-110\">\r\n    {{ icon() }}\r\n  </span>\r\n\r\n  <span class=\"text-[10px] tracking-wide md:text-base\" routerLinkActive=\"font-semibold\">\r\n    {{ label() }}\r\n  </span>\r\n</a>\r\n"
+            "templateData": "<a\n  class=\"button group flex flex-col items-center gap-1 rounded-xl p-2 transition-all hover:bg-gray-100 hover:text-gray-900 md:w-full dark:hover:bg-gray-900 dark:hover:text-gray-100\"\n  [routerLink]=\"link()\"\n  routerLinkActive=\"text-blue-950 dark:text-blue-200\"\n  #rla=\"routerLinkActive\"\n  [class.text-gray-500]=\"!rla.isActive\"\n  ariaCurrentWhenActive=\"page\"\n>\n  <span class=\"material-symbols-outlined transition-transform group-hover:scale-110\">\n    {{ icon() }}\n  </span>\n\n  <span class=\"text-[10px] tracking-wide md:text-base\" routerLinkActive=\"font-semibold\">\n    {{ label() }}\n  </span>\n</a>\n"
         },
         {
             "name": "PageComponent",
@@ -2590,7 +2713,7 @@
         },
         {
             "name": "RegisterComponent",
-            "id": "component-RegisterComponent-193c7cf149d839646a2b9b7a19bb4a5485c0a3d820cd28b29343d3f1c4acf79473593195891f385d4f1402ab0c1e64448bec9a30ba7f7c0522d2ecfa10fc5e54",
+            "id": "component-RegisterComponent-dd6fc130dc0d6ec4b56e776d8bd08d7c41f9099f56779091e5e8a163a6accf6df8a22bddd35f72193e9e2ee9b031a7ce9fc6b1d3a40ab291fca3c87e70256464",
             "file": "src/app/features/auth/register/register.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2710,7 +2833,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, inject, signal } from '@angular/core';\r\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\r\nimport { Router } from '@angular/router';\r\nimport { AuthService } from '../../../core/services/auth.service';\r\nimport { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';\r\nimport { AuthValidators } from '../../../core/validators/auth.validators';\r\n\r\n@Component({\r\n  selector: 'app-register',\r\n  imports: [ReactiveFormsModule, IconInputComponent],\r\n  templateUrl: './register.component.html',\r\n  styleUrl: './register.component.scss',\r\n})\r\nexport class RegisterComponent {\r\n  private router = inject(Router);\r\n  private authService = inject(AuthService);\r\n\r\n  registerForm = new FormGroup(\r\n    {\r\n      fullName: new FormControl('', {\r\n        validators: Validators.required,\r\n        nonNullable: true,\r\n      }),\r\n      email: new FormControl<string>('', {\r\n        validators: [Validators.required, Validators.email],\r\n        nonNullable: true,\r\n      }),\r\n      password: new FormControl<string>('', {\r\n        validators: [Validators.required, Validators.minLength(8), AuthValidators.strongPassword()],\r\n        nonNullable: true,\r\n      }),\r\n      confirmPassword: new FormControl<string>('', {\r\n        validators: [Validators.required, Validators.minLength(8)],\r\n        nonNullable: true,\r\n      }),\r\n    },\r\n    {\r\n      validators: AuthValidators.passwordMatch,\r\n    },\r\n  );\r\n\r\n  passwordVisible = signal(false);\r\n  isLoading = signal(false);\r\n\r\n  get fullName() {\r\n    return this.registerForm.get('fullName') as FormControl<string>;\r\n  }\r\n  get email() {\r\n    return this.registerForm.get('email') as FormControl<string>;\r\n  }\r\n  get password() {\r\n    return this.registerForm.get('password') as FormControl<string>;\r\n  }\r\n  get confirmPassword() {\r\n    return this.registerForm.get('confirmPassword') as FormControl<string>;\r\n  }\r\n\r\n  onSubmit() {\r\n    if (this.registerForm.valid) {\r\n      this.isLoading.set(true);\r\n      this.authService\r\n        .register({\r\n          fullName: this.fullName.value,\r\n          email: this.email.value,\r\n          password: this.password.value,\r\n        })\r\n        .subscribe({\r\n          next: () => this.router.navigate(['/auth/login']),\r\n          error: (err) => {\r\n            console.error('Registration failed', err);\r\n            this.isLoading.set(false);\r\n          },\r\n        });\r\n    }\r\n  }\r\n\r\n  moveToSignInPage() {\r\n    this.router.navigate(['/auth/login']);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, inject, signal } from '@angular/core';\r\nimport { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';\r\nimport { Router } from '@angular/router';\r\nimport { AuthService } from '../data/services/auth.service';\r\nimport { IconInputComponent } from '../../../shared/components/icon-input.component/icon-input.component';\r\nimport { AuthValidators } from '../validators/auth.validators';\r\n\r\n@Component({\r\n  selector: 'app-register',\r\n  imports: [ReactiveFormsModule, IconInputComponent],\r\n  templateUrl: './register.component.html',\r\n  styleUrl: './register.component.scss',\r\n})\r\nexport class RegisterComponent {\r\n  private router = inject(Router);\r\n  private authService = inject(AuthService);\r\n\r\n  registerForm = new FormGroup(\r\n    {\r\n      fullName: new FormControl('', {\r\n        validators: Validators.required,\r\n        nonNullable: true,\r\n      }),\r\n      email: new FormControl<string>('', {\r\n        validators: [Validators.required, Validators.email],\r\n        nonNullable: true,\r\n      }),\r\n      password: new FormControl<string>('', {\r\n        validators: [Validators.required, Validators.minLength(8), AuthValidators.strongPassword()],\r\n        nonNullable: true,\r\n      }),\r\n      confirmPassword: new FormControl<string>('', {\r\n        validators: [Validators.required, Validators.minLength(8)],\r\n        nonNullable: true,\r\n      }),\r\n    },\r\n    {\r\n      validators: AuthValidators.passwordMatch,\r\n    },\r\n  );\r\n\r\n  passwordVisible = signal(false);\r\n  isLoading = signal(false);\r\n\r\n  get fullName() {\r\n    return this.registerForm.get('fullName') as FormControl<string>;\r\n  }\r\n  get email() {\r\n    return this.registerForm.get('email') as FormControl<string>;\r\n  }\r\n  get password() {\r\n    return this.registerForm.get('password') as FormControl<string>;\r\n  }\r\n  get confirmPassword() {\r\n    return this.registerForm.get('confirmPassword') as FormControl<string>;\r\n  }\r\n\r\n  onSubmit() {\r\n    if (this.registerForm.valid) {\r\n      this.isLoading.set(true);\r\n      this.authService\r\n        .register({\r\n          fullName: this.fullName.value,\r\n          email: this.email.value,\r\n          password: this.password.value,\r\n        })\r\n        .subscribe({\r\n          next: () => this.router.navigate(['/auth/login']),\r\n          error: (err) => {\r\n            console.error('Registration failed', err);\r\n            this.isLoading.set(false);\r\n          },\r\n        });\r\n    }\r\n  }\r\n\r\n  moveToSignInPage() {\r\n    this.router.navigate(['/auth/login']);\r\n  }\r\n}\r\n",
             "styleUrl": "./register.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -2754,11 +2877,11 @@
                     }
                 }
             },
-            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex flex-col items-center justify-center\">\n      <h1 class=\"text-2xl font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n      <h2 class=\"font-bold my-2 dark:text-gray-300 text-gray-900\">Create Your Account</h2>\n    </div>\n\n    <form [formGroup]=\"registerForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"onSubmit()\">\n      <app-icon-input\n        [control]=\"fullName\"\n        placeholder=\"Full Name*\"\n        [errorMessages]=\"{\n          required: 'Please enter your full name',\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">person</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email*\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">mail</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password*\"\n        [isPassword]=\"true\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n          minLength: 'Password must be at least 8 characters long',\n          strongPassword: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n      </app-icon-input>\n      <app-icon-input\n        [control]=\"confirmPassword\"\n        placeholder=\"Confirm Password*\"\n        [isPassword]=\"true\"\n        [errorMessages]=\"{\n          required: 'Please confirm your password',\n          passwordMismatch: 'Passwords do not match'\n        }\"\n      >\n        <span start class=\"material-symbols-outlined\">lock</span>\n      </app-icon-input>\n\n      <button type=\"submit\"\n              [disabled]=\"registerForm.invalid || isLoading()\"\n              class=\"flex flex-row items-center justify-center\n              bg-blue-900 text-white hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed\n               transition-colors rounded p-2 font-bold cursor-pointer\"\n              [class.cursor-wait]=\"isLoading()\"\n              aria-label=\"Sign Up button\">\n        @if (isLoading()) {\n          <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\n          <span>Registering...</span>\n        } @else {\n          <span>Sign Up</span>\n        }\n      </button>\n      <p>Already have an account? <a (click)=\"moveToSignInPage()\" class=\"text-blue-700 hover:cursor-pointer\">Sign In</a></p>\n    </form>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"flex flex-col items-center justify-center h-full w-full\">\n  <div class=\"flex flex-col bg-gray-50 dark:bg-gray-900 p-8 rounded shadow-md max-w-sm space-y-4\">\n    <div class=\"flex flex-col items-center justify-center\">\n      <h1 class=\"text-2xl font-bold text-blue-950 dark:text-blue-200\">BiblioNode</h1>\n      <h2 class=\"font-bold my-2 dark:text-gray-300 text-gray-900\">Create Your Account</h2>\n    </div>\n\n    <form [formGroup]=\"registerForm\" class=\"flex flex-col space-y-4\" (ngSubmit)=\"onSubmit()\">\n      <app-icon-input\n        [control]=\"fullName\"\n        placeholder=\"Full Name*\"\n        leadingIcon=\"person\"\n        [errorMessages]=\"{\n          required: 'Please enter your full name',\n        }\"\n      />\n      <app-icon-input\n        [control]=\"email\"\n        placeholder=\"Email*\"\n        leadingIcon=\"mail\"\n        [errorMessages]=\"{\n          required: 'Email is required',\n          email: 'Please enter a valid email address'\n        }\"\n      />\n      <app-icon-input\n        [control]=\"password\"\n        placeholder=\"Password*\"\n        type=\"password\"\n        leadingIcon=\"lock\"\n        [errorMessages]=\"{\n          required: 'Please enter your password',\n          minLength: 'Password must be at least 8 characters long',\n          strongPassword: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'\n        }\"\n      />\n      <app-icon-input\n        [control]=\"confirmPassword\"\n        placeholder=\"Confirm Password*\"\n        type=\"password\"\n        leadingIcon=\"lock\"\n        [errorMessages]=\"{\n          required: 'Please confirm your password',\n          passwordMismatch: 'Passwords do not match'\n        }\"\n      />\n\n      <button type=\"submit\"\n              [disabled]=\"registerForm.invalid || isLoading()\"\n              class=\"flex flex-row items-center justify-center\n              bg-blue-900 text-white hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed\n               transition-colors rounded p-2 font-bold cursor-pointer\"\n              [class.cursor-wait]=\"isLoading()\"\n              aria-label=\"Sign Up button\">\n        @if (isLoading()) {\n          <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\n          <span>Registering...</span>\n        } @else {\n          <span>Sign Up</span>\n        }\n      </button>\n      <p>Already have an account? <a (click)=\"moveToSignInPage()\" class=\"text-blue-700 hover:cursor-pointer\">Sign In</a></p>\n    </form>\n  </div>\n</div>\n"
         },
         {
             "name": "StatusBadgeComponent",
-            "id": "component-StatusBadgeComponent-190cfe6020e7e21c8cea0aa5bddeda649cd61b483f7d7f48395e8c7ae1b5ce1f9699c41ffc07ad69265ee4806ed44fffe42788f5a73490b80c818eddc377809f",
+            "id": "component-StatusBadgeComponent-c61fd9110e5d4b3a6a372e06189500a179020161d6268f9836790db48419b8d4a3713ff5da238153695c14340ba3f79e749891488f98e00cbc3a5fcfe9bea99d",
             "file": "src/app/features/books/components/status-badge/status-badge.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2790,7 +2913,7 @@
             "propertiesClass": [
                 {
                     "name": "hostClasses",
-                    "defaultValue": "computed(() => {\r\n    const baseClasses = 'm-0 inline-flex items-center gap-1.5 font-semibold text-sm';\r\n\r\n    const colorClasses = this.isAvailable()\r\n      ? 'text-app-primary dark:text-app-primary-dark'\r\n      : 'text-app-error dark:text-app-error-dark';\r\n\r\n    return `${baseClasses} ${colorClasses}`;\r\n  })",
+                    "defaultValue": "computed(() => {\n    const baseClasses = 'm-0 inline-flex items-center gap-1.5 font-semibold text-sm';\n\n    const colorClasses = this.isAvailable()\n      ? 'text-app-primary dark:text-app-primary-dark'\n      : 'text-app-error dark:text-app-error-dark';\n\n    return `${baseClasses} ${colorClasses}`;\n  })",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
@@ -2812,7 +2935,7 @@
                 },
                 {
                     "name": "statusText",
-                    "defaultValue": "computed(() => {\r\n    if (!this.isAvailable()) {\r\n      return 'Checked out';\r\n    }\r\n    const txt = this.availableCopies() === 1 ? 'copy' : 'copies';\r\n    return `${this.availableCopies()} ${txt} left`;\r\n  })",
+                    "defaultValue": "computed(() => {\n    if (!this.isAvailable()) {\n      return 'Checked out';\n    }\n    const txt = this.availableCopies() === 1 ? 'copy' : 'copies';\n    return `${this.availableCopies()} ${txt} left`;\n  })",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
@@ -2832,7 +2955,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, computed, input, signal } from '@angular/core';\r\n\r\n@Component({\r\n  selector: '[appStatusBadge]',\r\n  standalone: true,\r\n  imports: [],\r\n  host: {\r\n    '[class]': 'hostClasses()',\r\n  },\r\n  template: `\r\n    <span aria-hidden=\"true\" class=\"h-2 w-2 rounded-full bg-current\"></span>\r\n    {{ statusText() }}\r\n  `,\r\n})\r\nexport class StatusBadgeComponent {\r\n  availableCopies = input.required<number>();\r\n\r\n  isAvailable = computed(() => this.availableCopies() > 0);\r\n\r\n  statusText = computed(() => {\r\n    if (!this.isAvailable()) {\r\n      return 'Checked out';\r\n    }\r\n    const txt = this.availableCopies() === 1 ? 'copy' : 'copies';\r\n    return `${this.availableCopies()} ${txt} left`;\r\n  });\r\n\r\n  hostClasses = computed(() => {\r\n    const baseClasses = 'm-0 inline-flex items-center gap-1.5 font-semibold text-sm';\r\n\r\n    const colorClasses = this.isAvailable()\r\n      ? 'text-app-primary dark:text-app-primary-dark'\r\n      : 'text-app-error dark:text-app-error-dark';\r\n\r\n    return `${baseClasses} ${colorClasses}`;\r\n  });\r\n}\r\n",
+            "sourceCode": "import { Component, computed, input, signal } from '@angular/core';\n\n@Component({\n  selector: '[appStatusBadge]',\n  standalone: true,\n  imports: [],\n  host: {\n    '[class]': 'hostClasses()',\n  },\n  template: `\n    <span aria-hidden=\"true\" class=\"h-2 w-2 rounded-full bg-current\"></span>\n    {{ statusText() }}\n  `,\n})\nexport class StatusBadgeComponent {\n  availableCopies = input.required<number>();\n\n  isAvailable = computed(() => this.availableCopies() > 0);\n\n  statusText = computed(() => {\n    if (!this.isAvailable()) {\n      return 'Checked out';\n    }\n    const txt = this.availableCopies() === 1 ? 'copy' : 'copies';\n    return `${this.availableCopies()} ${txt} left`;\n  });\n\n  hostClasses = computed(() => {\n    const baseClasses = 'm-0 inline-flex items-center gap-1.5 font-semibold text-sm';\n\n    const colorClasses = this.isAvailable()\n      ? 'text-app-primary dark:text-app-primary-dark'\n      : 'text-app-error dark:text-app-error-dark';\n\n    return `${baseClasses} ${colorClasses}`;\n  });\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -2840,7 +2963,7 @@
         },
         {
             "name": "ThemeToggleComponent",
-            "id": "component-ThemeToggleComponent-6ced35e5092daf98797beb69f35d311fe4fccbcec9fd61182b26dba13bb369df0eb0830f9df335f4dbfa10c52c6e6a578f6a9c091264e6e6cc5b54b121d3b4dc",
+            "id": "component-ThemeToggleComponent-0d2c376e63e77d1e3fed4c7b9ce827b224b4584ef6a5186769a3f4cd2deaa9521f4479a9e0754f2d2214dae392219178c9838045eaa7f48521750421a0116a13",
             "file": "src/app/shared/components/theme-toggle/theme-toggle.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2860,7 +2983,7 @@
             "propertiesClass": [
                 {
                     "name": "isDark",
-                    "defaultValue": "signal<boolean>(\r\n    localStorage.getItem('theme') === 'dark' ||\r\n      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),\r\n  )",
+                    "defaultValue": "signal<boolean>(\n    localStorage.getItem('theme') === 'dark' ||\n      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),\n  )",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
@@ -2891,7 +3014,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, effect, signal } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-theme-toggle',\r\n  imports: [],\r\n  templateUrl: './theme-toggle.component.html',\r\n  styleUrl: './theme-toggle.component.scss',\r\n})\r\nexport class ThemeToggleComponent {\r\n  isDark = signal<boolean>(\r\n    localStorage.getItem('theme') === 'dark' ||\r\n      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),\r\n  );\r\n\r\n  constructor() {\r\n    effect(() => {\r\n      const htmlTag = window.document.documentElement;\r\n      if (this.isDark()) {\r\n        htmlTag.classList.add('dark');\r\n        localStorage.setItem('theme', 'dark');\r\n      } else {\r\n        htmlTag.classList.remove('dark');\r\n        localStorage.setItem('theme', 'light');\r\n      }\r\n    });\r\n  }\r\n\r\n  toggleTheme() {\r\n    this.isDark.update((dark) => !dark);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, effect, signal } from '@angular/core';\n\n@Component({\n  selector: 'app-theme-toggle',\n  imports: [],\n  templateUrl: './theme-toggle.component.html',\n  styleUrl: './theme-toggle.component.scss',\n})\nexport class ThemeToggleComponent {\n  isDark = signal<boolean>(\n    localStorage.getItem('theme') === 'dark' ||\n      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),\n  );\n\n  constructor() {\n    effect(() => {\n      const htmlTag = window.document.documentElement;\n      if (this.isDark()) {\n        htmlTag.classList.add('dark');\n        localStorage.setItem('theme', 'dark');\n      } else {\n        htmlTag.classList.remove('dark');\n        localStorage.setItem('theme', 'light');\n      }\n    });\n  }\n\n  toggleTheme() {\n    this.isDark.update((dark) => !dark);\n  }\n}\n",
             "styleUrl": "./theme-toggle.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -2905,7 +3028,7 @@
                 "line": 13
             },
             "extends": [],
-            "templateData": "<button class=\"btn rounded-lg p-2 text-gray-800 hover:text-gray-950 dark:text-gray-200  hover:dark:text-gray-50 transition-colors w-10 h-10\"\r\n        aria-label=\"Toggle theme\"\r\n        (click)=\"toggleTheme()\">\r\n  <span class=\"material-symbols-outlined hover:rotate-45 hover:scale-105 transition-all duration-300 inline-block\">\r\n    @if (isDark()) {\r\n      dark_mode\r\n    } @else {\r\n      light_mode\r\n    }\r\n  </span>\r\n</button>\r\n"
+            "templateData": "<button class=\"btn rounded-lg p-2 text-gray-800 hover:text-gray-950 dark:text-gray-200  hover:dark:text-gray-50 transition-colors w-10 h-10\"\n        aria-label=\"Toggle theme\"\n        (click)=\"toggleTheme()\">\n  <span class=\"material-symbols-outlined hover:rotate-45 hover:scale-105 transition-all duration-300 inline-block\">\n    @if (isDark()) {\n      dark_mode\n    } @else {\n      light_mode\n    }\n  </span>\n</button>\n"
         }
     ],
     "modules": [],
@@ -2919,7 +3042,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "ApplicationConfig",
-                "defaultValue": "{\r\n  providers: [\r\n    provideBrowserGlobalErrorListeners(),\r\n    provideRouter(routes),\r\n    provideHttpClient(\r\n      withInterceptors([authInterceptor])\r\n    )\r\n  ]\r\n}"
+                "defaultValue": "{\n  providers: [\n    provideBrowserGlobalErrorListeners(),\n    provideRouter(routes),\n    provideHttpClient(\n      withInterceptors([authInterceptor])\n    )\n  ]\n}"
             },
             {
                 "name": "authInterceptor",
@@ -2939,7 +3062,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Routes",
-                "defaultValue": "[\r\n  {\r\n    path: 'auth',\r\n    children: [\r\n      { path: 'login', component: LoginComponent },\r\n      { path: 'signup', component: RegisterComponent },\r\n    ],\r\n  },\r\n  {\r\n    path: 'browse',\r\n    component: BrowseComponent,\r\n  },\r\n  {\r\n    path: 'books/:id',\r\n    component: DetailsPageComponent,\r\n  },\r\n]"
+                "defaultValue": "[\n  {\n    path: 'auth',\n    children: [\n      { path: 'login', component: LoginComponent },\n      { path: 'signup', component: RegisterComponent },\n    ],\n  },\n  {\n    path: 'browse',\n    component: BrowseComponent,\n  },\n  {\n    path: 'books/:id',\n    component: DetailsPageComponent,\n  },\n]"
             }
         ],
         "functions": [],
@@ -2955,7 +3078,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "ApplicationConfig",
-                    "defaultValue": "{\r\n  providers: [\r\n    provideBrowserGlobalErrorListeners(),\r\n    provideRouter(routes),\r\n    provideHttpClient(\r\n      withInterceptors([authInterceptor])\r\n    )\r\n  ]\r\n}"
+                    "defaultValue": "{\n  providers: [\n    provideBrowserGlobalErrorListeners(),\n    provideRouter(routes),\n    provideHttpClient(\n      withInterceptors([authInterceptor])\n    )\n  ]\n}"
                 }
             ],
             "src/app/core/interceptors/auth.interceptor.ts": [
@@ -2979,7 +3102,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Routes",
-                    "defaultValue": "[\r\n  {\r\n    path: 'auth',\r\n    children: [\r\n      { path: 'login', component: LoginComponent },\r\n      { path: 'signup', component: RegisterComponent },\r\n    ],\r\n  },\r\n  {\r\n    path: 'browse',\r\n    component: BrowseComponent,\r\n  },\r\n  {\r\n    path: 'books/:id',\r\n    component: DetailsPageComponent,\r\n  },\r\n]"
+                    "defaultValue": "[\n  {\n    path: 'auth',\n    children: [\n      { path: 'login', component: LoginComponent },\n      { path: 'signup', component: RegisterComponent },\n    ],\n  },\n  {\n    path: 'browse',\n    component: BrowseComponent,\n  },\n  {\n    path: 'books/:id',\n    component: DetailsPageComponent,\n  },\n]"
                 }
             ]
         },
@@ -3049,30 +3172,39 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/core/models/page.model.ts",
+                "filePath": "src/app/features/auth/data/dto/login-request.model.ts",
                 "type": "interface",
                 "linktype": "interface",
-                "name": "Page",
+                "name": "LoginRequest",
                 "coveragePercent": 0,
-                "coverageCount": "0/10",
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
-                "filePath": "src/app/core/services/auth.service.ts",
+                "filePath": "src/app/features/auth/data/dto/login-response.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "LoginResponse",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/auth/data/dto/register-request.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "RegisterRequest",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/auth/data/services/auth.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
                 "name": "AuthService",
                 "coveragePercent": 0,
                 "coverageCount": "0/7",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/core/validators/auth.validators.ts",
-                "type": "class",
-                "linktype": "classe",
-                "name": "AuthValidators",
-                "coveragePercent": 0,
-                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -3091,6 +3223,15 @@
                 "name": "RegisterComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/auth/validators/auth.validators.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "AuthValidators",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -3193,51 +3334,6 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/models/auth.model.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "LoginRequest",
-                "coveragePercent": 0,
-                "coverageCount": "0/3",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/models/auth.model.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "LoginResponse",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/models/auth.model.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "RegisterRequest",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/models/loan.model.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "Loan",
-                "coveragePercent": 0,
-                "coverageCount": "0/10",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/models/reader-profile.model.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "ReaderProfile",
-                "coveragePercent": 0,
-                "coverageCount": "0/5",
-                "status": "low"
-            },
-            {
                 "filePath": "src/app/shared/components/backlink/backlink.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -3261,7 +3357,7 @@
                 "linktype": "component",
                 "name": "IconInputComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/15",
                 "status": "low"
             },
             {
@@ -3289,6 +3385,33 @@
                 "name": "NavbarComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/models/loan.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Loan",
+                "coveragePercent": 0,
+                "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/models/page.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Page",
+                "coveragePercent": 0,
+                "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/models/reader-profile.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ReaderProfile",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {

@@ -1,26 +1,43 @@
 <div
   (click)="inputRef.focus()"
-  [class.border-red-500]="showErrors()"
-  class="flex w-full cursor-text items-center rounded border-2 border-gray-700 bg-white px-3 py-2 transition-all focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 dark:bg-gray-900"
+  [class.border-app-error]="showErrors()"
+  class="bg-app-surface dark:bg-app-surface-dark border-app-border dark:border-app-border-dark focus-within:border-app-primary dark:focus-within:border-app-primary-dark focus-within:ring-app-focus-ring dark:focus-within:ring-app-focus-ring-dark flex w-full cursor-text rounded-md border p-3 transition-colors focus-within:ring-2"
 >
-  <div class="mr-2 flex items-center text-gray-500 select-none">
-    <ng-content select="[start]"></ng-content>
-  </div>
+  @if (leadingIcon()) {
+    <div
+      class="text-app-subtext dark:text-app-subtext-dark mr-2 flex items-center select-none"
+      [class.cursor-pointer]="leadingIconClickable()"
+      [class.cursor-default]="!leadingIconClickable()"
+      (click)="onLeadingIconClick($event)"
+    >
+      <span class="material-symbols-outlined">{{ leadingIcon() }}</span>
+    </div>
+  }
 
   <input
     #inputRef
     [type]="type()"
     [formControl]="control()"
-    class="w-full flex-1 border-none bg-transparent text-black placeholder-gray-400 outline-none dark:text-white"
+    class="text-app-text dark:text-app-text-dark placeholder:text-app-subtext dark:placeholder:text-app-subtext-dark w-full flex-1 border-none bg-transparent outline-none"
     [placeholder]="placeholder()"
   />
 
-  <div class="ml-2 flex items-center text-gray-500 select-none">
-    <ng-content select="[end]"></ng-content>
-  </div>
+  @if (trailingIcon()) {
+    <div
+      class="text-app-subtext dark:text-app-subtext-dark ml-2 flex items-center select-none"
+      [class]="
+        trailingIconClickable()
+          ? 'text-app-primary dark:text-app-subtext cursor-pointer'
+          : 'text-app-subtext dark:text-app-subtext cursor-default'
+      "
+      (click)="onTrailingIconClick($event)"
+    >
+      <span class="material-symbols-outlined">{{ trailingIcon() }}</span>
+    </div>
+  }
 </div>
-@if (showErrors()) {
-  <div class="mt-1 text-sm text-red-500">
-    <span role="alert">{{displayErrorMessage()}}</span>
-  </div>
-}
+<div class="text-app-error dark:text-app-error-dark mt-1 min-h-5 text-sm">
+  @if (showErrors()) {
+    <span role="alert">{{ displayErrorMessage() }}</span>
+  }
+</div>

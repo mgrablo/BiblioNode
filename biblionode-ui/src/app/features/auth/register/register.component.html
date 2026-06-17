@@ -9,45 +9,41 @@
       <app-icon-input
         [control]="fullName"
         placeholder="Full Name*"
+        leadingIcon="person"
         [errorMessages]="{
           required: 'Please enter your full name',
         }"
-      >
-        <span start class="material-symbols-outlined">person</span>
-      </app-icon-input>
+      />
       <app-icon-input
         [control]="email"
         placeholder="Email*"
+        leadingIcon="mail"
         [errorMessages]="{
           required: 'Email is required',
           email: 'Please enter a valid email address'
         }"
-      >
-        <span start class="material-symbols-outlined">mail</span>
-      </app-icon-input>
+      />
       <app-icon-input
         [control]="password"
         placeholder="Password*"
-        [isPassword]="true"
+        type="password"
+        leadingIcon="lock"
         [errorMessages]="{
           required: 'Please enter your password',
           minLength: 'Password must be at least 8 characters long',
           strongPassword: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
         }"
-      >
-        <span start class="material-symbols-outlined">lock</span>
-      </app-icon-input>
+      />
       <app-icon-input
         [control]="confirmPassword"
         placeholder="Confirm Password*"
-        [isPassword]="true"
+        type="password"
+        leadingIcon="lock"
         [errorMessages]="{
           required: 'Please confirm your password',
           passwordMismatch: 'Passwords do not match'
         }"
-      >
-        <span start class="material-symbols-outlined">lock</span>
-      </app-icon-input>
+      />
 
       <button type="submit"
               [disabled]="registerForm.invalid || isLoading()"

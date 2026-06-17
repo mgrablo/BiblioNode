@@ -19,34 +19,24 @@
       <app-icon-input
         [control]="email"
         placeholder="Email"
+        leadingIcon="mail"
         [errorMessages]="{
           required: 'Email is required',
           email: 'Please enter a valid email address'
         }"
-      >
-        <span start class="material-symbols-outlined">mail</span>
-      </app-icon-input>
+      />
       <app-icon-input
         [control]="password"
         placeholder="Password"
-        [isPassword]="!passwordVisible()"
+        [type]="passwordVisible() ? 'text' : 'password'"
+        leadingIcon="lock"
+        [trailingIcon]="passwordVisible() ? 'visibility_off' : 'visibility'"
+        [trailingIconClickable]="true"
+        (trailingIconClick)="togglePasswordVisibility()"
         [errorMessages]="{
           required: 'Please enter your password',
         }"
-      >
-        <span start class="material-symbols-outlined">lock</span>
-
-        <button type="button"
-                end
-                class="rounded-full cursor-pointer w-7 h-7 flex items-center justify-center"
-                (click)="togglePasswordVisibility()">
-          @if (passwordVisible()) {
-            <span class="material-symbols-outlined">visibility_off</span>
-          } @else {
-            <span class="material-symbols-outlined">visibility</span>
-          }
-        </button>
-      </app-icon-input>
+      />
 
       <button type="submit"
               class="bg-blue-900 text-white hover:bg-blue-800 transition-colors rounded p-2 font-bold cursor-pointer">
