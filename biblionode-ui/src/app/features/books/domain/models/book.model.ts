@@ -4,5 +4,6 @@ export interface Book {
   authorName: string;
   isbn: string;
   availableCopies: number;
-  coverUrl?: string;
+  coverUrl: string | null;
+  description: string | null;
 }

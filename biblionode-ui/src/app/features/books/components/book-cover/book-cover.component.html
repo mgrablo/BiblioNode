@@ -1,0 +1,20 @@
+<div
+  [style.background]="book().coverUrl ? 'none' : coverColor"
+  class="relative flex aspect-3/4 w-full items-center justify-center overflow-hidden before:absolute before:top-0 before:left-0 before:h-full before:bg-black/18 before:content-['']"
+  [class]="size() === 'sm' ? 'before:w-2.5' : 'before:w-3'"
+>
+  @if (book().coverUrl) {
+    <img
+      [alt]="'Cover of ' + book().title"
+      [src]="book().coverUrl"
+      class="h-full w-full object-center"
+    />
+  } @else {
+    <span
+      [class]="size() === 'sm' ? 'text-5xl' : 'text-7xl'"
+      class="text-app-primary-text flex h-full w-full items-center justify-center font-serif font-semibold opacity-85"
+    >
+      {{ book().title.charAt(0) }}
+    </span>
+  }
+</div>

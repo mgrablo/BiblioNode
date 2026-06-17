@@ -1,0 +1,15 @@
+<article
+  class="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-12px_rgba(43,42,40,0.35)] dark:border-mauve-800 dark:bg-black"
+>
+  <app-book-cover [book]="book()" />
+
+  <div class="flex flex-col gap-1 px-4 py-4">
+    <h3
+      class="m-0 font-serif text-[1.05rem] leading-tight font-semibold text-black dark:text-gray-200"
+    >
+      {{ book().title }}
+    </h3>
+    <p class="m-0 text-sm text-mauve-500">{{ book().authorName }}</p>
+    <p appStatusBadge [availableCopies]="book().availableCopies"></p>
+  </div>
+</article>

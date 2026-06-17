@@ -7,3 +7,92 @@
   @apply transition-all;
   box-sizing: border-box;
 }
+
+@theme inline {
+  /* ------------------------------------------------------------------ */
+  /* Backgrounds                                                          */
+  /* ------------------------------------------------------------------ */
+
+  /* Page canvas — warm paper in light, near-black in dark */
+  --color-app-background: var(--color-stone-100);
+  --color-app-background-dark: var(--color-stone-950);
+
+  /* Raised surfaces — cards, rails, modals */
+  --color-app-surface: var(--color-stone-50);
+  --color-app-surface-dark: var(--color-stone-900);
+
+  /* ------------------------------------------------------------------ */
+  /* Borders & rules                                                      */
+  /* ------------------------------------------------------------------ */
+
+  --color-app-border: var(--color-stone-300);
+  --color-app-border-dark: var(--color-stone-800);
+
+  /* ------------------------------------------------------------------ */
+  /* Text                                                                 */
+  /* ------------------------------------------------------------------ */
+
+  /* Primary readable text */
+  --color-app-text: var(--color-stone-900);
+  --color-app-text-dark: var(--color-stone-200);
+
+  /* Secondary / supporting text — captions, labels, metadata */
+  --color-app-subtext: var(--color-stone-500);
+  --color-app-subtext-dark: var(--color-stone-400);
+
+  /* ------------------------------------------------------------------ */
+  /* Primary action (muted forest green)                                  */
+  /* ------------------------------------------------------------------ */
+
+  --color-forest-50: #eef4f1;
+  --color-forest-100: #d5e7de;
+  --color-forest-200: #aacfbd;
+  --color-forest-300: #7db09b;
+  --color-forest-400: #5e8a73;
+  --color-forest-500: #4e7260;
+  --color-forest-600: #3f5d4e;
+  --color-forest-700: #34503f;
+  --color-forest-800: #28402f;
+  --color-forest-900: #1b2d20;
+  --color-forest-950: #0e1a12;
+
+  --color-app-primary: var(--color-forest-600);
+  --color-app-primary-hover: var(--color-forest-700);
+  --color-app-primary-dark: var(--color-forest-400);
+  --color-app-primary-dark-hover: var(--color-forest-300);
+
+  --color-app-primary-text: var(--color-stone-50);
+  --color-app-primary-text-dark: var(--color-stone-950);
+
+  /* Subtle tinted background for primary-toned UI elements (chips, badges) */
+  --color-app-primary-subtle: var(--color-forest-100);
+  --color-app-primary-subtle-dark: var(--color-forest-900);
+
+  /* ------------------------------------------------------------------ */
+  /* Error / destructive (warm rust — orange scale)                       */
+  /* ------------------------------------------------------------------ */
+
+  --color-app-error: var(--color-orange-800);
+  --color-app-error-dark: var(--color-orange-400);
+
+  /* Tinted background behind error text */
+  --color-app-error-subtle: var(--color-orange-50);
+  --color-app-error-subtle-dark: var(--color-orange-950);
+
+  /* ------------------------------------------------------------------ */
+  /* Disabled states                                                      */
+  /* ------------------------------------------------------------------ */
+
+  --color-app-disabled: var(--color-stone-200);
+  --color-app-disabled-dark: var(--color-stone-800);
+
+  --color-app-disabled-text: var(--color-stone-400);
+  --color-app-disabled-text-dark: var(--color-stone-600);
+
+  /* ------------------------------------------------------------------ */
+  /* Focus ring                                                           */
+  /* ------------------------------------------------------------------ */
+
+  --color-app-focus-ring: var(--color-forest-600);
+  --color-app-focus-ring-dark: var(--color-forest-400);
+}

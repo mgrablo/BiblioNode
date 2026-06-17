@@ -1,0 +1,64 @@
+<div
+  class="bg-app-background dark:bg-app-background-dark text-app-text dark:text-app-text-dark min-h-screen"
+>
+  <div class="mx-auto max-w-240 px-5 py-10 lg:py-14">
+    <app-backlink route="/browse" class="mb-8 block">Back to catalog</app-backlink>
+
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-[260px_1fr] lg:gap-12">
+      <app-book-cover
+        [book]="book()"
+        class="mx-auto max-w-65 rounded-xl shadow-sm sm:mx-0 dark:shadow-none"
+        size="lg"
+      />
+
+      <!-- Details -->
+      <div class="flex flex-col gap-5">
+        <div>
+          <h1 class="m-0 font-serif text-3xl leading-tight font-semibold lg:text-4xl">
+            {{ book().title }}
+          </h1>
+          <p class="text-app-subtext dark:text-app-subtext-dark m-0 mt-2 text-lg">
+            {{ book().authorName }}
+          </p>
+        </div>
+
+        <dl class="grid max-w-sm grid-cols-2 gap-x-6 gap-y-3">
+          <div class="flex flex-col gap-0.5">
+            <dt
+              class="text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase"
+            >
+              ISBN
+            </dt>
+            <dd class="text-app-text dark:text-app-text-dark m-0 font-mono text-sm tracking-wide">
+              {{ book().isbn }}
+            </dd>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <dt
+              class="text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase"
+            >
+              Availability
+            </dt>
+            <dd [availableCopies]="book().availableCopies" appStatusBadge></dd>
+          </div>
+        </dl>
+
+        <div class="pt-2">
+          <app-button [disabled]="!isAvailable()" type="button" variant="primary">
+            {{ isAvailable() ? 'Borrow this book' : 'Currently unavailable' }}
+          </app-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    @if (book().description) {
+      <div class="mt-12">
+        <h2 class="text-2xl font-semibold">Description</h2>
+        <p class="text-app-text dark:text-app-text-dark mt-2 whitespace-pre-wrap">
+          {{ book().description }}
+        </p>
+      </div>
+    }
+  </div>
+</div>

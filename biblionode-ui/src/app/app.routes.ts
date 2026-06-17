@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { BrowseComponent } from './features/books/browse/browse.component';
+import { DetailsPageComponent } from './features/books/details/details-page.component';
 
 export const routes: Routes = [
   {
@@ -14,5 +15,9 @@ export const routes: Routes = [
   {
     path: 'browse',
     component: BrowseComponent,
+  },
+  {
+    path: 'books/:id',
+    component: DetailsPageComponent,
   },
 ];

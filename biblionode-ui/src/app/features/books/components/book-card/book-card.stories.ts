@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { BookCardComponent } from './book-card.component';
-import { Book } from '../../../features/books/domain/models/book.model';
+import { Book } from '../../domain/models/book.model';
 
 const meta: Meta<BookCardComponent> = {
-  title: 'Shared/Components/BookCard',
+  title: 'Features/Books/Components/BookCard',
   component: BookCardComponent,
   tags: ['autodocs'],
 };
@@ -18,6 +18,7 @@ const props: Book = {
   isbn: '1234567890',
   availableCopies: 10,
   coverUrl: 'https://m.media-amazon.com/images/I/81cO02Zz6VL.jpg',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 };
 
 export const Default: Story = {

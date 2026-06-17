@@ -5,6 +5,8 @@ export interface BookResponse {
   authorName: string;
   authorId: number;
   available: boolean;
+  coverUrl: string | null;
+  description: string | null;
   createdAt: string;
   modifiedAt: string;
 }

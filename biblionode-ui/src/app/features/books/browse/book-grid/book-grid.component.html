@@ -5,7 +5,7 @@
 
   <div class="grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5">
     @for (book of books(); track book.id) {
-      <app-book-card [book]="book" />
+      <app-book-card [book]="book" (click)="onBookClick(book)" class="cursor-pointer" />
     }
   </div>
 </div>
