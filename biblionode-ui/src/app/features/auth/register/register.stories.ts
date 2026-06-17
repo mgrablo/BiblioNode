@@ -1,7 +1,7 @@
 import { RegisterComponent } from './register.component';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../data/services/auth.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 

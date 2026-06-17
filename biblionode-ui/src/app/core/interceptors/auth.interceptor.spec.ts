@@ -8,7 +8,7 @@ import {
 
 import { authInterceptor } from './auth.interceptor';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../features/auth/data/services/auth.service';
 import { Router } from '@angular/router';
 
 describe('authInterceptor', () => {
