@@ -4,7 +4,7 @@ import { RegisterRequest } from "../dto/register-request.model";
 import { LoginRequest } from "../dto/login-request.model";
 import { LoginResponse } from "../dto/login-response.model";
 import { catchError, tap } from 'rxjs';
-import { ReaderProfile } from '../../../../models/reader-profile.model';
+import { ReaderProfile } from '../../../../shared/models/reader-profile.model';
 
 @Injectable({
   providedIn: 'root',
