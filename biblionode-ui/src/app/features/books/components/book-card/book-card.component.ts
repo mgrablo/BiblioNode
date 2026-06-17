@@ -1,6 +1,5 @@
 import { Component, input } from '@angular/core';
 import { Book } from '../../domain/models/book.model';
-import { NgOptimizedImage } from '@angular/common';
 import { BookCoverComponent } from '../book-cover/book-cover.component';
 import { StatusBadgeComponent } from '../status-badge/status-badge.component';
 

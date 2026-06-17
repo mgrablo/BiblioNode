@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Book } from '../../domain/models/book.model';
 import { BookCardComponent } from '../../components/book-card/book-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-grid',
@@ -10,5 +11,10 @@ import { BookCardComponent } from '../../components/book-card/book-card.componen
   styleUrl: './book-grid.component.scss',
 })
 export class BookGridComponent {
-  books = input.required<Iterable<Book>>();
+  private router = inject(Router);
+  books = input.required<Book[]>();
+
+  onBookClick(book: Book) {
+    this.router.navigate(['/books', book.id]);
+  }
 }
