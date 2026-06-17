@@ -1023,8 +1023,59 @@
             "templateData": "<div\r\n  class=\"flex min-h-screen flex-col bg-gray-100 text-black md:flex-row dark:bg-mauve-950 dark:text-white\"\r\n>\r\n  <app-navbar />\r\n  <main class=\"flex-1 p-4 pb-24 md:p-8 md:pb-8\">\r\n    <router-outlet />\r\n  </main>\r\n</div>\r\n"
         },
         {
+            "name": "BacklinkComponent",
+            "id": "component-BacklinkComponent-789cbda1db4021a3fea61ab15a7773a301b6c95e5646f7d6a038d29abd392ca879db45b20e1b92b2dc29bc57824e9f3ce5c2f9786595912d55ebaad5a0ce9404",
+            "file": "src/app/shared/components/backlink/backlink.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-backlink",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<a\n  class=\"text-app-subtext dark:text-app-subtext-dark hover:text-app-primary dark:hover:text-app-primary-dark inline-flex items-center gap-1.5 text-sm font-semibold\"\n  [routerLink]=\"route()\"\n>\n  <span class=\"material-symbols-outlined\">chevron_left</span>\n  <ng-content></ng-content>\n</a>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "route",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "RouterLink"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { RouterLink } from '@angular/router';\r\n\r\n@Component({\r\n  selector: 'app-backlink',\r\n  standalone: true,\r\n  imports: [RouterLink],\r\n  template: `\r\n    <a\r\n      class=\"text-app-subtext dark:text-app-subtext-dark hover:text-app-primary dark:hover:text-app-primary-dark inline-flex items-center gap-1.5 text-sm font-semibold\"\r\n      [routerLink]=\"route()\"\r\n    >\r\n      <span class=\"material-symbols-outlined\">chevron_left</span>\r\n      <ng-content></ng-content>\r\n    </a>\r\n  `,\r\n})\r\nexport class BacklinkComponent {\r\n  route = input.required<string>();\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": []
+        },
+        {
             "name": "BookCardComponent",
-            "id": "component-BookCardComponent-cb0118bd000bd4781aa88b69809d5cdce0960c27e5624500e8e52b207483de9c35e97edf5dbd9ae30f617dbe3b85e7defde7a3062a0756f5c2eb7476972fd7ec",
+            "id": "component-BookCardComponent-a9dc39792e093b6116492ce9bece7b7ed709812f2ee1e95965c4301aeb30083a4aa68170ae125023f911f2ee112941736eaaf6b6768031a4357e4cd2a710fe16",
             "file": "src/app/features/books/components/book-card/book-card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1048,7 +1099,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 14,
                     "required": true
                 }
             ],
@@ -1073,7 +1124,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { NgOptimizedImage } from '@angular/common';\r\nimport { BookCoverComponent } from '../book-cover/book-cover.component';\r\nimport { StatusBadgeComponent } from '../status-badge/status-badge.component';\r\n\r\n@Component({\r\n  selector: 'app-book-card',\r\n  standalone: true,\r\n  imports: [BookCoverComponent, StatusBadgeComponent],\r\n  templateUrl: './book-card.component.html',\r\n  styleUrl: './book-card.component.scss',\r\n})\r\nexport class BookCardComponent {\r\n  book = input.required<Book>();\r\n\r\n  get statusColorClass(): string {\r\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\r\n  }\r\n\r\n  get statusText(): string {\r\n    if (this.book().availableCopies === 0) {\r\n      return 'Checked out';\r\n    }\r\n    const txt = this.book().availableCopies === 1 ? 'copy' : 'copies';\r\n    return `${this.book().availableCopies} ${txt} left`;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCoverComponent } from '../book-cover/book-cover.component';\r\nimport { StatusBadgeComponent } from '../status-badge/status-badge.component';\r\n\r\n@Component({\r\n  selector: 'app-book-card',\r\n  standalone: true,\r\n  imports: [BookCoverComponent, StatusBadgeComponent],\r\n  templateUrl: './book-card.component.html',\r\n  styleUrl: './book-card.component.scss',\r\n})\r\nexport class BookCardComponent {\r\n  book = input.required<Book>();\r\n\r\n  get statusColorClass(): string {\r\n    return this.book().availableCopies === 0 ? 'text-[#B0503A]' : 'text-[#3F5D4E]';\r\n  }\r\n\r\n  get statusText(): string {\r\n    if (this.book().availableCopies === 0) {\r\n      return 'Checked out';\r\n    }\r\n    const txt = this.book().availableCopies === 1 ? 'copy' : 'copies';\r\n    return `${this.book().availableCopies} ${txt} left`;\r\n  }\r\n}\r\n",
             "styleUrl": "./book-card.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1086,7 +1137,7 @@
                         "name": "statusColorClass",
                         "type": "string",
                         "returnType": "string",
-                        "line": 17
+                        "line": 16
                     }
                 },
                 "statusText": {
@@ -1095,7 +1146,7 @@
                         "name": "statusText",
                         "type": "string",
                         "returnType": "string",
-                        "line": 21
+                        "line": 20
                     }
                 }
             },
@@ -1193,7 +1244,7 @@
         },
         {
             "name": "BookGridComponent",
-            "id": "component-BookGridComponent-e9c85d72193aa5b3d8abecd761e5a89a717206352eaee8538212b9db5bb3c4299d96d63b84557d9ccc311d348aa084e078474288c877990364ac1394790ce6ac",
+            "id": "component-BookGridComponent-6600a8ec4a64d82e56b2c9e03d1951ba4723de4847d1703a6e383d75f5e5fff31e7c1f1dd62258f4b8870ed16c8d817c7fab135268f7c70c22e3e662b67fadc0",
             "file": "src/app/features/books/browse/book-grid/book-grid.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1213,17 +1264,65 @@
                     "name": "books",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Iterable<Book>",
+                    "type": "Book[]",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 13,
+                    "line": 15,
                     "required": true
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "router",
+                    "defaultValue": "inject(Router)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "onBookClick",
+                    "args": [
+                        {
+                            "name": "book",
+                            "type": "Book",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 17,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "book",
+                            "type": "Book",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -1238,13 +1337,13 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCardComponent } from '../../components/book-card/book-card.component';\r\n\r\n@Component({\r\n  selector: 'app-book-grid',\r\n  standalone: true,\r\n  imports: [BookCardComponent],\r\n  templateUrl: './book-grid.component.html',\r\n  styleUrl: './book-grid.component.scss',\r\n})\r\nexport class BookGridComponent {\r\n  books = input.required<Iterable<Book>>();\r\n}\r\n",
+            "sourceCode": "import { Component, inject, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCardComponent } from '../../components/book-card/book-card.component';\r\nimport { Router } from '@angular/router';\r\n\r\n@Component({\r\n  selector: 'app-book-grid',\r\n  standalone: true,\r\n  imports: [BookCardComponent],\r\n  templateUrl: './book-grid.component.html',\r\n  styleUrl: './book-grid.component.scss',\r\n})\r\nexport class BookGridComponent {\r\n  private router = inject(Router);\r\n  books = input.required<Book[]>();\r\n\r\n  onBookClick(book: Book) {\r\n    this.router.navigate(['/books', book.id]);\r\n  }\r\n}\r\n",
             "styleUrl": "./book-grid.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<div class=\"flex h-full w-full flex-col\">\r\n  <div class=\"mb-6\">\r\n    <h1 class=\"m-0 mb-1.5 font-serif text-2xl font-semibold lg:text-3xl\">Browse Books</h1>\r\n  </div>\r\n\r\n  <div class=\"grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5\">\r\n    @for (book of books(); track book.id) {\r\n      <app-book-card [book]=\"book\" />\r\n    }\r\n  </div>\r\n</div>\r\n"
+            "templateData": "<div class=\"flex h-full w-full flex-col\">\r\n  <div class=\"mb-6\">\r\n    <h1 class=\"m-0 mb-1.5 font-serif text-2xl font-semibold lg:text-3xl\">Browse Books</h1>\r\n  </div>\r\n\r\n  <div class=\"grid grid-cols-2 gap-3.5 md:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] md:gap-5\">\r\n    @for (book of books(); track book.id) {\r\n      <app-book-card [book]=\"book\" (click)=\"onBookClick(book)\" class=\"cursor-pointer\" />\r\n    }\r\n  </div>\r\n</div>\r\n"
         },
         {
             "name": "BrowseComponent",
@@ -1494,7 +1593,7 @@
         },
         {
             "name": "ButtonComponent",
-            "id": "component-ButtonComponent-1ccbfbdb51274553a61ec6b6f9e9a605ce8fa3f4d79b00fddee7b8c4b3f6033426964d96f81e522e1dfc7e2514beb3c05b70ada11bedc2da9bfbf271529f271e-1",
+            "id": "component-ButtonComponent-bbe90edc92876280f1757d90706a9521f2ecbffe131fce7646bb1c69c5635e15061b1a0fa06fc2f164c69d2bcfaa27fb895a0552d396206854a76c2d401a7f61-1",
             "file": "src/app/shared/components/button/button.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1519,7 +1618,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 13,
+                    "line": 12,
                     "required": false
                 },
                 {
@@ -1531,7 +1630,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 12,
+                    "line": 11,
                     "required": false
                 },
                 {
@@ -1543,7 +1642,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 11,
+                    "line": 10,
                     "required": false
                 }
             ],
@@ -1556,21 +1655,21 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 14,
                     "required": false
                 }
             ],
             "propertiesClass": [
                 {
                     "name": "computedClasses",
-                    "defaultValue": "computed(() => {\r\n    if (this.disabled()) {\r\n      return 'btn-disabled';\r\n    }\r\n\r\n    if (this.variant() === 'primary') {\r\n      return 'btn-primary';\r\n    }\r\n\r\n    if (this.variant() === 'secondary') {\r\n      return 'btn-secondary';\r\n    }\r\n\r\n    return '';\r\n  })",
+                    "defaultValue": "computed(() => {\r\n    if (this.disabled()) {\r\n      return 'bg-app-disabled text-app-disabled-text dark:bg-app-disabled-dark dark:text-app-disabled-text-dark';\r\n    }\r\n\r\n    if (this.variant() === 'primary') {\r\n      return `bg-app-primary text-app-primary-text hover:bg-app-primary-hover\r\n              dark:bg-app-primary-dark dark:text-app-primary-text-dark dark:hover:bg-app-primary-dark-hover`;\r\n    }\r\n\r\n    if (this.variant() === 'secondary') {\r\n      return `border-app-primary hover:bg-app-primary-hover hover:border-app-primary-hover border-2\r\n              dark:border-app-primary-dark dark:hover:bg-app-primary-dark-hover dark:hover:border-app-primary-dark-hover\r\n              text-app-primary dark:text-app-primary-dark hover:text-app-background dark:hover:text-app-background-dark`;\r\n    }\r\n\r\n    return '';\r\n  })",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 16
                 }
             ],
             "methodsClass": [
@@ -1589,7 +1688,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 35,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1616,8 +1715,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, computed, input, output } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-button',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './button.component.html',\r\n  styleUrl: './button.component.css',\r\n})\r\nexport class ButtonComponent {\r\n  variant = input<'primary' | 'secondary'>('primary');\r\n  type = input<'button' | 'submit' | 'reset'>('button');\r\n  disabled = input<boolean>(false);\r\n\r\n  onClick = output<MouseEvent>();\r\n\r\n  computedClasses = computed(() => {\r\n    if (this.disabled()) {\r\n      return 'btn-disabled';\r\n    }\r\n\r\n    if (this.variant() === 'primary') {\r\n      return 'btn-primary';\r\n    }\r\n\r\n    if (this.variant() === 'secondary') {\r\n      return 'btn-secondary';\r\n    }\r\n\r\n    return '';\r\n  });\r\n\r\n  handleClick(event: MouseEvent) {\r\n    if (!this.disabled()) {\r\n      this.onClick.emit(event);\r\n    }\r\n  }\r\n}\r\n",
-            "styleUrl": "./button.component.css",
+            "sourceCode": "import { Component, computed, input, output } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'app-button',\r\n  standalone: true,\r\n  imports: [],\r\n  templateUrl: './button.component.html',\r\n})\r\nexport class ButtonComponent {\r\n  variant = input<'primary' | 'secondary'>('primary');\r\n  type = input<'button' | 'submit' | 'reset'>('button');\r\n  disabled = input<boolean>(false);\r\n\r\n  onClick = output<MouseEvent>();\r\n\r\n  computedClasses = computed(() => {\r\n    if (this.disabled()) {\r\n      return 'bg-app-disabled text-app-disabled-text dark:bg-app-disabled-dark dark:text-app-disabled-text-dark';\r\n    }\r\n\r\n    if (this.variant() === 'primary') {\r\n      return `bg-app-primary text-app-primary-text hover:bg-app-primary-hover\r\n              dark:bg-app-primary-dark dark:text-app-primary-text-dark dark:hover:bg-app-primary-dark-hover`;\r\n    }\r\n\r\n    if (this.variant() === 'secondary') {\r\n      return `border-app-primary hover:bg-app-primary-hover hover:border-app-primary-hover border-2\r\n              dark:border-app-primary-dark dark:hover:bg-app-primary-dark-hover dark:hover:border-app-primary-dark-hover\r\n              text-app-primary dark:text-app-primary-dark hover:text-app-background dark:hover:text-app-background-dark`;\r\n    }\r\n\r\n    return '';\r\n  });\r\n\r\n  handleClick(event: MouseEvent) {\r\n    if (!this.disabled()) {\r\n      this.onClick.emit(event);\r\n    }\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -1625,7 +1723,269 @@
             "isDuplicate": true,
             "duplicateId": 1,
             "duplicateName": "ButtonComponent-1",
-            "templateData": "<button\r\n  (click)=\"handleClick($event)\"\r\n  [disabled]=\"disabled()\"\r\n  [type]=\"type()\"\r\n  class=\"btn-base\"\r\n  [class]=\"computedClasses()\"\r\n>\r\n  <ng-content></ng-content>\r\n</button>\r\n"
+            "templateData": "<button\n  (click)=\"handleClick($event)\"\n  [class]=\"computedClasses()\"\n  [disabled]=\"disabled()\"\n  [type]=\"type()\"\n  class=\"focus-visible:outline-app-focus-ring dark:focus-visible:outline-app-focus-ring-dark box-border inline-flex cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50\"\n>\n  <ng-content></ng-content>\n</button>\n"
+        },
+        {
+            "name": "DetailsComponent",
+            "id": "component-DetailsComponent-a6459c8213443241a1ccb30f3ebd851d68d38f43d99f2c86eb96266a3f50fa0e4114ccdcc82b1fe20e70561f7bf1ebd19034a66002c02ccc1e04fcf72e6dbde6",
+            "file": "src/app/features/books/details/components/details.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-details",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./details.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "book",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Book",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18,
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "bookService",
+                    "defaultValue": "inject(BookService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "isAvailable",
+                    "defaultValue": "computed(() => this.book().availableCopies > 0)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "onBorrow",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 21,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [
+                {
+                    "name": "BookCoverComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "StatusBadgeComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ButtonComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "BacklinkComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, computed, inject, input } from '@angular/core';\r\nimport { Book } from '../../domain/models/book.model';\r\nimport { BookCoverComponent } from '../../components/book-cover/book-cover.component';\r\nimport { StatusBadgeComponent } from '../../components/status-badge/status-badge.component';\r\nimport { ButtonComponent } from '../../../../shared/components/button/button.component';\r\nimport { BookService } from '../../data-access/book.service';\r\nimport { BacklinkComponent } from '../../../../shared/components/backlink/backlink.component';\r\n\r\n@Component({\r\n  selector: 'app-details',\r\n  imports: [BookCoverComponent, StatusBadgeComponent, ButtonComponent, BacklinkComponent],\r\n  templateUrl: './details.component.html',\r\n  styleUrl: './details.component.scss',\r\n})\r\nexport class DetailsComponent {\r\n  private bookService = inject(BookService);\r\n\r\n  book = input.required<Book>();\r\n  isAvailable = computed(() => this.book().availableCopies > 0);\r\n\r\n  onBorrow(): void {\r\n    // TODO\r\n  }\r\n}\r\n",
+            "styleUrl": "./details.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "templateData": "<div\r\n  class=\"bg-app-background dark:bg-app-background-dark text-app-text dark:text-app-text-dark min-h-screen\"\r\n>\r\n  <div class=\"mx-auto max-w-240 px-5 py-10 lg:py-14\">\r\n    <app-backlink route=\"/browse\" class=\"mb-8 block\">Back to catalog</app-backlink>\r\n\r\n    <div class=\"grid grid-cols-1 gap-8 sm:grid-cols-[260px_1fr] lg:gap-12\">\r\n      <app-book-cover\r\n        [book]=\"book()\"\r\n        class=\"mx-auto max-w-65 rounded-xl shadow-sm sm:mx-0 dark:shadow-none\"\r\n        size=\"lg\"\r\n      />\r\n\r\n      <!-- Details -->\r\n      <div class=\"flex flex-col gap-5\">\r\n        <div>\r\n          <h1 class=\"m-0 font-serif text-3xl leading-tight font-semibold lg:text-4xl\">\r\n            {{ book().title }}\r\n          </h1>\r\n          <p class=\"text-app-subtext dark:text-app-subtext-dark m-0 mt-2 text-lg\">\r\n            {{ book().authorName }}\r\n          </p>\r\n        </div>\r\n\r\n        <dl class=\"grid max-w-sm grid-cols-2 gap-x-6 gap-y-3\">\r\n          <div class=\"flex flex-col gap-0.5\">\r\n            <dt\r\n              class=\"text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase\"\r\n            >\r\n              ISBN\r\n            </dt>\r\n            <dd class=\"text-app-text dark:text-app-text-dark m-0 font-mono text-sm tracking-wide\">\r\n              {{ book().isbn }}\r\n            </dd>\r\n          </div>\r\n          <div class=\"flex flex-col gap-0.5\">\r\n            <dt\r\n              class=\"text-app-subtext dark:text-app-subtext-dark text-xs font-bold tracking-[0.08em] uppercase\"\r\n            >\r\n              Availability\r\n            </dt>\r\n            <dd [availableCopies]=\"book().availableCopies\" appStatusBadge></dd>\r\n          </div>\r\n        </dl>\r\n\r\n        <div class=\"pt-2\">\r\n          <app-button [disabled]=\"!isAvailable()\" type=\"button\" variant=\"primary\">\r\n            {{ isAvailable() ? 'Borrow this book' : 'Currently unavailable' }}\r\n          </app-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <!-- Description -->\r\n    @if (book().description) {\r\n      <div class=\"mt-12\">\r\n        <h2 class=\"text-2xl font-semibold\">Description</h2>\r\n        <p class=\"text-app-text dark:text-app-text-dark mt-2 whitespace-pre-wrap\">\r\n          {{ book().description }}\r\n        </p>\r\n      </div>\r\n    }\r\n  </div>\r\n</div>\r\n"
+        },
+        {
+            "name": "DetailsPageComponent",
+            "id": "component-DetailsPageComponent-ff5d9be72609d419f1a6326d7a9366990de7e171c3c7d0f23f8b197a60b6ce603d9b34885d49c56309da78bde0ea3486f5b605c67842a614374a68ed4adc91b7",
+            "file": "src/app/features/books/details/details-page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-details-page",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./details-page.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "book",
+                    "defaultValue": "signal<Book | null>(null)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "bookService",
+                    "defaultValue": "inject(BookService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "errorMessage",
+                    "defaultValue": "signal<string | null>(null)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
+                {
+                    "name": "isLoading",
+                    "defaultValue": "signal(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "route",
+                    "defaultValue": "inject(ActivatedRoute)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "loadBookDetails",
+                    "args": [
+                        {
+                            "name": "id",
+                            "type": "number",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 33,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "id",
+                            "type": "number",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 24,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [
+                {
+                    "name": "DetailsComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "BacklinkComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, inject, OnInit, signal } from '@angular/core';\r\nimport { ActivatedRoute } from '@angular/router';\r\nimport { Book } from '../domain/models/book.model';\r\nimport { BookService } from '../data-access/book.service';\r\nimport { BookResponse } from '../data-access/dto/book-response';\r\nimport { BookMapper } from '../domain/mappers/book.mapper';\r\nimport { DetailsComponent } from './components/details.component';\r\nimport { BacklinkComponent } from '../../../shared/components/backlink/backlink.component';\r\n\r\n@Component({\r\n  selector: 'app-details-page',\r\n  imports: [DetailsComponent, BacklinkComponent],\r\n  templateUrl: './details-page.component.html',\r\n  styleUrl: './details-page.component.scss',\r\n})\r\nexport class DetailsPageComponent implements OnInit {\r\n  private route = inject(ActivatedRoute);\r\n  private bookService = inject(BookService);\r\n\r\n  book = signal<Book | null>(null);\r\n  isLoading = signal(false);\r\n  errorMessage = signal<string | null>(null);\r\n\r\n  ngOnInit(): void {\r\n    this.route.paramMap.subscribe((params) => {\r\n      const idStr = params.get('id');\r\n      if (idStr) {\r\n        this.loadBookDetails(Number(idStr));\r\n      }\r\n    });\r\n  }\r\n\r\n  private loadBookDetails(id: number): void {\r\n    this.isLoading.set(true);\r\n    this.errorMessage.set(null);\r\n\r\n    this.bookService.getBookById(id).subscribe({\r\n      next: (response: BookResponse) => {\r\n        this.book.set(BookMapper.toBook(response));\r\n        this.isLoading.set(false);\r\n      },\r\n      error: (err) => {\r\n        console.error('Failed to load book', err);\r\n        this.errorMessage.set('Book not found.');\r\n        this.isLoading.set(false);\r\n      },\r\n    });\r\n  }\r\n}\r\n",
+            "styleUrl": "./details-page.component.scss",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": [],
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "@if (isLoading()) {\r\n  <div class=\"flex h-full w-full items-center justify-center\">\r\n    <span class=\"material-symbols-outlined animate-spin\">progress_activity</span>\r\n  </div>\r\n} @else if (errorMessage()) {\r\n  <div class=\"mx-auto max-w-240 px-5 py-10 lg:py-14\">\r\n    <app-backlink route=\"/browse\" class=\"mb-8 block\">Back to catalog</app-backlink>\r\n    <div\r\n      class=\"relative mb-6 flex flex-row items-center rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700\"\r\n      role=\"alert\"\r\n    >\r\n      <p class=\"text-sm text-red-500\">{{ errorMessage() }}</p>\r\n    </div>\r\n  </div>\r\n} @else if (book(); as bookData) {\r\n  <app-details [book]=\"bookData\" />\r\n}\r\n"
         },
         {
             "name": "HeaderComponent",
@@ -2579,7 +2939,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Routes",
-                "defaultValue": "[\r\n  {\r\n    path: 'auth',\r\n    children: [\r\n      { path: 'login', component: LoginComponent },\r\n      { path: 'signup', component: RegisterComponent },\r\n    ],\r\n  },\r\n  {\r\n    path: 'browse',\r\n    component: BrowseComponent,\r\n  },\r\n]"
+                "defaultValue": "[\r\n  {\r\n    path: 'auth',\r\n    children: [\r\n      { path: 'login', component: LoginComponent },\r\n      { path: 'signup', component: RegisterComponent },\r\n    ],\r\n  },\r\n  {\r\n    path: 'browse',\r\n    component: BrowseComponent,\r\n  },\r\n  {\r\n    path: 'books/:id',\r\n    component: DetailsPageComponent,\r\n  },\r\n]"
             }
         ],
         "functions": [],
@@ -2619,7 +2979,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Routes",
-                    "defaultValue": "[\r\n  {\r\n    path: 'auth',\r\n    children: [\r\n      { path: 'login', component: LoginComponent },\r\n      { path: 'signup', component: RegisterComponent },\r\n    ],\r\n  },\r\n  {\r\n    path: 'browse',\r\n    component: BrowseComponent,\r\n  },\r\n]"
+                    "defaultValue": "[\r\n  {\r\n    path: 'auth',\r\n    children: [\r\n      { path: 'login', component: LoginComponent },\r\n      { path: 'signup', component: RegisterComponent },\r\n    ],\r\n  },\r\n  {\r\n    path: 'browse',\r\n    component: BrowseComponent,\r\n  },\r\n  {\r\n    path: 'books/:id',\r\n    component: DetailsPageComponent,\r\n  },\r\n]"
                 }
             ]
         },
@@ -2635,6 +2995,12 @@
                 "name": "BrowseComponent",
                 "kind": "component",
                 "path": "browse",
+                "filename": "src/app/app.routes.ts"
+            },
+            {
+                "name": "DetailsPageComponent",
+                "kind": "component",
+                "path": "books/:id",
                 "filename": "src/app/app.routes.ts"
             }
         ]
@@ -2733,7 +3099,7 @@
                 "linktype": "component",
                 "name": "BookGridComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
@@ -2788,6 +3154,24 @@
                 "name": "BookResponse",
                 "coveragePercent": 0,
                 "coverageCount": "0/11",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/books/details/components/details.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DetailsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/features/books/details/details-page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DetailsPageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
                 "status": "low"
             },
             {
@@ -2851,6 +3235,15 @@
                 "name": "ReaderProfile",
                 "coveragePercent": 0,
                 "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/shared/components/backlink/backlink.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "BacklinkComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {
