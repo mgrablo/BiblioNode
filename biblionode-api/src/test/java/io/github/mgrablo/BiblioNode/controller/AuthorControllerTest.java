@@ -169,13 +169,13 @@ public class AuthorControllerTest {
 	}
 
 	@Test
-	void searchByName_ShouldReturnAuthor_WhenExists() throws Exception {
+	void findByName_ShouldReturnAuthor_WhenExists() throws Exception {
 		String name = "AAA";
 		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
 		when(authorService.findByName(name)).thenReturn(response);
 
-		mockMvc.perform(get("/api/authors/search")
+		mockMvc.perform(get("/api/authors/find")
 						.param("name", "AAA"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(1L))
@@ -184,10 +184,10 @@ public class AuthorControllerTest {
 	}
 
 	@Test
-	void searchByName_ShouldReturnNotFound_WhenAuthorDoesNotExist() throws Exception {
+	void findByName_ShouldReturnNotFound_WhenAuthorDoesNotExist() throws Exception {
 		when(authorService.findByName("AAA")).thenThrow(new ResourceNotFoundException("Not found"));
 
-		mockMvc.perform(get("/api/authors/search")
+		mockMvc.perform(get("/api/authors/find")
 						.param("name", "AAA"))
 				.andExpect(status().isNotFound());
 	}

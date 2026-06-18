@@ -69,15 +69,15 @@ class AuthorController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/search")
+	@GetMapping("/find")
 	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
-	@Operation(summary = "Search author by name", description = "Finds an author by their name.")
+	@Operation(summary = "Find author by name", description = "Returns an author matching the exact name")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "Found the author"),
 			@ApiResponse(responseCode = "404", description = "Author not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	ResponseEntity<AuthorResponse> searchByName(
+	ResponseEntity<AuthorResponse> findByName(
 			@RequestParam String name
 	) {
 		var response = authorService.findByName(name);
