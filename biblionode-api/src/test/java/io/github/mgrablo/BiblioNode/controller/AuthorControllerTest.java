@@ -169,13 +169,13 @@ public class AuthorControllerTest {
 	}
 
 	@Test
-	void searchByName_ShouldReturnAuthor_WhenExists() throws Exception {
+	void findByName_ShouldReturnAuthor_WhenExists() throws Exception {
 		String name = "AAA";
 		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
 
 		when(authorService.findByName(name)).thenReturn(response);
 
-		mockMvc.perform(get("/api/authors/search")
+		mockMvc.perform(get("/api/authors/find")
 						.param("name", "AAA"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(1L))
@@ -184,12 +184,43 @@ public class AuthorControllerTest {
 	}
 
 	@Test
-	void searchByName_ShouldReturnNotFound_WhenAuthorDoesNotExist() throws Exception {
+	void findByName_ShouldReturnNotFound_WhenAuthorDoesNotExist() throws Exception {
 		when(authorService.findByName("AAA")).thenThrow(new ResourceNotFoundException("Not found"));
+
+		mockMvc.perform(get("/api/authors/find")
+						.param("name", "AAA"))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void searchByName_ShouldReturnPage_WhenAuthorsFound() throws Exception {
+		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
+		Page<AuthorResponse> authorResponsePage = new PageImpl<>(List.of(response));
+		Pageable pageable = Pageable.ofSize(10);
+
+		when(authorService.searchByName(eq("A"), any(Pageable.class))).thenReturn(authorResponsePage);
+
+		mockMvc.perform(get("/api/authors/search")
+						.param("name", "A"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.totalElements").value(1))
+				.andExpect(jsonPath("$.content[0].id").value(1L))
+				.andExpect(jsonPath("$.content[0].name").value("AAA"))
+				.andExpect(jsonPath("$.content[0].biography").value("Bio"));
+	}
+
+	@Test
+	void searchByName_ShouldReturnEmptyPage_WhenAuthorsNotFound() throws Exception {
+		Page<AuthorResponse> emptyPage = Page.empty();
+
+		when(authorService.searchByName(eq("AAA"), any(Pageable.class))).thenReturn(emptyPage);
 
 		mockMvc.perform(get("/api/authors/search")
 						.param("name", "AAA"))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.totalElements").value(0));
 	}
 
 	@Test
