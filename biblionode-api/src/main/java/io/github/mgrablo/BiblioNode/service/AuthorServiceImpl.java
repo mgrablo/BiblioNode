@@ -67,6 +67,14 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public Page<AuthorResponse> searchByName(String name, Pageable pageable)
+	{
+		return repository.searchAuthorsByNameContains(name, pageable)
+				.map(mapper::toResponse);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public Page<AuthorResponse> getAll(Pageable pageable) {
 		return repository.findAll(pageable)
 				.map(mapper::toResponse);

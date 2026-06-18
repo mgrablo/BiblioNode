@@ -84,6 +84,18 @@ class AuthorController {
 		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/search")
+	@PreAuthorize("hasAnyRole('ADMIN', 'READER')")
+	@Operation(summary = "Search authors by name", description = "Searches for authors by name.")
+	@ApiResponse(responseCode = "200", description = "Successfully retrieved list of books")
+	ResponseEntity<Page<AuthorResponse>> searchByName(
+			@RequestParam String name,
+			@ParameterObject Pageable pageable
+	) {
+		var response = authorService.searchByName(name, pageable);
+		return ResponseEntity.ok(response);
+	}
+
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary = "Update an author", description = "Updates an existing author's information.")

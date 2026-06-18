@@ -193,6 +193,37 @@ public class AuthorControllerTest {
 	}
 
 	@Test
+	void searchByName_ShouldReturnPage_WhenAuthorsFound() throws Exception {
+		AuthorResponse response = new AuthorResponse(1L, "AAA", "Bio", null, null, null);
+		Page<AuthorResponse> authorResponsePage = new PageImpl<>(List.of(response));
+		Pageable pageable = Pageable.ofSize(10);
+
+		when(authorService.searchByName(eq("A"), any(Pageable.class))).thenReturn(authorResponsePage);
+
+		mockMvc.perform(get("/api/authors/search")
+						.param("name", "A"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.totalElements").value(1))
+				.andExpect(jsonPath("$.content[0].id").value(1L))
+				.andExpect(jsonPath("$.content[0].name").value("AAA"))
+				.andExpect(jsonPath("$.content[0].biography").value("Bio"));
+	}
+
+	@Test
+	void searchByName_ShouldReturnEmptyPage_WhenAuthorsNotFound() throws Exception {
+		Page<AuthorResponse> emptyPage = Page.empty();
+
+		when(authorService.searchByName(eq("AAA"), any(Pageable.class))).thenReturn(emptyPage);
+
+		mockMvc.perform(get("/api/authors/search")
+						.param("name", "AAA"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").isMap())
+				.andExpect(jsonPath("$.totalElements").value(0));
+	}
+
+	@Test
 	void updateAuthor_ShouldReturnAuthor_WhenUpdatedSuccessfuly() throws Exception {
 		Long id = 1L;
 		AuthorRequest request = new AuthorRequest("NewName", "Bio");

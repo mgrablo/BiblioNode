@@ -13,6 +13,8 @@ public interface AuthorService {
 
 	AuthorResponse findByName(String name);
 
+	Page<AuthorResponse> searchByName(String name, Pageable pageable);
+
 	AuthorResponse updateAuthor(Long id, AuthorRequest authorRequest);
 
 	void deleteAuthor(Long id);
